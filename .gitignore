@@ -1,0 +1,5 @@
+System/DB/*.bak
+System/eclipse-workspace/.metadata/
+System/eclipse-workspace/RadiusManager/target/
+System/eclipse-workspace/RadiusManager/logs/
+System/eclipse-workspace/RadiusManager/HELP.md/

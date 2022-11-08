@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>RADIUS Manager</title>
+<link rel="stylesheet" th:href="@{/styles/style.css}" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik16x16.png}" sizes="16x16" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik32x32.png}" sizes="32x32" />
+</head>
+<body>
+	<div id="container">
+		<header>
+			<img th:src="@{/images/rubik.png}" alt="Rubik" />
+			<h1>RADIUS Manager System</h1>
+		</header>
+		<main>
+			<h2>Login</h2>
+			<div th:if="${error}">Unable to login. Check your username and password.</div>
+			<form method="post" th:action="@{/login}" id="loginForm">
+				<div class="grid">
+					<div>
+						<span>Name: </span>
+						<input type="text" name="name">
+					</div>
+					<div>
+						<span>Password: </span>
+						<input type="password" name="password">
+					</div>
+				</div>
+				<input type="submit" value="Login" />
+
+			</form>
+		</main>
+		<aside></aside>
+		<footer></footer>
+
+	</div>
+</body>
+</html>
