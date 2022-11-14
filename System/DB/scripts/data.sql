@@ -1,5 +1,6 @@
 -- drop User 'radman'@'%';
 -- drop User 'rmapp'@'%';
+-- drop User 'radius'@'%';
 -- flush privileges;
 
 -- CREATE User 'radman'@'%' IDENTIFIED BY 'radman123';
@@ -7,6 +8,8 @@ GRANT ALL PRIVILEGES ON `RadiusManager`.* TO 'radman'@'%';
 -- CREATE User 'rmapp'@'%' IDENTIFIED BY 'rmapp123';
 GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE, SHOW VIEW ON `RadiusManager`.* TO 'rmapp'@'%';
 GRANT SELECT ON mysql.proc TO 'rmapp'@'%';
+-- CREATE User 'radius'@'%' IDENTIFIED BY 'radius123';
+GRANT ALL PRIVILEGES ON `RadiusManager`.* TO 'radius'@'%';
 
 flush privileges;
 
