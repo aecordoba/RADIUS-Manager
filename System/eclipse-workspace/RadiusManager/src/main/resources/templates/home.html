@@ -15,6 +15,7 @@
 		</header>
 		<main></main>
 		<aside>
+			<div th:inline="text">[[${#httpServletRequest.remoteUser}]]</div>
 			<a th:href="@{/login}">Login</a><br>
 		</aside>
 		<footer></footer>

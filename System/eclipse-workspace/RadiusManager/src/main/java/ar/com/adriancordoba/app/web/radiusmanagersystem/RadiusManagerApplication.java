@@ -9,5 +9,4 @@ public class RadiusManagerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RadiusManagerApplication.class, args);
 	}
-
 }
