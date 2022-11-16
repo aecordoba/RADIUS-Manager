@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active:
   datasource:
     url: "jdbc:mysql://localhost:3306/RadiusManager"
     username: "rmapp"
@@ -10,15 +12,9 @@ spring:
       naming:
         physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
 logging:
+  config: config/log4j2.xml
   level:
     spring: info
     ar: debug
 
----
-spring:
-  profiles: prod
   
-logging:
-  level:
-    spring: warn
-    ar: info
