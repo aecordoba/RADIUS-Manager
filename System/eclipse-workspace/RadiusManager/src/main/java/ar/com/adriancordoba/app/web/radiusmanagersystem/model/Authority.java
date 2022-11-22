@@ -20,7 +20,7 @@
  * 		Authority.java
  *  Adrián E. Córdoba [software.asia@gmail.com]		Nov 8, 2022
  */
-package ar.com.adriancordoba.app.web.radiusmanagersystem.domain;
+package ar.com.adriancordoba.app.web.radiusmanagersystem.model;
 
 import java.util.Objects;
 

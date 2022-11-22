@@ -20,11 +20,11 @@
  * 		UserRepository.java
  *  Adrián E. Córdoba [software.asia@gmail.com]		Nov 8, 2022
  */
-package ar.com.adriancordoba.app.web.radiusmanagersystem.data;
+package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.domain.User;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]

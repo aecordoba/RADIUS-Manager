@@ -33,8 +33,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.data.UsersRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.domain.User;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
