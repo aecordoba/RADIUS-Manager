@@ -2,3 +2,9 @@ logging:
   level:
     spring: warn
     ar: info
+
+management:
+  endpoint:
+    health:
+      show-details: when-authorized
+      roles: ADMIN

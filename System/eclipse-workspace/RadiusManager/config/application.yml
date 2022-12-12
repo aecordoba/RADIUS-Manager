@@ -12,6 +12,11 @@ spring:
       naming:
         physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
 
+management:
+  endpoint:
+    health:
+      show-details: always
+      
 server:
   shutdown: graceful
 
