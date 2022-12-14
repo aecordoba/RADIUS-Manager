@@ -13,10 +13,15 @@ spring:
         physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+      base-path: /sysinternals
   endpoint:
     health:
       show-details: always
-      
+    
 server:
   shutdown: graceful
 
