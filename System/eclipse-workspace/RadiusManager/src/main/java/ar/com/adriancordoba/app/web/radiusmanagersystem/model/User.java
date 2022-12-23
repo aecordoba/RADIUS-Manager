@@ -126,8 +126,8 @@ public class User implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-		for (Authority role : authorities) {
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+		for (Authority authority : authorities) {
+			grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
 		}
 		return grantedAuthorities;
 	}
@@ -321,7 +321,7 @@ public class User implements UserDetails {
 	/**
 	 * @param authorities the authorities to set
 	 */
-	public void setRoles(Set<Authority> authorities) {
+	public void setAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
 	}
 }

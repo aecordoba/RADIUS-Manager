@@ -55,8 +55,10 @@ public class SecurityConfig {
 			if (user != null) {
 				log.info("User {} logged in.", user.getName());
 				return user;
+			} else {
+				log.warn("User credentials for username {} not found.", username);
+				throw new UsernameNotFoundException("User '" + username + "' not found");
 			}
-			throw new UsernameNotFoundException("User '" + username + "' not found");
 		};
 	}
 
