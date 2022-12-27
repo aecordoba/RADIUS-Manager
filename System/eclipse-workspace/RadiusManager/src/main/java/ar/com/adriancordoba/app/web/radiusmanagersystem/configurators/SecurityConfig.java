@@ -64,6 +64,6 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.authorizeRequests().antMatchers("/add-user").hasAuthority("ADMIN").antMatchers("/add-task").hasAnyAuthority("ADMIN", "USER").antMatchers("/running-jobs").hasAnyAuthority("ADMIN", "USER", "OBSERVER").antMatchers("/", "/**").permitAll().and().formLogin().loginPage("/login").usernameParameter("name").passwordParameter("password").and().logout().logoutSuccessUrl("/").and().build();
+		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests().antMatchers("/add-user").hasAuthority("ADMIN").antMatchers("/add-task").hasAnyAuthority("ADMIN", "USER").antMatchers("/running-jobs").hasAnyAuthority("ADMIN", "USER", "OBSERVER").antMatchers("/", "/**").permitAll().and().formLogin().loginPage("/login").usernameParameter("name").passwordParameter("password").and().logout().logoutSuccessUrl("/").and().build();
 	}
 }
