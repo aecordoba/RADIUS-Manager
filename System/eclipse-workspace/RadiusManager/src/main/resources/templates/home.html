@@ -16,7 +16,16 @@
 		<main></main>
 		<aside>
 			<div th:inline="text">[[${#httpServletRequest.remoteUser}]]</div>
-			<a th:href="@{/login}">Login</a><br>
+			<span th:if="${#httpServletRequest.remoteUser}">
+				<form method="POST" th:action="@{/logout}" id="logoutForm">
+					<input type="submit" value="Logout" />
+				</form>
+			</span>
+			<span th:unless="${#httpServletRequest.remoteUser}">
+				<form method="GET" th:action="@{/login}">
+					<input type="submit" value="Login" />
+				</form>
+			</span>
 		</aside>
 		<footer></footer>
 
