@@ -24,6 +24,7 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.configurators;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,6 +43,8 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersReposi
 @Configuration
 public class SecurityConfig {
 	private static final Logger log = LogManager.getLogger(SecurityConfig.class);
+	@Autowired
+	private LogoutSuccessHandler logoutSuccessHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -64,6 +67,6 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests().antMatchers("/add-user").hasAuthority("ADMIN").antMatchers("/add-task").hasAnyAuthority("ADMIN", "USER").antMatchers("/running-jobs").hasAnyAuthority("ADMIN", "USER", "OBSERVER").antMatchers("/", "/**").permitAll().and().formLogin().loginPage("/login").usernameParameter("name").passwordParameter("password").and().logout().logoutSuccessUrl("/").and().build();
+		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests().antMatchers("/add-user").hasAuthority("ADMIN").antMatchers("/add-task").hasAnyAuthority("ADMIN", "USER").antMatchers("/running-jobs").hasAnyAuthority("ADMIN", "USER", "OBSERVER").antMatchers("/", "/**").permitAll().and().formLogin().loginPage("/login").usernameParameter("name").passwordParameter("password").and().logout().logoutSuccessHandler(logoutSuccessHandler).logoutSuccessUrl("/").and().build();
 	}
 }

@@ -14,7 +14,12 @@ GRANT ALL PRIVILEGES ON `RadiusManager`.* TO 'radius'@'%';
 flush privileges;
 
 use RadiusManager;
- 
+
+-- RADIUS TEST
+INSERT INTO  nas VALUES (NULL ,  '170.231.179.246',  'nas0',  'other', NULL ,  'nas0123', NULL , NULL ,  'RADIUS Test Client');
+INSERT INTO radcheck VALUES (NULL , 'test_user', 'Cleartext-Password', ':=', 'password_test_user');
+INSERT INTO radreply VALUES (NULL , 'test_user', 'Framed-IP-Address', ':=', '170.231.179.247');
+
 INSERT INTO `RadiusManager`.`Authorities` VALUES (1,'ADMIN'),
                                 (2,'USER'),
                                 (3,'OBSERVER');
