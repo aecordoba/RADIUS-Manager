@@ -1,5 +1,5 @@
 /*
- * 		SecurityConfig.java
+ * 		SecurityConfiguration.java
  *   Copyright (C) 2022  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import ar.com.adriancordoba.app.web.radiusmanagersystem.handlers.CustomAuthenticationFailureHandler;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
 
@@ -41,10 +42,10 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersReposi
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 @Configuration
-public class SecurityConfig {
-	private static final Logger log = LogManager.getLogger(SecurityConfig.class);
+public class SecurityConfiguration {
+	private static final Logger log = LogManager.getLogger(SecurityConfiguration.class);
 	@Autowired
-	private LogoutSuccessHandler logoutSuccessHandler;
+	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -52,21 +53,12 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public UserDetailsService userDetailsService(UsersRepository usersRepository) {
-		return username -> {
-			User user = usersRepository.findByName(username);
-			if (user != null) {
-				log.info("User {} logged in.", user.getName());
-				return user;
-			} else {
-				log.warn("User credentials for username {} not found.", username);
-				throw new UsernameNotFoundException("User '" + username + "' not found");
-			}
-		};
-	}
-
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests().antMatchers("/add-user").hasAuthority("ADMIN").antMatchers("/add-task").hasAnyAuthority("ADMIN", "USER").antMatchers("/running-jobs").hasAnyAuthority("ADMIN", "USER", "OBSERVER").antMatchers("/", "/**").permitAll().and().formLogin().loginPage("/login").usernameParameter("name").passwordParameter("password").and().logout().logoutSuccessHandler(logoutSuccessHandler).logoutSuccessUrl("/").and().build();
+	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests().antMatchers("/add-user")
+				.hasAuthority("ADMIN").antMatchers("/add-task").hasAnyAuthority("ADMIN", "USER")
+				.antMatchers("/running-jobs").hasAnyAuthority("ADMIN", "USER", "OBSERVER")
+				.antMatchers("/", "/**", "/login").permitAll().and().formLogin().loginPage("/login")
+				.usernameParameter("name").passwordParameter("password")
+				.failureHandler(customAuthenticationFailureHandler).and().logout().logoutSuccessUrl("/").and().build();
 	}
 }

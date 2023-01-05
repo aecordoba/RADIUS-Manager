@@ -77,7 +77,8 @@ public class User implements UserDetails {
 	 * @param middleName
 	 * @param lastName
 	 */
-	public User(Integer id, String name, String password, Set<Authority> authorities, boolean enabled, String firstName, String middleName, String lastName) {
+	public User(Integer id, String name, String password, Set<Authority> authorities, boolean enabled, String firstName,
+			String middleName, String lastName) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -98,7 +99,8 @@ public class User implements UserDetails {
 	 * @param middleName
 	 * @param lastName
 	 */
-	public User(String name, String password, Set<Authority> authorities, boolean enabled, String firstName, String middleName, String lastName) {
+	public User(String name, String password, Set<Authority> authorities, boolean enabled, String firstName,
+			String middleName, String lastName) {
 		super();
 		this.name = name;
 		this.password = password;
@@ -183,7 +185,8 @@ public class User implements UserDetails {
 	 */
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + ", enabled=" + enabled + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName + "]";
+		return "User [id=" + id + ", name=" + name + ", password=" + password + ", enabled=" + enabled + ", firstName="
+				+ firstName + ", middleName=" + middleName + ", lastName=" + lastName + "]";
 	}
 
 	/*
@@ -210,7 +213,9 @@ public class User implements UserDetails {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return enabled == other.enabled && Objects.equals(firstName, other.firstName) && id == other.id && Objects.equals(lastName, other.lastName) && Objects.equals(middleName, other.middleName) && Objects.equals(name, other.name) && Objects.equals(password, other.password);
+		return enabled == other.enabled && Objects.equals(firstName, other.firstName) && id == other.id
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(middleName, other.middleName)
+				&& Objects.equals(name, other.name) && Objects.equals(password, other.password);
 	}
 
 	/**

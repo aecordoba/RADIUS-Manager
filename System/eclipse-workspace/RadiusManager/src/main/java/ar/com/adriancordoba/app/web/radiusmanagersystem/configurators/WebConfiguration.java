@@ -1,5 +1,5 @@
 /*
- * 		WebConfig.java
+ * 		WebConfiguration.java
  *   Copyright (C) 2022  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -30,10 +30,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("home");
-		registry.addViewController("/login");
+		registry.addViewController("/private/add-user").setViewName("private/add-user");
 	}
 }
