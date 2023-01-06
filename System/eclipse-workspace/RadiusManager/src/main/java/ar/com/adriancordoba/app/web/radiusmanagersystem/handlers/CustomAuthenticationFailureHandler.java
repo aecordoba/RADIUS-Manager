@@ -28,7 +28,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -41,18 +40,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 	private DefaultRedirectStrategy defaultRedirectStrategy = new DefaultRedirectStrategy();
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.security.web.authentication.AuthenticationFailureHandler#onAuthenticationFailure(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.security.web.authentication.
+	 * AuthenticationFailureHandler#onAuthenticationFailure(javax.servlet.http.
+	 * HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * org.springframework.security.core.AuthenticationException)
 	 */
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-    	if(exception.getCause() instanceof LockedException) {
-    		defaultRedirectStrategy.sendRedirect(request, response, "/login-locked");
-    		return;
-    	}
-    	defaultRedirectStrategy.sendRedirect(request, response, "/login-error");
+		if (exception.getCause() instanceof LockedException) {
+			defaultRedirectStrategy.sendRedirect(request, response, "/login-locked");
+			return;
+		}
+		defaultRedirectStrategy.sendRedirect(request, response, "/login-error");
 	}
 
 }

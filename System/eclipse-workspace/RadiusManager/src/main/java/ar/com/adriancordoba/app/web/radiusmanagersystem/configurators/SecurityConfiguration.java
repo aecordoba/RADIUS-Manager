@@ -28,15 +28,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.handlers.CustomAuthenticationFailureHandler;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.handlers.CustomLogoutSuccessHandler;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
@@ -46,6 +43,8 @@ public class SecurityConfiguration {
 	private static final Logger log = LogManager.getLogger(SecurityConfiguration.class);
 	@Autowired
 	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+	@Autowired
+	private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -54,11 +53,11 @@ public class SecurityConfiguration {
 
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests().antMatchers("/add-user")
-				.hasAuthority("ADMIN").antMatchers("/add-task").hasAnyAuthority("ADMIN", "USER")
-				.antMatchers("/running-jobs").hasAnyAuthority("ADMIN", "USER", "OBSERVER")
-				.antMatchers("/", "/**", "/login").permitAll().and().formLogin().loginPage("/login")
-				.usernameParameter("name").passwordParameter("password")
-				.failureHandler(customAuthenticationFailureHandler).and().logout().logoutSuccessUrl("/").and().build();
+		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests()
+				.antMatchers("/private/add-user").hasAnyAuthority("ADMIN", "USER").antMatchers("/", "/**").permitAll()
+				.and().formLogin().loginPage("/login").usernameParameter("name").passwordParameter("password")
+				.failureHandler(customAuthenticationFailureHandler).and().logout()
+				.logoutSuccessHandler(customLogoutSuccessHandler).logoutSuccessUrl("/").and().exceptionHandling()
+				.accessDeniedPage("/").and().build();
 	}
 }

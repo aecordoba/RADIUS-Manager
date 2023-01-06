@@ -15,9 +15,9 @@
 		</header>
 		<main>
 			<h2>Login</h2>
-			<div th:if="${loginError}">Wrong Username or Password</div>
-			<div th:if="${loginLocked}">Account locked due to multiple
-				incorrect login attempts.</div>
+			<div th:if="${loginError}" class="messageError">Wrong Username or Password</div>
+			<div th:if="${loginLocked}" class="messageError">Account locked due to multiple incorrect
+				login attempts.</div>
 			<form method="post" th:action="@{/login}" id="loginForm">
 				<div class="grid">
 					<div>

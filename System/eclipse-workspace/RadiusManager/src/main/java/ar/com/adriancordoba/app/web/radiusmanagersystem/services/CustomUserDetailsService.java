@@ -45,17 +45,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	private LoginAttemptsService loginAttemptsService;
 
-	/* (non-Javadoc)
-	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.security.core.userdetails.UserDetailsService#
+	 * loadUserByUsername(java.lang.String)
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	if(loginAttemptsService.isBlocked(username)) {
-    		log.warn("User '{}' is Locked.", username);
-    		throw new LockedException("User '" + username + "' is Locked");
-    	}
+		if (loginAttemptsService.isBlocked(username)) {
+			log.warn("User '{}' is Locked.", username);
+			throw new LockedException("User '" + username + "' is Locked");
+		}
 		User user = usersRepository.findByName(username);
-		if(user == null) {
+		if (user == null) {
 			log.warn("User '{}' not found", username);
 			throw new UsernameNotFoundException("User '" + username + "' not found");
 		}
