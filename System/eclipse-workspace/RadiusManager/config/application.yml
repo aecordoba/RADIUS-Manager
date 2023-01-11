@@ -11,7 +11,10 @@ spring:
       use-new-id-generator-mappings: false
       naming:
         physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
-
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+  
 management:
   endpoints:
     web:

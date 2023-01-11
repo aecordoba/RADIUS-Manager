@@ -22,8 +22,6 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.configurators;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +38,6 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.handlers.CustomLogoutSuc
  */
 @Configuration
 public class SecurityConfiguration {
-	private static final Logger log = LogManager.getLogger(SecurityConfiguration.class);
 	@Autowired
 	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 	@Autowired
@@ -54,8 +51,8 @@ public class SecurityConfiguration {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests()
-				.antMatchers("/private/add-user").hasAnyAuthority("ADMIN", "USER").antMatchers("/", "/**").permitAll()
-				.and().formLogin().loginPage("/login").usernameParameter("name").passwordParameter("password")
+				.antMatchers("/user-register").hasAnyAuthority("ADMIN", "USER").antMatchers("/", "/**").permitAll()
+				.and().formLogin().loginPage("/login").usernameParameter("user").passwordParameter("password")
 				.failureHandler(customAuthenticationFailureHandler).and().logout()
 				.logoutSuccessHandler(customLogoutSuccessHandler).logoutSuccessUrl("/").and().exceptionHandling()
 				.accessDeniedPage("/").and().build();

@@ -32,14 +32,31 @@ header h1 {
 	display: inline;
 }
 
+aside a {
+	color: blue;
+}
+
+form.center {
+	margin: auto;
+	width: 60%;
+	padding: 10% 0;
+}
+
 .grid:after {
 	content: "";
 	display: table;
 	clear: both;
 }
 
-span.validationError {
-	color: red;
+label {
+	display: inline-block;
+	width: 40%;
+	text-align: right;
+	padding: 1%;
+}
+
+input.button {
+	float: right;
 }
 
 div.messageError {

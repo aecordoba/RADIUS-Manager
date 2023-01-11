@@ -14,26 +14,24 @@
 			<h1>RADIUS Manager System</h1>
 		</header>
 		<main>
-			<h2>Login</h2>
-			<div th:if="${loginError}" class="messageError">Wrong Username or Password</div>
-			<div th:if="${loginLocked}" class="messageError">Account locked due to multiple incorrect
-				login attempts.</div>
-			<form method="post" th:action="@{/login}" id="loginForm">
+			<h2 th:text="#{login.title}"></h2>
+			<div th:if="${loginError}" class="messageError" th:text="#{login.wrong}"></div>
+			<div th:if="${loginLocked}" class="messageError" th:text="#{login.locked}"></div>
+			<form method="post" th:action="@{/login}" id="loginForm" class="center">
 				<div class="grid">
 					<div>
-						<span>Name: </span>
-						<input type="text" name="name">
+						<label for="user" th:text="#{login.user}"></label>
+						<input type="text" name="user">
 					</div>
 					<div>
-						<span>Password: </span>
+						<label for="password" th:text="#{login.password}"></label>
 						<input type="password" name="password">
 					</div>
 				</div>
-				<input type="submit" value="Login" />
-
+				<br>
+				<input type="submit" th:value="#{common.login}" class="button"/>
 			</form>
 		</main>
-		<aside></aside>
 		<footer></footer>
 	</div>
 </body>

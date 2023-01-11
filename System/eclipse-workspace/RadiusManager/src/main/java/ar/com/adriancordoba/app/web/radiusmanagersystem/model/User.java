@@ -23,9 +23,9 @@
 package ar.com.adriancordoba.app.web.radiusmanagersystem.model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -36,8 +36,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -51,6 +51,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "Users")
 public class User implements UserDetails {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;

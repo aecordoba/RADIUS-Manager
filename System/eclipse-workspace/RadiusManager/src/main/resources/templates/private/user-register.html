@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{userregister.title}"></title>
+<link rel="stylesheet" th:href="@{/styles/style.css}" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik16x16.png}" sizes="16x16" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik32x32.png}" sizes="32x32" />
+</head>
+<body>
+	<div id="container">
+		<header>
+			<img th:src="@{/images/rubik.png}" alt="Rubik" />
+			<h1>RADIUS Manager System</h1>
+		</header>
+		<main>
+			<h2 th:text="#{userregister.title}"></h2>
+			<form method="post" th:object="${user}">
+				<div class="grid">
+					<div>
+						<label for="user" th:text="#{userregister.user}"></label>
+						<input type="text" name="user" th:field="*{name}">
+					</div>
+					<div>
+						<label for="password" th:text="#{userregister.password1}"></label>
+						<input type="password" name="password" th:field="*{password}">
+					</div>
+					<!-- <div>
+						<label for="password2" th:text="#{userregister.password2}"></label>
+						<input type="password" name="password2" th:field="*{password2}">
+					</div> -->
+				</div>
+					<div>
+						<label for="firstname" th:text="#{userregister.firstname}"></label>
+						<input type="text" name="firstname" th:field="*{firstName}">
+					</div>
+					<div>
+						<label for="middlename" th:text="#{userregister.middlename}"></label>
+						<input type="text" name="middlename" th:field="*{middleName}">
+					</div>
+					<div>
+						<label for="lastname" th:text="#{userregister.lastname}"></label>
+						<input type="text" name="lastname" th:field="*{lastName}">
+					</div>
+				<input type="submit" th:value="#{userregister.register}" class="button"/>
+			</form>
+		</main>
+		<aside>
+			<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
+		</aside>
+		<footer></footer>
+	</div>
+</body>
+</html>

@@ -11,22 +11,23 @@
 	<div id="container">
 		<header>
 			<img th:src="@{/images/rubik.png}" alt="Rubik" />
-			<h1>Welcome to RADIUS Manager System</h1>
+			<h1 th:text="#{home.welcome}"></h1>
 		</header>
 		<main></main>
 		<aside>
 			<div th:inline="text">[[${#httpServletRequest.remoteUser}]]</div>
 			<span th:if="${#httpServletRequest.remoteUser}">
 				<form method="POST" th:action="@{/logout}" id="logoutForm">
-					<input type="submit" value="Logout" />
+					<input type="submit" th:value="#{common.logout}" />
 				</form>
 			</span>
 			<span th:unless="${#httpServletRequest.remoteUser}">
 				<form method="GET" th:action="@{/login}">
-					<input type="submit" value="Login" />
+					<input type="submit" th:value="#{common.login}" />
 				</form>
 			</span>
-			<a th:href="@{/private/add-user}" id="addUser">Add User</a>
+			<br>
+			<a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a>
 		</aside>
 		<footer></footer>
 
