@@ -14,22 +14,26 @@
 			<h1>RADIUS Manager System</h1>
 		</header>
 		<main>
-			<h2 th:text="#{login.title}"></h2>
-			<div th:if="${loginError}" class="messageError" th:text="#{login.wrong}"></div>
-			<div th:if="${loginLocked}" class="messageError" th:text="#{login.locked}"></div>
+			<div th:if="${loginError}" class="errorMessage" th:text="#{login.wrong}"></div>
+			<div th:if="${loginLocked}" class="errorMessage" th:text="#{login.locked}"></div>
 			<form method="post" th:action="@{/login}" id="loginForm" class="center">
-				<div class="grid">
-					<div>
-						<label for="user" th:text="#{login.user}"></label>
-						<input type="text" name="user">
+				<fieldset>
+					<legend>
+						<b th:text="#{login.title}"></b>
+					</legend>
+					<div class="grid">
+						<div>
+							<label for="user" th:text="#{login.user}"></label>
+							<input type="text" name="user">
+						</div>
+						<div>
+							<label for="password" th:text="#{login.password}"></label>
+							<input type="password" name="password">
+						</div>
 					</div>
-					<div>
-						<label for="password" th:text="#{login.password}"></label>
-						<input type="password" name="password">
-					</div>
-				</div>
-				<br>
-				<input type="submit" th:value="#{common.login}" class="button"/>
+					<br>
+					<input type="submit" th:value="#{common.login}" class="button" />
+				</fieldset>
 			</form>
 		</main>
 		<footer></footer>

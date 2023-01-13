@@ -119,6 +119,10 @@ public class User implements UserDetails {
 		super();
 	}
 
+	public void addAuthority(Authority authority) {
+		authorities.add(authority);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -271,6 +275,7 @@ public class User implements UserDetails {
 	/**
 	 * @param enabled the enabled to set
 	 */
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}

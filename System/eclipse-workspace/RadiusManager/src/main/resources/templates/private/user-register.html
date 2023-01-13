@@ -14,35 +14,58 @@
 			<h1>RADIUS Manager System</h1>
 		</header>
 		<main>
-			<h2 th:text="#{userregister.title}"></h2>
-			<form method="post" th:object="${user}">
-				<div class="grid">
-					<div>
-						<label for="user" th:text="#{userregister.user}"></label>
-						<input type="text" name="user" th:field="*{name}">
+			<form method="post" th:action="@{/user-register}" th:object="${userRegister}">
+				<fieldset>
+					<legend>
+						<b th:text="#{userregister.title}"></b>
+					</legend>
+					<div class="grid">
+						<div>
+							<label for="user" th:text="#{userregister.user}"></label>
+							<input type="text" id="user" th:field="*{name}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+						</div>
+						<div>
+							<label for="password" th:text="#{userregister.password}"></label>
+							<input type="password" id="password" th:field="*{password}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+						</div>
+						<div>
+							<label for="confirmpassword" th:text="#{userregister.confirmpassword}"></label>
+							<input type="password" id="confirmpassword" th:field="*{confirmPassword}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+						</div>
+						<div>
+							<label for="authority" th:text="#{userregister.authority}"></label> <select id="authority"
+								th:field="*{authorities}">
+								<option value="" th:text="#{common.select}"/>
+								<option th:each="authority : ${authorities}" th:text="${authority.name}"
+									th:value="${authority.id}" />
+							</select>
+							<span class="errorMessage" th:if="${#fields.hasErrors('authorities')}" th:errors="*{authorities}"></span>
+						</div>
+						<div>
+							<label for="enabled" th:text="#{userregister.enabled}"></label>
+							<input type="checkbox" id="enabled" th:field="*{enabled}">
+						</div>
+						<div>
+							<label for="firstname" th:text="#{userregister.firstname}"></label>
+							<input type="text" id="firstname" th:field="*{firstName}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+						</div>
+						<div>
+							<label for="middlename" th:text="#{userregister.middlename}"></label>
+							<input type="text" id="middlename" th:field="*{middleName}">
+						</div>
+						<div>
+							<label for="lastname" th:text="#{userregister.lastname}"></label>
+							<input type="text" id="lastname" th:field="*{lastName}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+						</div>
+						<input type="submit" th:value="#{userregister.register}" class="button" />
 					</div>
-					<div>
-						<label for="password" th:text="#{userregister.password1}"></label>
-						<input type="password" name="password" th:field="*{password}">
-					</div>
-					<!-- <div>
-						<label for="password2" th:text="#{userregister.password2}"></label>
-						<input type="password" name="password2" th:field="*{password2}">
-					</div> -->
-				</div>
-					<div>
-						<label for="firstname" th:text="#{userregister.firstname}"></label>
-						<input type="text" name="firstname" th:field="*{firstName}">
-					</div>
-					<div>
-						<label for="middlename" th:text="#{userregister.middlename}"></label>
-						<input type="text" name="middlename" th:field="*{middleName}">
-					</div>
-					<div>
-						<label for="lastname" th:text="#{userregister.lastname}"></label>
-						<input type="text" name="lastname" th:field="*{lastName}">
-					</div>
-				<input type="submit" th:value="#{userregister.register}" class="button"/>
+				</fieldset>
 			</form>
 		</main>
 		<aside>

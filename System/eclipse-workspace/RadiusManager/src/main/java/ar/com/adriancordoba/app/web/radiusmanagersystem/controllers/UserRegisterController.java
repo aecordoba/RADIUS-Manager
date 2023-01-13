@@ -22,22 +22,64 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.web.UserRegister;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Authority;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.AuthoritiesRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
 
+/**
+ * @author Adrián E. Córdoba [software.asia@gmail.com]
+ */
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 @Controller
 @RequestMapping("/user-register")
 public class UserRegisterController {
-	@ModelAttribute("user")
-	public User user() {
-		return new User();
+	private static final Logger log = LogManager.getLogger(UserRegisterController.class);
+
+	private UsersRepository usersRepository;
+	private AuthoritiesRepository authoritiesRepository;
+	private PasswordEncoder passwordEncoder;
+
+	/**
+	 * @param usersRepository
+	 * @param auhoritiesRepository
+	 * @param passwordEncoder
+	 */
+	public UserRegisterController(UsersRepository usersRepository, AuthoritiesRepository auhoritiesRepository,
+			PasswordEncoder passwordEncoder) {
+		super();
+		this.usersRepository = usersRepository;
+		this.authoritiesRepository = auhoritiesRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+	@ModelAttribute(name = "userRegister")
+	public UserRegister getUserRegister() {
+		return new UserRegister();
+	}
+
+	@ModelAttribute(name = "authorities")
+	public List<Authority> getAuthorities() {
+		List<Authority> authorities = new ArrayList<>();
+		authorities = (List<Authority>) authoritiesRepository.findAll();
+		return authorities;
 	}
 
 	@GetMapping
@@ -45,4 +87,14 @@ public class UserRegisterController {
 		return "private/user-register";
 	}
 
+	@PostMapping
+	public String processUserRegister(@Valid UserRegister userRegister, Errors errors) {
+		if (errors.hasErrors())
+			return "private/user-register";
+		else {
+			usersRepository.save(userRegister.getUser(passwordEncoder));
+			log.info("User '{}' registered.", userRegister.getName());
+		}
+		return "redirect:/";
+	}
 }

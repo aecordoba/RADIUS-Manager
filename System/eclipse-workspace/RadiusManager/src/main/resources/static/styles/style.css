@@ -59,7 +59,7 @@ input.button {
 	float: right;
 }
 
-div.messageError {
+.errorMessage {
 	color: red
 }
 
