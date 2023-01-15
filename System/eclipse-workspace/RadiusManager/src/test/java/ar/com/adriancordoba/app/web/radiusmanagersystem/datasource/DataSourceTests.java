@@ -41,20 +41,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class DataSourceTests {
 	@Autowired
 	private DataSource dataSource;
-	private final int initialUsersCount = 3;
+	private final int authoritiesCount = 3;
 
 	@Test
-	public void initialUsersTest() throws SQLException {
+	public void authoritiesTest() throws SQLException {
 		ResultSet resultSet = null;
 		int dbUsersCount = 0;
 		try {
-			PreparedStatement statement = dataSource.getConnection().prepareStatement("SELECT count(*) FROM Users");
+			PreparedStatement statement = dataSource.getConnection()
+					.prepareStatement("SELECT count(*) FROM Authorities");
 			resultSet = statement.executeQuery();
-			while(resultSet.next())
+			while (resultSet.next())
 				dbUsersCount = resultSet.getInt(1);
-			assertThat(dbUsersCount).isEqualTo(initialUsersCount);
-		}finally {
-			if(resultSet != null)
+			assertThat(dbUsersCount).isEqualTo(authoritiesCount);
+		} finally {
+			if (resultSet != null)
 				resultSet.close();
 		}
 	}
