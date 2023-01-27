@@ -1,5 +1,5 @@
 /*
- * 		FieldMatch.java
+ * 		FieldsCombination.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
  */
 
 /**
- * 		FieldMatch.java
- *  Adrián E. Córdoba [software.asia@gmail.com]		Jan 13, 2023
+ * 		FieldsCombination.java
+ *  Adrián E. Córdoba [software.asia@gmail.com]		Jan 27, 2023
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.annotations;
 
@@ -33,15 +33,15 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Documented
-@Retention(RUNTIME)
-@Target({ TYPE, ANNOTATION_TYPE })
-@Constraint(validatedBy = FieldMatchValidator.class)
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public @interface FieldMatch {
-	String message() default "The fields must match";
+@Documented
+@Retention(RUNTIME)
+@Target({ TYPE, ANNOTATION_TYPE })
+@Constraint(validatedBy = FieldsCombinationValidator.class)
+public @interface FieldsCombination {
+	String message() default "Both fields empty.";
 
 	Class<?>[] groups() default {};
 
@@ -55,6 +55,6 @@ public @interface FieldMatch {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		FieldMatch[] value();
+		FieldsCombination[] value();
 	}
 }

@@ -15,10 +15,6 @@ flush privileges;
 
 use RadiusManager;
 
--- RADIUS TEST
-INSERT INTO  nas VALUES (NULL ,  '170.231.179.246',  'nas0',  'other', NULL ,  'nas0123', NULL , NULL ,  'RADIUS Test Client');
-INSERT INTO radcheck VALUES (NULL , 'test_user', 'Cleartext-Password', ':=', 'password_test_user');
-INSERT INTO radreply VALUES (NULL , 'test_user', 'Framed-IP-Address', ':=', '170.231.179.247');
 
 INSERT INTO `RadiusManager`.`Authorities` VALUES (1,'ADMIN'),
                                 (2,'USER'),
@@ -31,3 +27,17 @@ INSERT INTO Users (id,name,password,enabled,first_name,middle_name,last_name) VA
 INSERT INTO Users_Authorities(user, authority) VALUES(1, 1);
 INSERT INTO Users_Authorities(user, authority) VALUES(2, 2);
 INSERT INTO Users_Authorities(user, authority) VALUES(3, 3);
+
+-- RADIUS TEST
+INSERT INTO  nas VALUES (NULL ,  '200.85.121.130',  'NAS0',  'other', NULL ,  'NAS0123', NULL , NULL ,  'RADIUS Test Client');
+
+insert into radgroupreply (groupname,attribute,op,value) values ("priv","Framed-Pool","=","pool3");
+insert into radgroupreply (groupname,attribute,op,value) values ("inactive","Framed-Pool","=","Expired-Pool");
+
+insert into radusergroup (username,groupname,priority) values ("priv_profile", "priv", 10);
+insert into radusergroup (username,groupname,priority) values ("inactive_profile", "inactive", 10);
+
+INSERT INTO radcheck (username,attribute,op,value) VALUES ('tbsa','Cleartext-Password',':=','tbsa');
+INSERT INTO radcheck (username,attribute,op,value) VALUES ('tbsa','User-Profile',':=','priv_profile');
+
+INSERT INTO radreply VALUES (NULL , 'tbsa', 'Framed-IP-Address', ':=', '192.168.47.47');

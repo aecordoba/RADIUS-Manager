@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{userregister.title}"></title>
+<link rel="stylesheet" th:href="@{/styles/style.css}" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik16x16.png}" sizes="16x16" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik32x32.png}" sizes="32x32" />
+</head>
+<body>
+	<div id="container">
+		<header>
+			<img th:src="@{/images/rubik.png}" alt="Rubik" />
+			<h1>RADIUS Manager System</h1>
+		</header>
+		<main>
+			<form method="post" th:action="@{/client-creation}" th:object="${client}">
+				<fieldset>
+					<legend>
+						<b th:text="#{clientcreation.title}"></b>
+					</legend>
+					<div class="grid">
+						<div>
+							<label for="number" th:text="#{clientcreation.number}"></label>
+							<input type="text" id="number" th:field="*{number}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+
+						</div>
+						<div>
+							<label for="name" th:text="#{clientcreation.name}"></label>
+							<input type="text" id="name" th:field="*{name}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+						</div>
+						<div>
+							<label for="password" th:text="#{clientcreation.password}"></label>
+							<input type="text" id="password" th:field="*{password}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+						</div>
+						<div>
+							<label for="nas" th:text="#{clientcreation.nas}"></label> <select id="nas" th:field="*{nas}">
+								<option value="" th:text="#{common.select}" />
+								<option th:each="nas : ${nasList}" th:text="${nas.shortName}" th:value="${nas.id}" />
+							</select>
+							<span class="errorMessage" th:if="${#fields.hasErrors('nas')}" th:errors="*{nas}"></span>
+						</div>
+						<div>
+							<label for="radusergroup" th:text="#{clientcreation.radusergroup}"></label> <select
+								id="radusergroup" th:field="*{radUserGroup}">
+								<option value="" th:text="#{common.select}" />
+								<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
+									th:value="${radUserGroup.id}" />
+							</select>
+							<span class="errorMessage" th:if="${#fields.hasErrors('radUserGroup')}"
+								th:errors="*{radUserGroup}"></span>
+						</div>
+						<div>
+							<label for="ipaddress" th:text="#{clientcreation.ipaddress}"></label>
+							<input type="text" id="ipaddress" th:field="*{ipAddress}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></span>
+						</div>
+						<input type="submit" th:value="#{clientcreation.create}" class="button" />
+					</div>
+				</fieldset>
+			</form>
+		</main>
+		<aside>
+			<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
+		</aside>
+		<footer></footer>
+	</div>
+</body>
+</html>

@@ -45,11 +45,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Entity
+@Table(name = "Users")
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-@Entity
-@Table(name = "Users")
 public class User implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	@Id

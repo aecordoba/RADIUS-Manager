@@ -20,7 +20,7 @@
  * 		UserRegisterForm.java
  *  Adrián E. Córdoba [software.asia@gmail.com]		Jan 11, 2023
  */
-package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.web;
+package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,11 +29,11 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.annotations.FieldMatch;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.annotations.FieldsMatch;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Authority;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
 
-@FieldMatch(first = "password", second = "confirmPassword", message = "{userregister.errors.password.mismatch}")
+@FieldsMatch(first = "password", second = "confirmPassword", message = "{userregister.errors.password.mismatch}")
 /**
  * @author Adrián E. Córdoba [softwa super(); re.asia@gmail.com]
  */

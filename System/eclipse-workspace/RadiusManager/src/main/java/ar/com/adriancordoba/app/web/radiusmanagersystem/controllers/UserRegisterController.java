@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.web.UserRegister;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.UserRegister;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Authority;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.AuthoritiesRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;

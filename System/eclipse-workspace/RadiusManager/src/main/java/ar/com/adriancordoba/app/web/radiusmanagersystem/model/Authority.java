@@ -30,11 +30,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Entity
+@Table(name = "Authorities")
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-@Entity
-@Table(name = "Authorities")
 public class Authority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

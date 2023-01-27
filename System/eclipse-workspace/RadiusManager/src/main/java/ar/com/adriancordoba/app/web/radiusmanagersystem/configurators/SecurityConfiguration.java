@@ -51,7 +51,9 @@ public class SecurityConfiguration {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests()
-				.antMatchers("/user-register").hasAnyAuthority("ADMIN", "USER").antMatchers("/", "/**").permitAll()
+				.antMatchers("/client-creation").hasAnyAuthority("ADMIN", "USER")
+				.antMatchers("/user-register").hasAuthority("ADMIN")
+				.antMatchers("/", "/**").permitAll()
 				.and().formLogin().loginPage("/login").usernameParameter("user").passwordParameter("password")
 				.failureHandler(customAuthenticationFailureHandler).and().logout()
 				.logoutSuccessHandler(customLogoutSuccessHandler).logoutSuccessUrl("/").and().exceptionHandling()

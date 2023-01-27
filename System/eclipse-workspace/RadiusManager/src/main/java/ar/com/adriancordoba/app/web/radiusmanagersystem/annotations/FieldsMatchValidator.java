@@ -1,5 +1,5 @@
 /*
- * 		FieldMatchValidator.java
+ * 		FieldsMatchValidator.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -30,13 +30,13 @@ import org.apache.commons.beanutils.BeanUtils;
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
+public class FieldsMatchValidator implements ConstraintValidator<FieldsMatch, Object> {
 	private String firstFieldName;
 	private String secondFieldName;
 	private String message;
 
 	@Override
-	public void initialize(final FieldMatch constraintAnnotation) {
+	public void initialize(final FieldsMatch constraintAnnotation) {
 		firstFieldName = constraintAnnotation.first();
 		secondFieldName = constraintAnnotation.second();
 		message = constraintAnnotation.message();
