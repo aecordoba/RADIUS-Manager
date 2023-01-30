@@ -14,7 +14,7 @@
 			<h1>RADIUS Manager System</h1>
 		</header>
 		<main>
-			<div th:if="${exception}" class="errorMessage" th:text="#{common.exception.dataintegrityviolation}"></div>
+			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
 			<form method="post" th:action="@{/client-creation}" th:object="${client}">
 				<fieldset>
 					<legend>
@@ -67,7 +67,7 @@
 		<aside>
 			<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
 		</aside>
-		<footer></footer>
+		<footer> </footer>
 	</div>
 </body>
 </html>

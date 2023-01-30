@@ -29,6 +29,8 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -39,9 +41,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Nas;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadCheck;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadReply;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.NasRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadUserGroupRepository;
 
 /**
@@ -55,18 +61,25 @@ public class ClientCreationController {
 	private ClientsRepository clientsRepository;
 	private NasRepository nasRepository;
 	private RadUserGroupRepository radUserGroupRepository;
+	private RadCheckRepository radCheckRepository;
+	private RadReplyRepository radReplyRepository;
 
 	/**
 	 * @param clientsRepository
 	 * @param nasRepository
 	 * @param radUserGroupRepository
+	 * @param radCheckRepository
+	 * @param radReplyRepository
 	 */
 	public ClientCreationController(ClientsRepository clientsRepository, NasRepository nasRepository,
-			RadUserGroupRepository radUserGroupRepository) {
+			RadUserGroupRepository radUserGroupRepository, RadCheckRepository radCheckRepository,
+			RadReplyRepository radReplyRepository) {
 		super();
 		this.clientsRepository = clientsRepository;
 		this.nasRepository = nasRepository;
 		this.radUserGroupRepository = radUserGroupRepository;
+		this.radCheckRepository = radCheckRepository;
+		this.radReplyRepository = radReplyRepository;
 	}
 
 	@ModelAttribute(name = "client")
@@ -96,9 +109,21 @@ public class ClientCreationController {
 		else {
 			try {
 				clientsRepository.save(client);
-				log.info("Client '{}' created.", client.getName());
+				RadCheck radCheck = new RadCheck(client.getName(), "Cleartext-Password", ":=", client.getPassword());
+				radCheckRepository.save(radCheck);
+				if (client.getRadUserGroup() != null) {
+					radCheck.setAttribute("User-Profile");
+					radCheck.setValue(client.getRadUserGroup().getUserName());
+					radCheckRepository.save(radCheck);
+				} else {
+					RadReply radReply = new RadReply(client.getName(), "Framed-IP-Address", ":=",
+							client.getIpAddress());
+					radReplyRepository.save(radReply);
+				}
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				log.info("Client '{}' created by {}.", client.getName(), auth.getName());
 			} catch (DataIntegrityViolationException e) {
-				model.addAttribute("exception", true);
+				model.addAttribute("exception", "common.exception.dataintegrityviolation");
 				return "private/client-creation";
 			}
 		}

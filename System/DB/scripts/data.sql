@@ -31,8 +31,11 @@ INSERT INTO Users_Authorities(user, authority) VALUES(3, 3);
 -- RADIUS TEST
 INSERT INTO  nas VALUES (NULL ,  '200.85.121.130',  'NAS0',  'other', NULL ,  'NAS0123', NULL , NULL ,  'RADIUS Test Client');
 
+insert into radgroupcheck (groupname,attribute,op,value) values ("priv","Framed-Protocol","==","PPP");
+insert into radgroupcheck (groupname,attribute,op,value) values ("inactive","Framed-Protocol","==","PPP");
+
 insert into radgroupreply (groupname,attribute,op,value) values ("priv","Framed-Pool","=","pool3");
-insert into radgroupreply (groupname,attribute,op,value) values ("inactive","Framed-Pool","=","Expired-Pool");
+insert into radgroupreply (groupname,attribute,op,value) values ("inactive","Framed-Pool","=","Expierd-Pool");
 
 insert into radusergroup (username,groupname,priority) values ("priv_profile", "priv", 10);
 insert into radusergroup (username,groupname,priority) values ("inactive_profile", "inactive", 10);

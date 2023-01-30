@@ -29,8 +29,12 @@ import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -88,12 +92,19 @@ public class UserRegisterController {
 	}
 
 	@PostMapping
-	public String processUserRegister(@Valid UserRegister userRegister, Errors errors) {
+	public String processUserRegister(@Valid UserRegister userRegister, Errors errors, Model model) {
 		if (errors.hasErrors())
 			return "private/user-register";
 		else {
-			usersRepository.save(userRegister.getUser(passwordEncoder));
-			log.info("User '{}' registered.", userRegister.getName());
+			try {
+				usersRepository.save(userRegister.getUser(passwordEncoder));
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				log.info("User '{}' registered by {}.", userRegister.getName(), auth.getName());
+			} catch (DataIntegrityViolationException e) {
+				model.addAttribute("exception", "common.exception.dataintegrityviolation");
+				return "private/user-register";
+			}
+
 		}
 		return "redirect:/";
 	}

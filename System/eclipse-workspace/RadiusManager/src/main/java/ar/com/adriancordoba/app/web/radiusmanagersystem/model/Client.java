@@ -33,6 +33,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.annotations.FieldsCombination;
 
@@ -60,6 +61,7 @@ public class Client {
 	@JoinColumn(name = "radusergroup")
 	private RadUserGroup radUserGroup;
 	@Column(name = "ip_address")
+	@Pattern(regexp = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message = "{clientcreation.errors.ipaddress}")
 	private String ipAddress;
 
 	/**

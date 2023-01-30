@@ -14,6 +14,7 @@
 			<h1>RADIUS Manager System</h1>
 		</header>
 		<main>
+			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
 			<form method="post" th:action="@{/user-register}" th:object="${userRegister}">
 				<fieldset>
 					<legend>
@@ -34,16 +35,18 @@
 						<div>
 							<label for="confirmpassword" th:text="#{userregister.confirmpassword}"></label>
 							<input type="password" id="confirmpassword" th:field="*{confirmPassword}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+							<span class="errorMessage" th:if="${#fields.hasErrors('confirmPassword')}"
+								th:errors="*{confirmPassword}"></span>
 						</div>
 						<div>
 							<label for="authority" th:text="#{userregister.authority}"></label> <select id="authority"
 								th:field="*{authorities}">
-								<option value="" th:text="#{common.select}"/>
+								<option value="" th:text="#{common.select}" />
 								<option th:each="authority : ${authorities}" th:text="${authority.name}"
 									th:value="${authority.id}" />
 							</select>
-							<span class="errorMessage" th:if="${#fields.hasErrors('authorities')}" th:errors="*{authorities}"></span>
+							<span class="errorMessage" th:if="${#fields.hasErrors('authorities')}"
+								th:errors="*{authorities}"></span>
 						</div>
 						<div>
 							<label for="enabled" th:text="#{userregister.enabled}"></label>
