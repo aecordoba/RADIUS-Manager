@@ -28,7 +28,9 @@ import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -83,17 +85,22 @@ public class ClientCreationController {
 	}
 
 	@GetMapping
-	public String userRegisterForm() {
+	public String clientCreationForm() {
 		return "private/client-creation";
 	}
 
 	@PostMapping
-	public String processUserRegister(@Valid Client client, Errors errors) {
+	public String processUserRegister(@Valid Client client, Errors errors, Model model) {
 		if (errors.hasErrors())
 			return "private/client-creation";
 		else {
-			clientsRepository.save(client);
-			log.info("Client '{}' created.", client.getName());
+			try {
+				clientsRepository.save(client);
+				log.info("Client '{}' created.", client.getName());
+			} catch (DataIntegrityViolationException e) {
+				model.addAttribute("exception", true);
+				return "private/client-creation";
+			}
 		}
 		return "redirect:/";
 	}

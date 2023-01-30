@@ -14,6 +14,7 @@
 			<h1>RADIUS Manager System</h1>
 		</header>
 		<main>
+			<div th:if="${exception}" class="errorMessage" th:text="#{common.exception.dataintegrityviolation}"></div>
 			<form method="post" th:action="@{/client-creation}" th:object="${client}">
 				<fieldset>
 					<legend>
