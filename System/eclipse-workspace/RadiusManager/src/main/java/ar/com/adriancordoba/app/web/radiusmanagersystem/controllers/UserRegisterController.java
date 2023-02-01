@@ -46,14 +46,11 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Authority;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.AuthoritiesRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
 
-/**
- * @author Adrián E. Córdoba [software.asia@gmail.com]
- */
-/**
- * @author Adrián E. Córdoba [software.asia@gmail.com]
- */
 @Controller
 @RequestMapping("/user-register")
+/**
+ * @author Adrián E. Córdoba [software.asia@gmail.com]
+ */
 public class UserRegisterController {
 	private static final Logger log = LogManager.getLogger(UserRegisterController.class);
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{userregister.title}"></title>
+<link rel="stylesheet" th:href="@{/styles/style.css}" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik16x16.png}" sizes="16x16" />
+<link rel="icon" type="image/png" th:href="@{/images/rubik32x32.png}" sizes="32x32" />
+</head>
+<body>
+	<div id="container">
+		<header>
+			<img th:src="@{/images/rubik.png}" alt="Rubik" />
+			<h1>RADIUS Manager System</h1>
+		</header>
+		<main>
+			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
+			<form method="post" th:action="@{/client-deletion}" th:object="${clientDeletion}">
+				<fieldset>
+					<legend>
+						<b th:text="#{clientdeletion.title}"></b>
+					</legend>
+					<div class="grid">
+						<div>
+							<label for="number" th:text="#{clientdeletion.number}"></label>
+							<input type="text" id="number" th:field="*{number}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+
+						</div>
+						<div>
+							<label for="name" th:text="#{clientdeletion.name}"></label>
+							<input type="text" id="name" th:field="*{name}">
+							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+						</div>
+						<input type="submit" th:value="#{clientdeletion.delete}" class="button" />
+					</div>
+				</fieldset>
+			</form>
+		</main>
+		<aside>
+			<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
+		</aside>
+		<footer> </footer>
+	</div>
+</body>
+</html>

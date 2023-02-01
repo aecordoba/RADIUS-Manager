@@ -1,5 +1,5 @@
 /*
- * 		NasRepository.java
+ * 		RadAcctRepository.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,18 +17,20 @@
  */
 
 /**
- * 		NasRepository.java
- *  Adrián E. Córdoba [software.asia@gmail.com]		Jan 26, 2023
+ * 		RadAcctRepository.java
+ *  Adrián E. Córdoba [software.asia@gmail.com]		Jan 31, 2023
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Nas;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public interface NasRepository extends CrudRepository<Nas, Integer> {
-	Iterable<Nas> findByName(String name);
+public interface RadAcctRepository extends CrudRepository<RadAcct, Long> {
+	@Query(value = "SELECT * FROM radacct WHERE username = ?1 AND acctstoptime IS NULL;", nativeQuery = true)
+	Iterable<RadAcct> findActiveRadAcct(String name);
 }

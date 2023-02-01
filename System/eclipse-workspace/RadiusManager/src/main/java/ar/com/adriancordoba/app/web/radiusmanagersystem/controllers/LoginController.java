@@ -26,10 +26,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@Controller
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-@Controller
 public class LoginController {
 	@GetMapping("/login")
 	public String login() {

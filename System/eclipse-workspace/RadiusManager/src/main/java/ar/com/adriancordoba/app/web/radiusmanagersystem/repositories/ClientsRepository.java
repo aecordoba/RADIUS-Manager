@@ -30,5 +30,7 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public interface ClientsRepository extends CrudRepository<Client, Integer> {
+	Iterable<Client> findByNumber(String number);
 
+	Iterable<Client> findByName(String name);
 }

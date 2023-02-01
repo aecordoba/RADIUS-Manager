@@ -50,11 +50,11 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRep
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadUserGroupRepository;
 
+@Controller
+@RequestMapping("/client-creation")
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-@Controller
-@RequestMapping("/client-creation")
 public class ClientCreationController {
 	private static final Logger log = LogManager.getLogger(ClientCreationController.class);
 

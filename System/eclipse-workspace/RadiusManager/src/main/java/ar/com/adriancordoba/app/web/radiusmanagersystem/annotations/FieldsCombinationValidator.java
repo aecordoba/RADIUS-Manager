@@ -50,11 +50,14 @@ public class FieldsCombinationValidator implements ConstraintValidator<FieldsCom
 	 */
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
-		boolean valid = true;
+		boolean valid = false;
 		try {
 			final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
 			final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
-			valid = firstObj != null || !((String) secondObj).equals("");
+			if (firstObj instanceof String)
+				valid = !((String) firstObj).equals("") || !((String) secondObj).equals("");
+			else
+				valid = firstObj != null || !((String) secondObj).equals("");
 		} catch (final Exception ignore) {
 			// ignore
 		}

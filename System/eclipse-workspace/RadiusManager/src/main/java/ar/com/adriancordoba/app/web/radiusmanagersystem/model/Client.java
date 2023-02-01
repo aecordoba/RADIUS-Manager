@@ -61,7 +61,7 @@ public class Client {
 	@JoinColumn(name = "radusergroup")
 	private RadUserGroup radUserGroup;
 	@Column(name = "ip_address")
-	@Pattern(regexp = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message = "{clientcreation.errors.ipaddress}")
+	@Pattern(regexp = "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message = "{clientcreation.errors.ipaddress}")
 	private String ipAddress;
 
 	/**
@@ -109,6 +109,17 @@ public class Client {
 		this.nas = nas;
 		this.radUserGroup = radUserGroup;
 		this.ipAddress = ipAddress;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Client [id=" + id + ", number=" + number + ", name=" + name + ", password=" + password + ", nas=" + nas
+				+ ", radUserGroup=" + radUserGroup + ", ipAddress=" + ipAddress + "]";
 	}
 
 	/**
