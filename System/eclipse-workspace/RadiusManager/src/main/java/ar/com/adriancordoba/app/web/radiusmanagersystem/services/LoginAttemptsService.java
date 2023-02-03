@@ -31,10 +31,10 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
+@Service
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-@Service
 public class LoginAttemptsService {
 	private static final int MAX_ATTEMPTS = 3;
 	private LoadingCache<String, Integer> loginAttemptsCache;

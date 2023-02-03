@@ -32,7 +32,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.annotations.FieldsCombination;
@@ -53,10 +52,6 @@ public class Client {
 	private String name;
 	@NotEmpty(message = "{clientcreation.errors.password.required}")
 	private String password;
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "nas")
-	@NotNull(message = "{clientcreation.errors.nas.required}")
-	private Nas nas;
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "radusergroup")
 	private RadUserGroup radUserGroup;
@@ -76,18 +71,16 @@ public class Client {
 	 * @param number
 	 * @param name
 	 * @param password
-	 * @param nas
 	 * @param radUserGroup
 	 * @param ipAddress
 	 */
-	public Client(Integer id, String number, String name, String password, Nas nas,
-			RadUserGroup radUserGroup, String ipAddress) {
+	public Client(Integer id, String number, String name, String password, RadUserGroup radUserGroup,
+			String ipAddress) {
 		super();
 		this.id = id;
 		this.number = number;
 		this.name = name;
 		this.password = password;
-		this.nas = nas;
 		this.radUserGroup = radUserGroup;
 		this.ipAddress = ipAddress;
 	}
@@ -96,17 +89,14 @@ public class Client {
 	 * @param number
 	 * @param name
 	 * @param password
-	 * @param nas
 	 * @param radUserGroup
 	 * @param ipAddress
 	 */
-	public Client(String number, String name, String password, Nas nas, RadUserGroup radUserGroup,
-			String ipAddress) {
+	public Client(String number, String name, String password, RadUserGroup radUserGroup, String ipAddress) {
 		super();
 		this.number = number;
 		this.name = name;
 		this.password = password;
-		this.nas = nas;
 		this.radUserGroup = radUserGroup;
 		this.ipAddress = ipAddress;
 	}
@@ -118,7 +108,7 @@ public class Client {
 	 */
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", number=" + number + ", name=" + name + ", password=" + password + ", nas=" + nas
+		return "Client [id=" + id + ", number=" + number + ", name=" + name + ", password=" + password
 				+ ", radUserGroup=" + radUserGroup + ", ipAddress=" + ipAddress + "]";
 	}
 
@@ -176,20 +166,6 @@ public class Client {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	/**
-	 * @return the nas
-	 */
-	public Nas getNas() {
-		return nas;
-	}
-
-	/**
-	 * @param nas the nas to set
-	 */
-	public void setNas(Nas nas) {
-		this.nas = nas;
 	}
 
 	/**

@@ -38,13 +38,6 @@
 							<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 						</div>
 						<div>
-							<label for="nas" th:text="#{clientcreation.nas}"></label> <select id="nas" th:field="*{nas}">
-								<option value="" th:text="#{common.select}" />
-								<option th:each="nas : ${nasList}" th:text="${nas.shortName}" th:value="${nas.id}" />
-							</select>
-							<span class="errorMessage" th:if="${#fields.hasErrors('nas')}" th:errors="*{nas}"></span>
-						</div>
-						<div>
 							<label for="radusergroup" th:text="#{clientcreation.radusergroup}"></label> <select
 								id="radusergroup" th:field="*{radUserGroup}">
 								<option value="" th:text="#{common.select}" />

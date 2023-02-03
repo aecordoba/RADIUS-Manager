@@ -28,6 +28,9 @@ import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -45,6 +48,7 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.NasReposito
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadAcctRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.SystemCommandService;
 
 @Controller
 @RequestMapping("/client-deletion")
@@ -59,6 +63,9 @@ public class ClientDeletionController {
 	private NasRepository nasRepository;
 	private RadCheckRepository radCheckRepository;
 	private RadReplyRepository radReplyRepository;
+	private SystemCommandService systemCommandService;
+	@Value("${nas.port}")
+	private String nasPort;
 
 	/**
 	 * @param radAcctRepository
@@ -66,15 +73,18 @@ public class ClientDeletionController {
 	 * @param nasRepository
 	 * @param radCheckRepository
 	 * @param radReplyRepository
+	 * @param systemCommandService
 	 */
 	public ClientDeletionController(RadAcctRepository radAcctRepository, ClientsRepository clientsRepository,
-			NasRepository nasRepository, RadCheckRepository radCheckRepository, RadReplyRepository radReplyRepository) {
+			NasRepository nasRepository, RadCheckRepository radCheckRepository, RadReplyRepository radReplyRepository,
+			SystemCommandService systemCommandService) {
 		super();
 		this.radAcctRepository = radAcctRepository;
 		this.clientsRepository = clientsRepository;
 		this.nasRepository = nasRepository;
 		this.radCheckRepository = radCheckRepository;
 		this.radReplyRepository = radReplyRepository;
+		this.systemCommandService = systemCommandService;
 	}
 
 	@ModelAttribute(name = "clientDeletion")
@@ -88,34 +98,46 @@ public class ClientDeletionController {
 	}
 
 	@PostMapping
-	public String processUserRegister(@Valid ClientDeletion clientDeletion, Errors errors, Model model) {
+	public String processClientDeletion(@Valid ClientDeletion clientDeletion, Errors errors, Model model) {
 		if (errors.hasErrors())
 			return "private/client-deletion";
 		else {
-			try {
-				Client client = getClient(clientDeletion);
-				clientsRepository.delete(client);
-				for (RadAcct radAcct : getActiveRadAcct(client)) {
-					Nas nas = getNas(radAcct.getNasIpAddress());
-					// Send system command.
-				}
-			} catch (Exception e) {
+			Client client = getClient(clientDeletion);
+			if (client == null) {
 				model.addAttribute("exception", "common.exception.nodata");
 				return "private/client-deletion";
+			} else {
+				radCheckRepository.deleteByUserName(client.getName());
+				if (client.getIpAddress() != null)
+					radReplyRepository.deleteByUserName(client.getName());
+				else
+					System.out.println("Client NULL");
+				clientsRepository.delete(client);
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				log.info("Client '{}' deleted by {}.", client.getName(), auth.getName());
+
+				for (RadAcct radAcct : getActiveRadAcct(client)) {
+					Nas nas = getNas(radAcct.getNasIpAddress());
+					boolean result = systemCommandService.disconnect(radAcct.getAcctSessionId(), radAcct.getUserName(),
+							radAcct.getNasIpAddress(), nasPort, nas.getSecret());
+					if (result)
+						log.info("Client '{}' disconnected.", client.getName());
+				}
 			}
 		}
 		return "redirect:/";
 	}
 
-	private Client getClient(ClientDeletion clientDeletion) throws Exception {
+	private Client getClient(ClientDeletion clientDeletion) {
 		List<Client> clientsList = null;
+		Client client = null;
 		if (!clientDeletion.getNumber().isBlank())
 			clientsList = (List<Client>) clientsRepository.findByNumber(clientDeletion.getNumber());
 		else
 			clientsList = (List<Client>) clientsRepository.findByName(clientDeletion.getName());
-		if (clientsList.isEmpty())
-			throw new Exception("No client found.");
-		return clientsList.get(0);
+		if (!clientsList.isEmpty())
+			client = clientsList.get(0);
+		return client;
 	}
 
 	private List<RadAcct> getActiveRadAcct(Client client) {

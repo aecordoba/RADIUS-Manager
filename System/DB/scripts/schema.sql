@@ -248,17 +248,11 @@ CREATE TABLE IF NOT EXISTS `RadiusManager`.`Clients` (
   `number` VARCHAR(64) NOT NULL,
   `name` VARCHAR(64) NOT NULL,
   `password` VARCHAR(64) NOT NULL,
-  `nas` INT NOT NULL,
   `radusergroup` INT UNSIGNED NULL,
   `ip_address` VARCHAR(15) NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT number_UNIQUE UNIQUE(number),
   CONSTRAINT name_UNIQUE UNIQUE(name),
-  CONSTRAINT `fk_Clients_nas`
-    FOREIGN KEY (`nas`)
-    REFERENCES `RadiusManager`.`nas` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Clients_radusergroup`
     FOREIGN KEY (`radusergroup`)
     REFERENCES `RadiusManager`.`radusergroup` (`id`)

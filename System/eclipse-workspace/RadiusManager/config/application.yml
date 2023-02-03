@@ -40,4 +40,5 @@ logging:
     spring: info
     ar: debug
 
-  
+nas:
+  port: 3799  

@@ -103,7 +103,7 @@ public class ClientCreationController {
 	}
 
 	@PostMapping
-	public String processUserRegister(@Valid Client client, Errors errors, Model model) {
+	public String processClientcreation(@Valid Client client, Errors errors, Model model) {
 		if (errors.hasErrors())
 			return "private/client-creation";
 		else {
@@ -112,8 +112,8 @@ public class ClientCreationController {
 				RadCheck radCheck = new RadCheck(client.getName(), "Cleartext-Password", ":=", client.getPassword());
 				radCheckRepository.save(radCheck);
 				if (client.getRadUserGroup() != null) {
-					radCheck.setAttribute("User-Profile");
-					radCheck.setValue(client.getRadUserGroup().getUserName());
+					radCheck = new RadCheck(client.getName(), "User-Profile", ":=",
+							client.getRadUserGroup().getUserName());
 					radCheckRepository.save(radCheck);
 				} else {
 					RadReply radReply = new RadReply(client.getName(), "Framed-IP-Address", ":=",

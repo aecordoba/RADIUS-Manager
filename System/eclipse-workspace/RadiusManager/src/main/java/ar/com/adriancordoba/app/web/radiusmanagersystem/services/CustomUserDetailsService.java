@@ -34,10 +34,10 @@ import org.springframework.stereotype.Service;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
 
+@Service
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-@Service
 public class CustomUserDetailsService implements UserDetailsService {
 	private static final Logger log = LogManager.getLogger(CustomUserDetailsService.class);
 	@Autowired
