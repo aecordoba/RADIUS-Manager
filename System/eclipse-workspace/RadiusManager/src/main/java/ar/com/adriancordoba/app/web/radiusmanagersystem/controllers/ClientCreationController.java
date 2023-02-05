@@ -40,12 +40,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Nas;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadCheck;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadReply;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.NasRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadUserGroupRepository;
@@ -59,7 +57,6 @@ public class ClientCreationController {
 	private static final Logger log = LogManager.getLogger(ClientCreationController.class);
 
 	private ClientsRepository clientsRepository;
-	private NasRepository nasRepository;
 	private RadUserGroupRepository radUserGroupRepository;
 	private RadCheckRepository radCheckRepository;
 	private RadReplyRepository radReplyRepository;
@@ -71,12 +68,10 @@ public class ClientCreationController {
 	 * @param radCheckRepository
 	 * @param radReplyRepository
 	 */
-	public ClientCreationController(ClientsRepository clientsRepository, NasRepository nasRepository,
-			RadUserGroupRepository radUserGroupRepository, RadCheckRepository radCheckRepository,
-			RadReplyRepository radReplyRepository) {
+	public ClientCreationController(ClientsRepository clientsRepository, RadUserGroupRepository radUserGroupRepository,
+			RadCheckRepository radCheckRepository, RadReplyRepository radReplyRepository) {
 		super();
 		this.clientsRepository = clientsRepository;
-		this.nasRepository = nasRepository;
 		this.radUserGroupRepository = radUserGroupRepository;
 		this.radCheckRepository = radCheckRepository;
 		this.radReplyRepository = radReplyRepository;
@@ -85,11 +80,6 @@ public class ClientCreationController {
 	@ModelAttribute(name = "client")
 	public Client getClient() {
 		return new Client();
-	}
-
-	@ModelAttribute(name = "nasList")
-	public List<Nas> getNasList() {
-		return (List<Nas>) nasRepository.findAll();
 	}
 
 	@ModelAttribute(name = "radUserGroupList")

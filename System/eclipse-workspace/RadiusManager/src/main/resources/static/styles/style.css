@@ -59,6 +59,12 @@ input.button {
 	float: right;
 }
 
+footer p {
+    font: 1rem 'David Libre', serif;
+    color: black;
+    text-align: center;
+}
+
 .errorMessage {
 	color: red
 }

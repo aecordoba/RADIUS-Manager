@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>RADIUS Manager</title>
-<link rel="stylesheet" th:href="@{/styles/style.css}" />
-<link rel="icon" type="image/png" th:href="@{/images/rubik16x16.png}" sizes="16x16" />
-<link rel="icon" type="image/png" th:href="@{/images/rubik32x32.png}" sizes="32x32" />
-</head>
+<head th:replace="/fragments/head.html :: head(#{common.header})"></head>
 <body>
 	<div id="container">
 		<header>
@@ -36,7 +30,7 @@
 				</fieldset>
 			</form>
 		</main>
-		<footer></footer>
+		<footer th:replace="/fragments/footer.html :: footer"> </footer>
 	</div>
 </body>
 </html>

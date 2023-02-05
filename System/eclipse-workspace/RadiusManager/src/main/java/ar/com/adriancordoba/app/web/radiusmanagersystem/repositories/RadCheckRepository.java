@@ -22,6 +22,9 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -31,6 +34,8 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadCheck;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public interface RadCheckRepository extends CrudRepository<RadCheck, Integer> {
+	@Modifying
+	@Transactional
 	@Query(value = "DELETE FROM radcheck WHERE username = ?1 ;", nativeQuery = true)
 	void deleteByUserName(String userName);
 }

@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>RADIUS Manager</title>
-<link rel="stylesheet" th:href="@{/styles/style.css}" />
-<link rel="icon" type="image/png" th:href="@{/images/rubik16x16.png}" sizes="16x16" />
-<link rel="icon" type="image/png" th:href="@{/images/rubik32x32.png}" sizes="32x32" />
-</head>
+<head th:replace="/fragments/head.html :: head(#{common.header})"></head>
 <body>
 	<div id="container">
 		<header>
@@ -26,13 +20,12 @@
 					<input type="submit" th:value="#{common.login}" />
 				</form>
 			</span>
-			<br> 
-			<a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a><br>
+			<br> <a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a><br>
 			<a th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a><br>
+			<a th:href="@{/client-modification}" id="clientModification" th:text="#{home.clientmodification}"></a><br>
 			<a th:href="@{/client-deletion}" id="clientDeletion" th:text="#{home.clientdeletion}"></a>
 		</aside>
-		<footer></footer>
-
+		<footer th:replace="/fragments/footer.html :: footer"> </footer>
 	</div>
 </body>
 </html>

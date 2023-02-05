@@ -110,18 +110,18 @@ public class ClientDeletionController {
 				radCheckRepository.deleteByUserName(client.getName());
 				if (client.getIpAddress() != null)
 					radReplyRepository.deleteByUserName(client.getName());
-				else
-					System.out.println("Client NULL");
 				clientsRepository.delete(client);
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("Client '{}' deleted by {}.", client.getName(), auth.getName());
-
+				// Disconnect session.
 				for (RadAcct radAcct : getActiveRadAcct(client)) {
 					Nas nas = getNas(radAcct.getNasIpAddress());
 					boolean result = systemCommandService.disconnect(radAcct.getAcctSessionId(), radAcct.getUserName(),
 							radAcct.getNasIpAddress(), nasPort, nas.getSecret());
 					if (result)
 						log.info("Client '{}' disconnected.", client.getName());
+					else
+						log.warn("Cannot disconnect client '{}'.", client.getName());
 				}
 			}
 		}
@@ -131,7 +131,7 @@ public class ClientDeletionController {
 	private Client getClient(ClientDeletion clientDeletion) {
 		List<Client> clientsList = null;
 		Client client = null;
-		if (!clientDeletion.getNumber().isBlank())
+		if (clientDeletion.getNumber() != null)
 			clientsList = (List<Client>) clientsRepository.findByNumber(clientDeletion.getNumber());
 		else
 			clientsList = (List<Client>) clientsRepository.findByName(clientDeletion.getName());
