@@ -1,5 +1,5 @@
 /*
- * 		ClientDeletion.java
+ * 		ClientData.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,25 @@
  */
 
 /**
- * 		ClientDeletion.java
+ * 		ClientData.java
  *  Adrián E. Córdoba [software.asia@gmail.com]		Jan 31, 2023
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.annotations.FieldsCombination;
 
-@FieldsCombination(first = "number", second = "name", message = "{clientdeletion.errors.numbername.combination}")
+@FieldsCombination(first = "number", second = "name", message = "{clientdata.errors.numbername.combination}")
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public class ClientDeletion {
+public class ClientData {
 	private String number;
 	private String name;
 
 	/**
 	 * 
 	 */
-	public ClientDeletion() {
+	public ClientData() {
 		super();
 	}
 
@@ -43,7 +43,7 @@ public class ClientDeletion {
 	 * @param number
 	 * @param name
 	 */
-	public ClientDeletion(String number, String name) {
+	public ClientData(String number, String name) {
 		super();
 		this.number = number;
 		this.name = name;

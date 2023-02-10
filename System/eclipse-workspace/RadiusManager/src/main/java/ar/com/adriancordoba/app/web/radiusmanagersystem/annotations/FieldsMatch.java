@@ -41,7 +41,9 @@ import javax.validation.Payload;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public @interface FieldsMatch {
-	String message() default "Fields mismatch.";
+	String message()
+
+	default "Fields mismatch.";
 
 	Class<?>[] groups() default {};
 

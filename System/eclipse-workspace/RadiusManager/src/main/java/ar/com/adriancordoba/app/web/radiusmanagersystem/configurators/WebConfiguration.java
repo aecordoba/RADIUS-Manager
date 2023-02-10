@@ -22,29 +22,17 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.configurators;
 
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@Configuration
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-@Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("home");
-	}
-
-	@ControllerAdvice
-	public class ControllerConfig {
-		@InitBinder
-		void initBinder(final WebDataBinder binder) {
-			binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-		}
 	}
 }

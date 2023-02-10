@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/head.html :: head(#{clientdeletion.title})"></head>
+<head>
+<div th:replace="/fragments/head.html :: head(#{clientdeletion.title})"></div>
+</head>
 <body>
 	<div id="container">
 		<header>
@@ -9,7 +11,7 @@
 		</header>
 		<main>
 			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
-			<form method="post" th:action="@{/client-deletion}" th:object="${clientDeletion}">
+			<form method="post" th:action="@{/client-deletion}" th:object="${clientData}">
 				<fieldset>
 					<legend>
 						<b th:text="#{clientdeletion.title}"></b>

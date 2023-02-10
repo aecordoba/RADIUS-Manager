@@ -40,9 +40,9 @@ insert into radgroupreply (groupname,attribute,op,value) values ("inactive","Fra
 insert into radusergroup (username,groupname,priority) values ("priv_profile", "priv", 10);
 insert into radusergroup (username,groupname,priority) values ("inactive_profile", "inactive", 10);
 
-INSERT INTO Clients (number,name,password,ip_address) VALUES ('481234', 'tbsa', 'tbsa', '192.168.47.47');
-INSERT INTO Clients (number,name,password,radusergroup) VALUES ('481235', 'active', 'active', 1);
-INSERT INTO Clients (number,name,password,radusergroup) VALUES ('481236', 'inactive', 'inactive', 2);
+INSERT INTO Clients (number,name,password,ip_address) VALUES ('4481234', 'tbsa', 'tbsa', '192.168.47.47');
+INSERT INTO Clients (number,name,password,radusergroup) VALUES ('4481235', 'active', 'active', 1);
+INSERT INTO Clients (number,name,password,radusergroup) VALUES ('4481236', 'inactive', 'inactive', 2);
 
 INSERT INTO radcheck (username,attribute,op,value) VALUES ('tbsa','Cleartext-Password',':=','tbsa');
 INSERT INTO radcheck (username,attribute,op,value) VALUES ('active','Cleartext-Password',':=','active');

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/head.html :: head(#{clientmodification.title})"></head>
+<head>
+<div th:replace="/fragments/head.html :: head(#{clientmodification.title})"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/client_search.js"></script>
+</head>
 <body>
 	<div id="container">
 		<header>
@@ -9,12 +13,13 @@
 		</header>
 		<main>
 			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
-			<form method="post" th:action="@{/client-modification}" th:object="${client}">
+			<form method="post" id="form" th:action="@{/client-modification}" th:object="${client}">
 				<fieldset>
 					<legend>
 						<b th:text="#{clientmodification.title}"></b>
 					</legend>
 					<div class="grid">
+						<input type="hidden" id="id" th:field="*{id}">
 						<div>
 							<label for="number" th:text="#{clientmodification.number}"></label>
 							<input type="text" id="number" th:field="*{number}">
@@ -28,12 +33,12 @@
 						</div>
 						<div>
 							<label for="password" th:text="#{clientmodification.password}"></label>
-							<input type="text" id="password" th:field="*{password}">
+							<input type="text" id="password" th:field="*{password}" class="toggleable">
 							<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 						</div>
 						<div>
 							<label for="radusergroup" th:text="#{clientmodification.radusergroup}"></label> <select
-								id="radusergroup" th:field="*{radUserGroup}">
+								id="radusergroup" th:field="*{radUserGroup}" class="toggleable">
 								<option value="" th:text="#{common.select}" />
 								<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
 									th:value="${radUserGroup.id}" />
@@ -43,10 +48,10 @@
 						</div>
 						<div>
 							<label for="ipaddress" th:text="#{clientmodification.ipaddress}"></label>
-							<input type="text" id="ipaddress" th:field="*{ipAddress}">
+							<input type="text" id="ipaddress" th:field="*{ipAddress}" class="toggleable">
 							<span class="errorMessage" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></span>
 						</div>
-						<input type="submit" th:value="#{clientmodification.create}" class="button" />
+						<input type="submit" th:value="#{clientmodification.create}" class="button toggleable" />
 					</div>
 				</fieldset>
 			</form>

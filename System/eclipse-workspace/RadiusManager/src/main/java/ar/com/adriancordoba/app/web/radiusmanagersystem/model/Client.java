@@ -34,6 +34,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ar.com.adriancordoba.app.web.radiusmanagersystem.annotations.FieldsCombination;
 
 @Entity
@@ -46,14 +48,15 @@ public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@NotEmpty(message = "{clientcreation.errors.number.required}")
+	@Pattern(regexp = "[0-9]{7}", message = "{clientcreation.errors.number.required}")
 	private String number;
-	@NotEmpty(message = "{clientcreation.errors.name.required}")
+	@Pattern(regexp = "[A-Za-z0-9]{3,}", message = "{clientcreation.errors.name.required}")
 	private String name;
 	@NotEmpty(message = "{clientcreation.errors.password.required}")
 	private String password;
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "radusergroup")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private RadUserGroup radUserGroup;
 	@Column(name = "ip_address")
 	@Pattern(regexp = "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message = "{clientcreation.errors.ipaddress}")

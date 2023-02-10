@@ -55,9 +55,9 @@ public class FieldsCombinationValidator implements ConstraintValidator<FieldsCom
 			final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
 			final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
 			if (firstObj instanceof String)
-				valid = !((String) firstObj).equals("") || !((String) secondObj).equals("");
+				valid = !((String) firstObj).isBlank() || !((String) secondObj).isBlank();
 			else
-				valid = firstObj != null || !((String) secondObj).equals("");
+				valid = firstObj != null || !((String) secondObj).isBlank();
 		} catch (final Exception ignore) {
 			// ignore
 		}

@@ -22,6 +22,8 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
@@ -30,7 +32,7 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public interface ClientsRepository extends CrudRepository<Client, Integer> {
-	Iterable<Client> findByNumber(String number);
+	Optional<Client> findByNumber(String number);
 
-	Iterable<Client> findByName(String name);
+	Optional<Client> findByName(String name);
 }

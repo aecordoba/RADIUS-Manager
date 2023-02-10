@@ -35,7 +35,6 @@ import javax.persistence.Table;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class RadUserGroup {
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;

@@ -46,9 +46,9 @@ public class FieldsMatchValidator implements ConstraintValidator<FieldsMatch, Ob
 	public boolean isValid(final Object value, final ConstraintValidatorContext context) {
 		boolean valid = true;
 		try {
-			final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
-			final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
-			valid = firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
+			final String firstObj = BeanUtils.getProperty(value, firstFieldName);
+			final String secondObj = BeanUtils.getProperty(value, secondFieldName);
+			valid = firstObj.isBlank() && secondObj.isBlank() || !firstObj.isBlank() && firstObj.equals(secondObj);
 		} catch (final Exception ignore) {
 			// ignore
 		}

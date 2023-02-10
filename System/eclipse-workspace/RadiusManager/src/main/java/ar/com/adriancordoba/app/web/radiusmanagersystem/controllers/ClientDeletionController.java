@@ -23,6 +23,7 @@
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -39,7 +40,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.ClientDeletion;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.ClientData;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Nas;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
@@ -87,9 +88,9 @@ public class ClientDeletionController {
 		this.systemCommandService = systemCommandService;
 	}
 
-	@ModelAttribute(name = "clientDeletion")
-	public ClientDeletion getClientDeletion() {
-		return new ClientDeletion();
+	@ModelAttribute(name = "clientData")
+	public ClientData getClientDeletion() {
+		return new ClientData();
 	}
 
 	@GetMapping
@@ -98,11 +99,11 @@ public class ClientDeletionController {
 	}
 
 	@PostMapping
-	public String processClientDeletion(@Valid ClientDeletion clientDeletion, Errors errors, Model model) {
+	public String processClientDeletion(@Valid ClientData clientData, Errors errors, Model model) {
 		if (errors.hasErrors())
 			return "private/client-deletion";
 		else {
-			Client client = getClient(clientDeletion);
+			Client client = getClient(clientData);
 			if (client == null) {
 				model.addAttribute("exception", "common.exception.nodata");
 				return "private/client-deletion";
@@ -128,15 +129,15 @@ public class ClientDeletionController {
 		return "redirect:/";
 	}
 
-	private Client getClient(ClientDeletion clientDeletion) {
-		List<Client> clientsList = null;
+	private Client getClient(ClientData clientData) {
+		Optional<Client> clientOptional = null;
 		Client client = null;
-		if (clientDeletion.getNumber() != null)
-			clientsList = (List<Client>) clientsRepository.findByNumber(clientDeletion.getNumber());
+		if (!clientData.getNumber().isBlank())
+			clientOptional = clientsRepository.findByNumber(clientData.getNumber());
 		else
-			clientsList = (List<Client>) clientsRepository.findByName(clientDeletion.getName());
-		if (!clientsList.isEmpty())
-			client = clientsList.get(0);
+			clientOptional = clientsRepository.findByName(clientData.getName());
+		if (!clientOptional.isEmpty())
+			client = clientOptional.get();
 		return client;
 	}
 
