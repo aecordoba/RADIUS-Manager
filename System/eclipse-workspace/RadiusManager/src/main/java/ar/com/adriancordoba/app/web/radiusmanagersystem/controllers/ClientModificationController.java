@@ -24,16 +24,28 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadCheck;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadReply;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadUserGroupRepository;
 
 @Controller
@@ -46,16 +58,24 @@ public class ClientModificationController {
 
 	private ClientsRepository clientsRepository;
 	private RadUserGroupRepository radUserGroupRepository;
+	private RadCheckRepository radCheckRepository;
+	private RadReplyRepository radReplyRepository;
 
 	/**
 	 * @param clientsRepository
+	 * @param nasRepository
 	 * @param radUserGroupRepository
+	 * @param radCheckRepository
+	 * @param radReplyRepository
 	 */
 	public ClientModificationController(ClientsRepository clientsRepository,
-			RadUserGroupRepository radUserGroupRepository) {
+			RadUserGroupRepository radUserGroupRepository,
+			RadCheckRepository radCheckRepository, RadReplyRepository radReplyRepository) {
 		super();
 		this.clientsRepository = clientsRepository;
 		this.radUserGroupRepository = radUserGroupRepository;
+		this.radCheckRepository = radCheckRepository;
+		this.radReplyRepository = radReplyRepository;
 	}
 
 	@ModelAttribute(name = "client")
@@ -71,5 +91,33 @@ public class ClientModificationController {
 	@GetMapping
 	public String clientModificationForm() {
 		return "private/client-modification";
+	}
+
+	@PostMapping
+	public String processClientModification(@Valid Client client, Errors errors, Model model) {
+		if (errors.hasErrors())
+			return "private/client-modification";
+		else {
+			try {
+				clientsRepository.save(client);
+				RadCheck radCheck = new RadCheck(client.getName(), "Cleartext-Password", ":=", client.getPassword());
+				radCheckRepository.save(radCheck);
+				if (client.getRadUserGroup() != null) {
+					radCheck = new RadCheck(client.getName(), "User-Profile", ":=",
+							client.getRadUserGroup().getUserName());
+					radCheckRepository.save(radCheck);
+				} else {
+					RadReply radReply = new RadReply(client.getName(), "Framed-IP-Address", ":=",
+							client.getIpAddress());
+					radReplyRepository.save(radReply);
+				}
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				log.info("Client '{}' modified by {}.", client.getName(), auth.getName());
+			} catch (DataIntegrityViolationException e) {
+				model.addAttribute("exception", "common.exception.dataintegrityviolation");
+				return "private/client-modification";
+			}
+		}
+		return "redirect:/";
 	}
 }

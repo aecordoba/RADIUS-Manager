@@ -28,45 +28,32 @@
 	});
 	
 	function get_client(){
+		$('#password').val("");
+		$("#radusergroup").val(0);
+		$('#ipaddress').val("");
+		
     	$.ajax({
         	type: "GET",
         	url: "/client-search",
         	data: data,
         	success: function (data) {
-				const client = JSON.stringify(data, null, 4);
-				console.log("SUCCESS : ", data);
-				console.log("JSON: ", client);
-				console.log(data["password"]);
-				//$("#password").val(data["password"]);
-				
   				$.each(data, function(key, value){
-					  if($('[id='+key+']', '#form').is("select")){
-        					$("option",$('[id='+key+']', '#form')).each(function(){
-            					if (this.value==value) { this.selected=true; }
-        				});
+					if(value != null){
+					  	if($('[name='+key+']', '#form').is("select")){
+        					$("option",$('[name='+key+']', '#form')).each(function(){
+            					if (this.value == value["id"]) { 
+									this.selected = true;
+								}
+        					});
+					  	}else{
+					  		$('[name='+key+']', '#form').val(value);						  
+					  	}
 					  }
-					  $('[id='+key+']', '#form').val(value);
   				});
-//				console.log(client.password);
-/*            	var json = "<h4>Ajax Response</h4>&lt;pre&gt;"
-                	+ JSON.stringify(data, null, 4) + "&lt;/pre&gt;";
-            	$('#feedback').html(json);
-
-            	console.log("SUCCESS : ", data);
-            	$("#btn-search").prop("disabled", false);
-*/
         	},
         	error: function (e) {
 				console.log("ERROR : ", e);
- /*           	var json = "<h4>Ajax Response</h4>&lt;pre&gt;"
-                	+ e.responseText + "&lt;/pre&gt;";
-            	$('#feedback').html(json);
-
-            	console.log("ERROR : ", e);
-            	$("#btn-search").prop("disabled", false);
-*/
         	}
     	});
-
 	}
 });
