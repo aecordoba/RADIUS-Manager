@@ -58,6 +58,7 @@ public class Client {
 	@JoinColumn(name = "radusergroup")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private RadUserGroup radUserGroup;
+	private boolean suspended;
 	@Column(name = "ip_address")
 	@Pattern(regexp = "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message = "{clientcreation.errors.ipaddress}")
 	private String ipAddress;
@@ -75,9 +76,10 @@ public class Client {
 	 * @param name
 	 * @param password
 	 * @param radUserGroup
+	 * @param suspended
 	 * @param ipAddress
 	 */
-	public Client(Integer id, String number, String name, String password, RadUserGroup radUserGroup,
+	public Client(Integer id, String number, String name, String password, RadUserGroup radUserGroup, boolean suspended,
 			String ipAddress) {
 		super();
 		this.id = id;
@@ -85,7 +87,8 @@ public class Client {
 		this.name = name;
 		this.password = password;
 		this.radUserGroup = radUserGroup;
-		this.ipAddress = ipAddress;
+		this.suspended = suspended;
+		setIpAddress(ipAddress);
 	}
 
 	/**
@@ -93,15 +96,18 @@ public class Client {
 	 * @param name
 	 * @param password
 	 * @param radUserGroup
+	 * @param suspended
 	 * @param ipAddress
 	 */
-	public Client(String number, String name, String password, RadUserGroup radUserGroup, String ipAddress) {
+	public Client(String number, String name, String password, RadUserGroup radUserGroup, boolean suspended,
+			String ipAddress) {
 		super();
 		this.number = number;
 		this.name = name;
 		this.password = password;
 		this.radUserGroup = radUserGroup;
-		this.ipAddress = ipAddress;
+		this.suspended = suspended;
+		setIpAddress(ipAddress);
 	}
 
 	/*
@@ -112,7 +118,7 @@ public class Client {
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", number=" + number + ", name=" + name + ", password=" + password
-				+ ", radUserGroup=" + radUserGroup + ", ipAddress=" + ipAddress + "]";
+				+ ", radUserGroup=" + radUserGroup + ", suspended=" + suspended + ", ipAddress=" + ipAddress + "]";
 	}
 
 	/**
@@ -186,6 +192,20 @@ public class Client {
 	}
 
 	/**
+	 * @return the suspended
+	 */
+	public boolean isSuspended() {
+		return suspended;
+	}
+
+	/**
+	 * @param suspended the suspended to set
+	 */
+	public void setSuspended(boolean suspended) {
+		this.suspended = suspended;
+	}
+
+	/**
 	 * @return the ipAddress
 	 */
 	public String getIpAddress() {
@@ -196,6 +216,7 @@ public class Client {
 	 * @param ipAddress the ipAddress to set
 	 */
 	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
+		if (!ipAddress.isBlank())
+			this.ipAddress = ipAddress;
 	}
 }

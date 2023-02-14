@@ -42,9 +42,9 @@ insert into radusergroup (username,groupname,priority) values ("suspended_profil
 
 insert into Suspended_Users_Profiles (radusergroup) values (2);
 
-INSERT INTO Clients (number,name,password,ip_address) VALUES ('4481234', 'tbsa', 'tbsa', '192.168.47.47');
-INSERT INTO Clients (number,name,password,radusergroup) VALUES ('4481235', 'active', 'active', 1);
-INSERT INTO Clients (number,name,password,radusergroup) VALUES ('4481236', 'suspended', 'suspended', 2);
+INSERT INTO Clients (number,name,password, suspended, ip_address) VALUES ('4481234', 'tbsa', 'tbsa', false, '192.168.47.47');
+INSERT INTO Clients (number,name,password,radusergroup, suspended) VALUES ('4481235', 'active', 'active', 1, false);
+INSERT INTO Clients (number,name,password,radusergroup, suspended) VALUES ('4481236', 'suspended', 'suspended', 2, false);
 
 INSERT INTO radcheck (username,attribute,op,value) VALUES ('tbsa','Cleartext-Password',':=','tbsa');
 INSERT INTO radcheck (username,attribute,op,value) VALUES ('active','Cleartext-Password',':=','active');

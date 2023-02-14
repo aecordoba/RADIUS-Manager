@@ -38,16 +38,16 @@
         	data: data,
         	success: function (data) {
   				$.each(data, function(key, value){
-					if(value != null){
-					  	if($('[name='+key+']', '#form').is("select")){
-        					$("option",$('[name='+key+']', '#form')).each(function(){
-            					if (this.value == value["id"]) { 
-									this.selected = true;
-								}
-        					});
-					  	}else{
-					  		$('[name='+key+']', '#form').val(value);						  
-					  	}
+					  if(value != null){
+						  if($('[name='+key+']', '#form').is("select"))
+							  $("option",$('[name='+key+']', '#form')).each(function(){
+								  if (this.value == value["id"])
+								  		this.selected = true;
+        					  });
+					  	  else if($('[name='+key+']', '#form').is(":checkbox"))
+					  	  		$('[name='+key+']', '#form').prop('checked', value);
+					  	  else
+								$('[name='+key+']', '#form').val(value);
 					  }
   				});
         	},

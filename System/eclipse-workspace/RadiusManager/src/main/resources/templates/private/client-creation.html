@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<div th:replace="/fragments/head.html :: head(#{clientcreation.title})"></div>
+<div th:replace="/fragments/head.html :: head(#{clientcreation.title})"></div>
 </head>
 <body>
 	<div id="container">
@@ -42,6 +42,10 @@
 							</select>
 							<span class="errorMessage" th:if="${#fields.hasErrors('radUserGroup')}"
 								th:errors="*{radUserGroup}"></span>
+						</div>
+						<div>
+							<label for="suspended" th:text="#{clientcreation.suspended}"></label>
+							<input type="checkbox" id="suspended" th:field="*{suspended}">
 						</div>
 						<div>
 							<label for="ipaddress" th:text="#{clientcreation.ipaddress}"></label>

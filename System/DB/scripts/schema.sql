@@ -249,6 +249,7 @@ CREATE TABLE IF NOT EXISTS `RadiusManager`.`Clients` (
   `name` VARCHAR(64) NOT NULL,
   `password` VARCHAR(64) NOT NULL,
   `radusergroup` INT UNSIGNED NULL,
+  `suspended` TINYINT NOT NULL,
   `ip_address` VARCHAR(15) NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT number_UNIQUE UNIQUE(number),

@@ -101,14 +101,14 @@ public class ClientCreationController {
 				clientsRepository.save(client);
 				RadCheck radCheck = new RadCheck(client.getName(), "Cleartext-Password", ":=", client.getPassword());
 				radCheckRepository.save(radCheck);
-				if (client.getRadUserGroup() != null) {
-					radCheck = new RadCheck(client.getName(), "User-Profile", ":=",
-							client.getRadUserGroup().getUserName());
-					radCheckRepository.save(radCheck);
-				} else {
+				if (client.getIpAddress() != null) {
 					RadReply radReply = new RadReply(client.getName(), "Framed-IP-Address", ":=",
 							client.getIpAddress());
 					radReplyRepository.save(radReply);
+				} else {
+					radCheck = new RadCheck(client.getName(), "User-Profile", ":=",
+							client.getRadUserGroup().getUserName());
+					radCheckRepository.save(radCheck);
 				}
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("Client '{}' created by {}.", client.getName(), auth.getName());
