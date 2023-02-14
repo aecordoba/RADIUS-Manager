@@ -32,24 +32,26 @@ INSERT INTO Users_Authorities(user, authority) VALUES(3, 3);
 INSERT INTO  nas VALUES (NULL ,  '200.85.121.130',  'NAS0',  'other', NULL ,  'NAS0123', NULL , NULL ,  'RADIUS Test Client');
 
 insert into radgroupcheck (groupname,attribute,op,value) values ("priv","Framed-Protocol","==","PPP");
-insert into radgroupcheck (groupname,attribute,op,value) values ("inactive","Framed-Protocol","==","PPP");
+insert into radgroupcheck (groupname,attribute,op,value) values ("suspended","Framed-Protocol","==","PPP");
 
 insert into radgroupreply (groupname,attribute,op,value) values ("priv","Framed-Pool","=","pool3");
-insert into radgroupreply (groupname,attribute,op,value) values ("inactive","Framed-Pool","=","Expierd-Pool");
+insert into radgroupreply (groupname,attribute,op,value) values ("suspended","Framed-Pool","=","Expierd-Pool");
 
 insert into radusergroup (username,groupname,priority) values ("priv_profile", "priv", 10);
-insert into radusergroup (username,groupname,priority) values ("inactive_profile", "inactive", 10);
+insert into radusergroup (username,groupname,priority) values ("suspended_profile", "suspended", 10);
+
+insert into Suspended_Users_Profiles (radusergroup) values (2);
 
 INSERT INTO Clients (number,name,password,ip_address) VALUES ('4481234', 'tbsa', 'tbsa', '192.168.47.47');
 INSERT INTO Clients (number,name,password,radusergroup) VALUES ('4481235', 'active', 'active', 1);
-INSERT INTO Clients (number,name,password,radusergroup) VALUES ('4481236', 'inactive', 'inactive', 2);
+INSERT INTO Clients (number,name,password,radusergroup) VALUES ('4481236', 'suspended', 'suspended', 2);
 
 INSERT INTO radcheck (username,attribute,op,value) VALUES ('tbsa','Cleartext-Password',':=','tbsa');
 INSERT INTO radcheck (username,attribute,op,value) VALUES ('active','Cleartext-Password',':=','active');
-INSERT INTO radcheck (username,attribute,op,value) VALUES ('inactive','Cleartext-Password',':=','inactive');
+INSERT INTO radcheck (username,attribute,op,value) VALUES ('suspended','Cleartext-Password',':=','suspended');
 
 INSERT INTO radcheck (username,attribute,op,value) VALUES ('active','User-Profile',':=','priv_profile');
-INSERT INTO radcheck (username,attribute,op,value) VALUES ('inactive','User-Profile',':=','inactive_profile');
+INSERT INTO radcheck (username,attribute,op,value) VALUES ('suspended','User-Profile',':=','suspended_profile');
 
 INSERT INTO radreply VALUES (NULL , 'tbsa', 'Framed-IP-Address', ':=', '192.168.47.47');
 

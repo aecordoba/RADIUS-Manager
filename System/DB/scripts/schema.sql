@@ -259,3 +259,20 @@ CREATE TABLE IF NOT EXISTS `RadiusManager`.`Clients` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `RadiusManager`.`Suspended_Users_Profiles`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `RadiusManager`.`Suspended_Users_Profiles` ;
+
+CREATE TABLE IF NOT EXISTS `RadiusManager`.`Suspended_Users_Profiles` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `radusergroup` INT UNSIGNED NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT radusergroup_UNIQUE UNIQUE(radusergroup),
+  CONSTRAINT `fk_Suspended_Users_Profiles_radusergroup`
+    FOREIGN KEY (`radusergroup`)
+    REFERENCES `RadiusManager`.`radusergroup` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
