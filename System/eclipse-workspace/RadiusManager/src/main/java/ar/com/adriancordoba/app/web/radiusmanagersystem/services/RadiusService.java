@@ -22,38 +22,94 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Nas;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadCheck;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadReply;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.NasRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadAcctRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadUserGroupRepository;
 
 @Service
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class RadiusService {
+	private static final Logger log = LogManager.getLogger(RadiusService.class);
+
 	private RadCheckRepository radCheckRepository;
 	private RadReplyRepository radReplyRepository;
+	private RadUserGroupRepository radUserGroupRepository;
+	private NasRepository nasRepository;
+	private RadAcctRepository radAcctRepository;
 	private SuspendedUsersProfilesService suspendedUsersProfilesService;
+	private SystemCommandService systemCommandService;
+	@Value("${nas.port}")
+	private String nasPort;
 
 	/**
 	 * @param radCheckRepository
 	 * @param radReplyRepository
+	 * @param radUserGroupRepository
+	 * @param nasRepository
+	 * @param radAcctRepository
 	 * @param suspendedUsersProfilesService
+	 * @param systemCommandService
 	 */
 	public RadiusService(RadCheckRepository radCheckRepository, RadReplyRepository radReplyRepository,
-			SuspendedUsersProfilesService suspendedUsersProfilesService) {
+			RadUserGroupRepository radUserGroupRepository, NasRepository nasRepository,
+			RadAcctRepository radAcctRepository, SuspendedUsersProfilesService suspendedUsersProfilesService,
+			SystemCommandService systemCommandService) {
 		super();
 		this.radCheckRepository = radCheckRepository;
 		this.radReplyRepository = radReplyRepository;
+		this.radUserGroupRepository = radUserGroupRepository;
+		this.nasRepository = nasRepository;
+		this.radAcctRepository = radAcctRepository;
 		this.suspendedUsersProfilesService = suspendedUsersProfilesService;
+		this.systemCommandService = systemCommandService;
 	}
 
 	public void configureClient(Client client) {
+		if (client.isSuspended())
+			configureSuspendedClient(client);
+		else
+			configureRegularClient(client);
+	}
+
+	public List<RadUserGroup> getRadUserGroupList() {
+		return (List<RadUserGroup>) radUserGroupRepository.findAll();
+	}
+
+	public void deleteClient(Client client) {
+		radCheckRepository.deleteByUserName(client.getName());
+		radReplyRepository.deleteByUserName(client.getName());
+	}
+
+	public void disconnectClient(Client client) {
+		for (RadAcct radAcct : getActiveRadAcct(client)) {
+			Nas nas = getNas(radAcct.getNasIpAddress());
+			boolean result = systemCommandService.disconnect(radAcct.getAcctSessionId(), radAcct.getUserName(),
+					radAcct.getNasIpAddress(), nasPort, nas.getSecret());
+			if (result)
+				log.info("Client '{}' disconnected.", client.getName());
+			else
+				log.warn("Cannot disconnect client '{}'.", client.getName());
+		}
+	}
+
+	private void configureRegularClient(Client client) {
 		RadCheck radCheck = new RadCheck(client.getName(), "Cleartext-Password", ":=", client.getPassword());
 		radCheckRepository.save(radCheck);
 		if (client.getIpAddress() != null) {
@@ -67,11 +123,21 @@ public class RadiusService {
 		}
 	}
 
-	public void configureSuspendedClient(Client client) {
+	private void configureSuspendedClient(Client client) {
 		RadCheck radCheck = new RadCheck(client.getName(), "Cleartext-Password", ":=", client.getPassword());
 		radCheckRepository.save(radCheck);
 		RadUserGroup suspendedRadUserGroup = suspendedUsersProfilesService.getSuspendedRadUserGroup();
 		radCheck = new RadCheck(client.getName(), "User-Profile", ":=", suspendedRadUserGroup.getUserName());
 		radCheckRepository.save(radCheck);
+	}
+
+	private List<RadAcct> getActiveRadAcct(Client client) {
+		List<RadAcct> activeRadAcctList = (List<RadAcct>) radAcctRepository.findActiveRadAcct(client.getName());
+		return activeRadAcctList;
+	}
+
+	private Nas getNas(String name) {
+		List<Nas> nasList = (List<Nas>) nasRepository.findByName(name);
+		return nasList.get(0);
 	}
 }

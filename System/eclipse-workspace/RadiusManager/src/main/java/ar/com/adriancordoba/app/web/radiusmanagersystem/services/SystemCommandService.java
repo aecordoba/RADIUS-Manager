@@ -24,6 +24,8 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +33,8 @@ import org.springframework.stereotype.Service;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class SystemCommandService {
+	private static final Logger log = LogManager.getLogger(SystemCommandService.class);
+
 	private ProcessBuilder processBuilder = new ProcessBuilder();
 
 	/**
@@ -40,10 +44,6 @@ public class SystemCommandService {
 		super();
 	}
 
-	/**
-	 * @param sessionId
-	 * @param userName
-	 */
 	public boolean disconnect(String sessionId, String userName, String nasIpAddress, String nasPort,
 			String nasSecret) {
 		boolean result = false;

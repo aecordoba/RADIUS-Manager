@@ -44,13 +44,13 @@
 								th:errors="*{radUserGroup}"></span>
 						</div>
 						<div>
-							<label for="suspended" th:text="#{clientcreation.suspended}"></label>
-							<input type="checkbox" id="suspended" th:field="*{suspended}">
-						</div>
-						<div>
 							<label for="ipaddress" th:text="#{clientcreation.ipaddress}"></label>
 							<input type="text" id="ipaddress" th:field="*{ipAddress}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></span>
+						</div>
+						<div>
+							<label for="suspended" th:text="#{clientcreation.suspended}"></label>
+							<input type="checkbox" id="suspended" th:field="*{suspended}">
 						</div>
 						<input type="submit" th:value="#{clientcreation.create}" class="button" />
 					</div>

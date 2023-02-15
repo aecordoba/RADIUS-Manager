@@ -22,14 +22,12 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -42,14 +40,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.ClientData;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Nas;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.NasRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadAcctRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.services.SystemCommandService;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService;
 
 @Controller
 @RequestMapping("/client-deletion")
@@ -59,33 +51,17 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.services.SystemCommandSe
 public class ClientDeletionController {
 	private static final Logger log = LogManager.getLogger(ClientDeletionController.class);
 
-	private RadAcctRepository radAcctRepository;
 	private ClientsRepository clientsRepository;
-	private NasRepository nasRepository;
-	private RadCheckRepository radCheckRepository;
-	private RadReplyRepository radReplyRepository;
-	private SystemCommandService systemCommandService;
-	@Value("${nas.port}")
-	private String nasPort;
+	private RadiusService radiusService;
 
 	/**
-	 * @param radAcctRepository
 	 * @param clientsRepository
-	 * @param nasRepository
-	 * @param radCheckRepository
-	 * @param radReplyRepository
-	 * @param systemCommandService
+	 * @param radiusService
 	 */
-	public ClientDeletionController(RadAcctRepository radAcctRepository, ClientsRepository clientsRepository,
-			NasRepository nasRepository, RadCheckRepository radCheckRepository, RadReplyRepository radReplyRepository,
-			SystemCommandService systemCommandService) {
+	public ClientDeletionController(ClientsRepository clientsRepository, RadiusService radiusService) {
 		super();
-		this.radAcctRepository = radAcctRepository;
 		this.clientsRepository = clientsRepository;
-		this.nasRepository = nasRepository;
-		this.radCheckRepository = radCheckRepository;
-		this.radReplyRepository = radReplyRepository;
-		this.systemCommandService = systemCommandService;
+		this.radiusService = radiusService;
 	}
 
 	@ModelAttribute(name = "clientData")
@@ -108,22 +84,11 @@ public class ClientDeletionController {
 				model.addAttribute("exception", "common.exception.nodata");
 				return "private/client-deletion";
 			} else {
-				radCheckRepository.deleteByUserName(client.getName());
-				if (client.getIpAddress() != null)
-					radReplyRepository.deleteByUserName(client.getName());
+				radiusService.deleteClient(client);
 				clientsRepository.delete(client);
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("Client '{}' deleted by {}.", client.getName(), auth.getName());
-				// Disconnect session.
-				for (RadAcct radAcct : getActiveRadAcct(client)) {
-					Nas nas = getNas(radAcct.getNasIpAddress());
-					boolean result = systemCommandService.disconnect(radAcct.getAcctSessionId(), radAcct.getUserName(),
-							radAcct.getNasIpAddress(), nasPort, nas.getSecret());
-					if (result)
-						log.info("Client '{}' disconnected.", client.getName());
-					else
-						log.warn("Cannot disconnect client '{}'.", client.getName());
-				}
+				radiusService.disconnectClient(client);
 			}
 		}
 		return "redirect:/";
@@ -139,15 +104,5 @@ public class ClientDeletionController {
 		if (!clientOptional.isEmpty())
 			client = clientOptional.get();
 		return client;
-	}
-
-	private List<RadAcct> getActiveRadAcct(Client client) {
-		List<RadAcct> activeRadAcctList = (List<RadAcct>) radAcctRepository.findActiveRadAcct(client.getName());
-		return activeRadAcctList;
-	}
-
-	private Nas getNas(String name) {
-		List<Nas> nasList = (List<Nas>) nasRepository.findByName(name);
-		return nasList.get(0);
 	}
 }

@@ -42,7 +42,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadUserGroupRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService;
 
 @Controller
@@ -54,7 +53,6 @@ public class ClientCreationController {
 	private static final Logger log = LogManager.getLogger(ClientCreationController.class);
 
 	private ClientsRepository clientsRepository;
-	private RadUserGroupRepository radUserGroupRepository;
 	private RadiusService radiusService;
 
 	/**
@@ -62,11 +60,9 @@ public class ClientCreationController {
 	 * @param radUserGroupRepository
 	 * @param radiusService
 	 */
-	public ClientCreationController(ClientsRepository clientsRepository, RadUserGroupRepository radUserGroupRepository,
-			RadiusService radiusService) {
+	public ClientCreationController(ClientsRepository clientsRepository, RadiusService radiusService) {
 		super();
 		this.clientsRepository = clientsRepository;
-		this.radUserGroupRepository = radUserGroupRepository;
 		this.radiusService = radiusService;
 	}
 
@@ -77,7 +73,7 @@ public class ClientCreationController {
 
 	@ModelAttribute(name = "radUserGroupList")
 	public List<RadUserGroup> getRadUserGroupList() {
-		return (List<RadUserGroup>) radUserGroupRepository.findAll();
+		return radiusService.getRadUserGroupList();
 	}
 
 	@GetMapping
@@ -92,12 +88,7 @@ public class ClientCreationController {
 		else {
 			try {
 				clientsRepository.save(client);
-				// Configure client in Radius.
-				if (client.isSuspended())
-					radiusService.configureSuspendedClient(client);
-				else
-					radiusService.configureClient(client);
-
+				radiusService.configureClient(client);
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("Client '{}' created by {}.", client.getName(), auth.getName());
 			} catch (DataIntegrityViolationException e) {

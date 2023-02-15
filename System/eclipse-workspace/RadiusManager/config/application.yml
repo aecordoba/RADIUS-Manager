@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active:
+    active: dev
   datasource:
     url: "jdbc:mysql://localhost:3306/RadiusManager"
     username: "rmapp"
@@ -14,8 +14,6 @@ spring:
   messages:
     basename: i18n/messages
     encoding: UTF-8
-  thymeleaf:
-    cache: false
   
 management:
   endpoints:

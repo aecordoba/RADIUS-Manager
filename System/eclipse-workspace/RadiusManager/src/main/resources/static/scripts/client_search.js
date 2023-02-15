@@ -10,7 +10,6 @@
 			data["number"] = $("#number").val();
 			data["name"] = "";
 			get_client(data);
-			$(".toggleable").prop("disabled", false);
 		}else{
 			$(".toggleable").prop("disabled", true);
 		}
@@ -21,7 +20,6 @@
 			data["number"] = "";
 			data["name"] = $("#name").val();
 			get_client();
-			$(".toggleable").prop("disabled", false);
 		}else{
 			$(".toggleable").prop("disabled", true);
 		}
@@ -48,6 +46,7 @@
 					  	  		$('[name='+key+']', '#form').prop('checked', value);
 					  	  else
 								$('[name='+key+']', '#form').val(value);
+						  $(".toggleable").prop("disabled", false);
 					  }
   				});
         	},
