@@ -40,13 +40,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadCheck;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadReply;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadCheckRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadReplyRepository;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.RadUserGroupRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService;
 
 @Controller
 @RequestMapping("/client-creation")
@@ -58,23 +55,19 @@ public class ClientCreationController {
 
 	private ClientsRepository clientsRepository;
 	private RadUserGroupRepository radUserGroupRepository;
-	private RadCheckRepository radCheckRepository;
-	private RadReplyRepository radReplyRepository;
+	private RadiusService radiusService;
 
 	/**
 	 * @param clientsRepository
-	 * @param nasRepository
 	 * @param radUserGroupRepository
-	 * @param radCheckRepository
-	 * @param radReplyRepository
+	 * @param radiusService
 	 */
 	public ClientCreationController(ClientsRepository clientsRepository, RadUserGroupRepository radUserGroupRepository,
-			RadCheckRepository radCheckRepository, RadReplyRepository radReplyRepository) {
+			RadiusService radiusService) {
 		super();
 		this.clientsRepository = clientsRepository;
 		this.radUserGroupRepository = radUserGroupRepository;
-		this.radCheckRepository = radCheckRepository;
-		this.radReplyRepository = radReplyRepository;
+		this.radiusService = radiusService;
 	}
 
 	@ModelAttribute(name = "client")
@@ -99,17 +92,12 @@ public class ClientCreationController {
 		else {
 			try {
 				clientsRepository.save(client);
-				RadCheck radCheck = new RadCheck(client.getName(), "Cleartext-Password", ":=", client.getPassword());
-				radCheckRepository.save(radCheck);
-				if (client.getIpAddress() != null) {
-					RadReply radReply = new RadReply(client.getName(), "Framed-IP-Address", ":=",
-							client.getIpAddress());
-					radReplyRepository.save(radReply);
-				} else {
-					radCheck = new RadCheck(client.getName(), "User-Profile", ":=",
-							client.getRadUserGroup().getUserName());
-					radCheckRepository.save(radCheck);
-				}
+				// Configure client in Radius.
+				if (client.isSuspended())
+					radiusService.configureSuspendedClient(client);
+				else
+					radiusService.configureClient(client);
+
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("Client '{}' created by {}.", client.getName(), auth.getName());
 			} catch (DataIntegrityViolationException e) {

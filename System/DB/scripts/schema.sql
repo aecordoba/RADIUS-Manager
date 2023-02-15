@@ -254,6 +254,7 @@ CREATE TABLE IF NOT EXISTS `RadiusManager`.`Clients` (
   PRIMARY KEY (`id`),
   CONSTRAINT number_UNIQUE UNIQUE(number),
   CONSTRAINT name_UNIQUE UNIQUE(name),
+  CONSTRAINT ip_address_UNIQUE UNIQUE(ip_address),
   CONSTRAINT `fk_Clients_radusergroup`
     FOREIGN KEY (`radusergroup`)
     REFERENCES `RadiusManager`.`radusergroup` (`id`)

@@ -57,4 +57,8 @@ public class SuspendedUsersProfilesService {
 		}
 		return result;
 	}
+
+	public RadUserGroup getSuspendedRadUserGroup() {
+		return suspendedUsersProfilesList.get(0).getRadUserGroup();
+	}
 }
