@@ -51,7 +51,8 @@ public class SecurityConfiguration {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests()
-				.antMatchers("/client-creation", "/client-deletion", "/client-modification", "/client-search")
+				.antMatchers("/client-creation", "/client-status", "/client-modification", "/client-deletion",
+						"/client-search")
 				.hasAnyAuthority("ADMIN", "USER")
 				.antMatchers("/user-register").hasAuthority("ADMIN")
 				.antMatchers("/", "/**").permitAll()

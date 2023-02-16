@@ -63,4 +63,25 @@ public class SystemCommandService {
 		}
 		return result;
 	}
+
+	public boolean changeOfAuthorization(String userName, String attribute, String value, String nasIpAddress,
+			String nasPort,
+			String nasSecret) {
+		boolean result = false;
+		String command = "echo User-Name=" + userName + "," + attribute + "=" + value
+				+ " | /usr/bin/radclient -r 1 " + nasIpAddress + ":" + nasPort + " coa " + nasSecret;
+		processBuilder.command("bash", "-c", command);
+		try {
+			Process process = processBuilder.start();
+			int exitVal = process.waitFor();
+			if (exitVal == 0)
+				result = true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 }

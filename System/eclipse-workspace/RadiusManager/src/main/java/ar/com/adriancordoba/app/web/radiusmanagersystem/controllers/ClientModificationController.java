@@ -89,7 +89,7 @@ public class ClientModificationController {
 				clientsRepository.save(client);
 				radiusService.deleteClient(client);
 				radiusService.configureClient(client);
-				radiusService.disconnectClient(client);
+				radiusService.disconnect(client);
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("Client '{}' modified by {}.", client.getName(), auth.getName());
 			} catch (DataIntegrityViolationException e) {

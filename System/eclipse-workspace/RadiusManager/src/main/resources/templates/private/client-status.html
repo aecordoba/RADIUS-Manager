@@ -4,6 +4,11 @@
 <div th:replace="/fragments/head.html :: head(#{clientmodification.title})"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript" src="/scripts/client_search.js"></script>
+<script>
+	function disable() {
+		$(".toggleable").prop("disabled", true);
+	}
+</script>
 </head>
 <body>
 	<div id="container">
@@ -13,50 +18,41 @@
 		</header>
 		<main>
 			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
-			<form method="post" id="form" th:action="@{/client-modification}" th:object="${client}">
+			<form method="post" id="form" th:action="@{/client-status}" th:object="${client}">
 				<fieldset>
 					<legend>
-						<b th:text="#{clientmodification.title}"></b>
+						<b th:text="#{clientstatus.title}"></b>
 					</legend>
 					<div class="grid">
 						<input type="hidden" id="id" th:field="*{id}">
 						<div>
-							<label for="number" th:text="#{clientmodification.number}"></label>
+							<label for="number" th:text="#{clientstatus.number}"></label>
 							<input type="text" id="number" name="number" th:field="*{number}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
 
 						</div>
 						<div>
-							<label for="name" th:text="#{clientmodification.name}"></label>
+							<label for="name" th:text="#{clientstatus.name}"></label>
 							<input type="text" id="name" name="name" th:field="*{name}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 						</div>
 						<div>
-							<label for="password" th:text="#{clientmodification.password}"></label>
-							<input type="text" id="password" name="password" th:field="*{password}" class="toggleable">
-							<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-						</div>
-						<div>
-							<label for="radusergroup" th:text="#{clientmodification.radusergroup}"></label> <select
-								id="radusergroup" name="radUserGroup" th:field="*{radUserGroup}" class="toggleable">
+							<input type="text" id="password" name="password" th:field="*{password}" hidden>
+							<select id="radusergroup" name="radUserGroup" th:field="*{radUserGroup}" hidden>
 								<option value="0" th:text="#{common.select}" />
 								<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
 									th:value="${radUserGroup.id}" />
 							</select>
-							<span class="errorMessage" th:if="${#fields.hasErrors('radUserGroup')}"
-								th:errors="*{radUserGroup}"></span>
+
+							<input type="text" id="ipaddress" name="ipAddress" th:field="*{ipAddress}" hidden>
 						</div>
 						<div>
-							<label for="ipaddress" th:text="#{clientmodification.ipaddress}"></label>
-							<input type="text" id="ipaddress" name="ipAddress" th:field="*{ipAddress}" class="toggleable">
-							<span class="errorMessage" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></span>
-						</div>
-						<div>
-							<label for="suspended" th:text="#{clientmodification.suspended}"></label>
+							<label for="suspended" th:text="#{clientstatus.suspended}"></label>
 							<input type="checkbox" id="suspended" name="suspended" th:field="*{suspended}"
 								class="toggleable">
 						</div>
-						<input type="submit" th:value="#{clientmodification.modify}" class="button toggleable" />
+						<input type="reset" th:value="#{clientstatus.reset}" onclick="disable()" />
+						<input type="submit" th:value="#{clientstatus.change}" class="button toggleable" />
 					</div>
 				</fieldset>
 			</form>

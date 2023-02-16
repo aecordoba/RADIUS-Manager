@@ -41,4 +41,6 @@ logging:
     ar: debug
 
 nas:
-  port: 3799  
+  port: 3799
+suspended-users:
+  rate-limit: "1024k/1024k"

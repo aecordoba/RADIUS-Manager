@@ -110,6 +110,10 @@ public class Client {
 		setIpAddress(ipAddress);
 	}
 
+	public String getStatus() {
+		return isSuspended() ? "suspended" : "active";
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

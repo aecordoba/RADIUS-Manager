@@ -57,6 +57,8 @@ public class RadiusService {
 	private SystemCommandService systemCommandService;
 	@Value("${nas.port}")
 	private String nasPort;
+	@Value("${suspended-users.rate-limit}")
+	private String rateLimit;
 
 	/**
 	 * @param radCheckRepository
@@ -97,7 +99,7 @@ public class RadiusService {
 		radReplyRepository.deleteByUserName(client.getName());
 	}
 
-	public void disconnectClient(Client client) {
+	public void disconnect(Client client) {
 		for (RadAcct radAcct : getActiveRadAcct(client)) {
 			Nas nas = getNas(radAcct.getNasIpAddress());
 			boolean result = systemCommandService.disconnect(radAcct.getAcctSessionId(), radAcct.getUserName(),
@@ -106,6 +108,18 @@ public class RadiusService {
 				log.info("Client '{}' disconnected.", client.getName());
 			else
 				log.warn("Cannot disconnect client '{}'.", client.getName());
+		}
+	}
+
+	public void applyRateLimit(Client client) {
+		for (RadAcct radAcct : getActiveRadAcct(client)) {
+			Nas nas = getNas(radAcct.getNasIpAddress());
+			boolean result = systemCommandService.changeOfAuthorization(client.getName(), "Mikrotik-Rate-Limit",
+					rateLimit, radAcct.getNasIpAddress(), nasPort, nas.getSecret());
+			if (result)
+				log.info("Rate limit {} applied to client '{}'.", rateLimit, client.getName());
+			else
+				log.warn("Cannot apply rate limit {} to client '{}'.", rateLimit, client.getName());
 		}
 	}
 
@@ -133,6 +147,8 @@ public class RadiusService {
 
 	private List<RadAcct> getActiveRadAcct(Client client) {
 		List<RadAcct> activeRadAcctList = (List<RadAcct>) radAcctRepository.findActiveRadAcct(client.getName());
+		if (activeRadAcctList.isEmpty())
+			log.info("No active session for client '{}'.", client.getName());
 		return activeRadAcctList;
 	}
 
