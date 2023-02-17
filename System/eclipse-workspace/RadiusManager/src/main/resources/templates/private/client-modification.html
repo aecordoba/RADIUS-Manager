@@ -4,6 +4,11 @@
 <div th:replace="/fragments/head.html :: head(#{clientmodification.title})"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript" src="/scripts/client_search.js"></script>
+<script>
+	function disable() {
+		$(".toggleable").prop("disabled", true);
+	}
+</script>
 </head>
 <body>
 	<div id="container">
@@ -56,6 +61,7 @@
 							<input type="checkbox" id="suspended" name="suspended" th:field="*{suspended}"
 								class="toggleable">
 						</div>
+						<input type="reset" th:value="#{clientstatus.reset}" onclick="disable()" />
 						<input type="submit" th:value="#{clientmodification.modify}" class="button toggleable" />
 					</div>
 				</fieldset>

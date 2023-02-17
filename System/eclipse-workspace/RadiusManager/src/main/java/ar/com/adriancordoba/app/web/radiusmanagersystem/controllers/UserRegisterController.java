@@ -22,7 +22,6 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -43,8 +42,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.UserRegister;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Authority;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.AuthoritiesRepository;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.AuthorityService;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.UserService;
 
 @Controller
 @RequestMapping("/user-register")
@@ -54,20 +53,20 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersReposi
 public class UserRegisterController {
 	private static final Logger log = LogManager.getLogger(UserRegisterController.class);
 
-	private UsersRepository usersRepository;
-	private AuthoritiesRepository authoritiesRepository;
+	private UserService userService;
+	private AuthorityService authorityService;
 	private PasswordEncoder passwordEncoder;
 
 	/**
-	 * @param usersRepository
-	 * @param auhoritiesRepository
+	 * @param userService
+	 * @param authorityService
 	 * @param passwordEncoder
 	 */
-	public UserRegisterController(UsersRepository usersRepository, AuthoritiesRepository auhoritiesRepository,
+	public UserRegisterController(UserService userService, AuthorityService auhorityService,
 			PasswordEncoder passwordEncoder) {
 		super();
-		this.usersRepository = usersRepository;
-		this.authoritiesRepository = auhoritiesRepository;
+		this.userService = userService;
+		this.authorityService = auhorityService;
 		this.passwordEncoder = passwordEncoder;
 	}
 
@@ -78,9 +77,7 @@ public class UserRegisterController {
 
 	@ModelAttribute(name = "authorities")
 	public List<Authority> getAuthorities() {
-		List<Authority> authorities = new ArrayList<>();
-		authorities = (List<Authority>) authoritiesRepository.findAll();
-		return authorities;
+		return authorityService.getAuthoritiesList();
 	}
 
 	@GetMapping
@@ -94,7 +91,7 @@ public class UserRegisterController {
 			return "private/user-register";
 		else {
 			try {
-				usersRepository.save(userRegister.getUser(passwordEncoder));
+				userService.createUser(userRegister.getUser(passwordEncoder));
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("User '{}' registered by {}.", userRegister.getName(), auth.getName());
 			} catch (DataIntegrityViolationException e) {

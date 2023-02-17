@@ -1,5 +1,5 @@
 /*
- * 		RadiusService.java
+ * 		ClientService.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,26 @@
  */
 
 /**
- * 		RadiusService.java
+ * 		ClientService.java
  *  Adrián E. Córdoba [software.asia@gmail.com]		Feb 17, 2023
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
-import java.util.List;
+import java.util.Optional;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public interface RadiusService {
-
-	void configureClient(Client client);
-
-	List<RadUserGroup> getRadUserGroupList();
+public interface ClientService {
+	Client createClient(Client client);
 
 	void deleteClient(Client client);
 
-	void disconnect(Client client);
+	Optional<Client> getClientByName(String name);
 
-	void applyRateLimit(Client client);
+	Optional<Client> getClientByNumber(String number);
+
+	Client updateClient(Client client);
 }

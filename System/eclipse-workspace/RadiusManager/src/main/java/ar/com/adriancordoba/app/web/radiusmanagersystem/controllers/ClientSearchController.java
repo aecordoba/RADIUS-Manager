@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.ClientService;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -39,22 +39,22 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepo
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class ClientSearchController {
-	private ClientsRepository clientRepository;
+	private ClientService clientService;
 
 	/**
-	 * @param clientRepository
+	 * @param clientService
 	 */
-	public ClientSearchController(ClientsRepository clientRepository) {
+	public ClientSearchController(ClientService clientService) {
 		super();
-		this.clientRepository = clientRepository;
+		this.clientService = clientService;
 	}
 
 	@RequestMapping(value = "/client-search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Client> searchClient(@RequestParam("number") String number,
 			@RequestParam("name") String name) {
 		if (number.isBlank())
-			return ResponseEntity.of(clientRepository.findByName(name));
+			return ResponseEntity.of(clientService.getClientByName(name));
 		else
-			return ResponseEntity.of(clientRepository.findByNumber(number));
+			return ResponseEntity.of(clientService.getClientByNumber(number));
 	}
 }

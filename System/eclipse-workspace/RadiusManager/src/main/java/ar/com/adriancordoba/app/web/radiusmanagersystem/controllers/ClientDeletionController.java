@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.ClientData;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepository;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.ClientService;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService;
 
 @Controller
@@ -51,22 +51,22 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService;
 public class ClientDeletionController {
 	private static final Logger log = LogManager.getLogger(ClientDeletionController.class);
 
-	private ClientsRepository clientsRepository;
+	private ClientService clientService;
 	private RadiusService radiusService;
 
 	/**
-	 * @param clientsRepository
+	 * @param clientService
 	 * @param radiusService
 	 */
-	public ClientDeletionController(ClientsRepository clientsRepository, RadiusService radiusService) {
+	public ClientDeletionController(ClientService clientService, RadiusService radiusService) {
 		super();
-		this.clientsRepository = clientsRepository;
+		this.clientService = clientService;
 		this.radiusService = radiusService;
 	}
 
-	@ModelAttribute(name = "clientData")
-	public ClientData getClientDeletion() {
-		return new ClientData();
+	@ModelAttribute(name = "client")
+	public Client getClient() {
+		return new Client();
 	}
 
 	@GetMapping
@@ -85,7 +85,7 @@ public class ClientDeletionController {
 				return "private/client-deletion";
 			} else {
 				radiusService.deleteClient(client);
-				clientsRepository.delete(client);
+				clientService.deleteClient(client);
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				log.info("Client '{}' deleted by {}.", client.getName(), auth.getName());
 				radiusService.disconnect(client);
@@ -97,10 +97,10 @@ public class ClientDeletionController {
 	private Client getClient(ClientData clientData) {
 		Optional<Client> clientOptional = null;
 		Client client = null;
-		if (!clientData.getNumber().isBlank())
-			clientOptional = clientsRepository.findByNumber(clientData.getNumber());
+		if (clientData.getName().isBlank())
+			clientOptional = clientService.getClientByNumber(clientData.getNumber());
 		else
-			clientOptional = clientsRepository.findByName(clientData.getName());
+			clientOptional = clientService.getClientByName(clientData.getName());
 		if (!clientOptional.isEmpty())
 			client = clientOptional.get();
 		return client;

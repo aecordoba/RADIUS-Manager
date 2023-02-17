@@ -51,7 +51,7 @@
   				});
         	},
         	error: function (e) {
-				console.log("ERROR : ", e);
+				$(".toggleable").prop("disabled", true);
         	}
     	});
 	}

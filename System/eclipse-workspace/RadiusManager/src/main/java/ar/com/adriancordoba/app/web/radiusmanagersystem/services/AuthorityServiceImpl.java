@@ -1,5 +1,5 @@
 /*
- * 		RadiusService.java
+ * 		AuthorityServiceImpl.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,44 @@
  */
 
 /**
- * 		RadiusService.java
+ * 		AuthorityServiceImpl.java
  *  Adrián E. Córdoba [software.asia@gmail.com]		Feb 17, 2023
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
+import org.springframework.stereotype.Service;
 
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Authority;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.AuthoritiesRepository;
+
+@Service
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public interface RadiusService {
+public class AuthorityServiceImpl implements AuthorityService {
+	private AuthoritiesRepository authoritiesRepository;
 
-	void configureClient(Client client);
+	/**
+	 * @param authoritiesRepository
+	 */
+	public AuthorityServiceImpl(AuthoritiesRepository authoritiesRepository) {
+		super();
+		this.authoritiesRepository = authoritiesRepository;
+	}
 
-	List<RadUserGroup> getRadUserGroupList();
-
-	void deleteClient(Client client);
-
-	void disconnect(Client client);
-
-	void applyRateLimit(Client client);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ar.com.adriancordoba.app.web.radiusmanagersystem.services.
+	 * AuthorityService#getAuthoritiesList()
+	 */
+	@Override
+	public List<Authority> getAuthoritiesList() {
+		List<Authority> authorities = new ArrayList<>();
+		authorities = (List<Authority>) authoritiesRepository.findAll();
+		return authorities;
+	}
 }

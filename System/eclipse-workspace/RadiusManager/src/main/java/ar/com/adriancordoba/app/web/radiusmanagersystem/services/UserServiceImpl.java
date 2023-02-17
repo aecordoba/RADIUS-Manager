@@ -1,5 +1,5 @@
 /*
- * 		RadiusService.java
+ * 		UserServiceImpl.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,41 @@
  */
 
 /**
- * 		RadiusService.java
+ * 		userServiceImpl.java
  *  Adrián E. Córdoba [software.asia@gmail.com]		Feb 17, 2023
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
-import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.UsersRepository;
 
+@Service
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public interface RadiusService {
+public class UserServiceImpl implements UserService {
+	private UsersRepository usersRepository;
 
-	void configureClient(Client client);
+	/**
+	 * @param usersRepository
+	 */
+	public UserServiceImpl(UsersRepository usersRepository) {
+		super();
+		this.usersRepository = usersRepository;
+	}
 
-	List<RadUserGroup> getRadUserGroupList();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.UserService#
+	 * createUser(ar.com.adriancordoba.app.web.radiusmanagersystem.model.User)
+	 */
+	@Override
+	public User createUser(User user) {
+		return usersRepository.save(user);
+	}
 
-	void deleteClient(Client client);
-
-	void disconnect(Client client);
-
-	void applyRateLimit(Client client);
 }

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="/fragments/head.html :: head(#{clientdeletion.title})"></div>
+<div th:replace="/fragments/head.html :: head(#{clientmodification.title})"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/client_search.js"></script>
 </head>
 <body>
 	<div id="container">
@@ -11,24 +13,25 @@
 		</header>
 		<main>
 			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
-			<form method="post" th:action="@{/client-deletion}" th:object="${clientData}">
+			<form method="post" id="form" th:action="@{/client-deletion}" th:object="${client}">
 				<fieldset>
 					<legend>
 						<b th:text="#{clientdeletion.title}"></b>
 					</legend>
 					<div class="grid">
+						<input type="hidden" id="id" th:field="*{id}">
 						<div>
 							<label for="number" th:text="#{clientdeletion.number}"></label>
-							<input type="text" id="number" th:field="*{number}">
+							<input type="text" id="number" name="number" th:field="*{number}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
 
 						</div>
 						<div>
 							<label for="name" th:text="#{clientdeletion.name}"></label>
-							<input type="text" id="name" th:field="*{name}">
+							<input type="text" id="name" name="name" th:field="*{name}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 						</div>
-						<input type="submit" th:value="#{clientdeletion.delete}" class="button" />
+						<input type="submit" th:value="#{clientdeletion.delete}" class="button toggleable" />
 					</div>
 				</fieldset>
 			</form>
