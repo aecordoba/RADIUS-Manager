@@ -44,3 +44,7 @@ nas:
   port: 3799
 suspended-users:
   rate-limit: "1024k/1024k"
+accounting-paging:
+  page-size: 10
+
+

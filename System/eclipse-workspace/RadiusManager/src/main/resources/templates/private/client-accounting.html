@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="/fragments/head.html :: head(#{clientaccounting.title})"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/client_search.js"></script>
+</head>
+<body>
+	<div id="container">
+		<header>
+			<img th:src="@{/images/rubik.png}" alt="Rubik" />
+			<h1>RADIUS Manager System</h1>
+		</header>
+		<main>
+			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
+			<form method="get" id="form" th:action="@{/client-accounting/client}">
+				<fieldset>
+					<legend>
+						<b th:text="#{clientaccounting.title}"></b>
+					</legend>
+					<div class="grid">
+						<div>
+							<label for="number" th:text="#{clientaccounting.number}"></label>
+							<input type="text" id="number" th:name="number">
+						</div>
+						<div>
+							<label for="name" th:text="#{clientaccounting.name}"></label>
+							<input type="text" id="name" th:name="name">
+						</div>
+						<input type="submit" th:value="#{clientaccounting.search}" class="button toggleable" />
+					</div>
+				</fieldset>
+			</form>
+		</main>
+		<aside>
+			<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
+		</aside>
+		<footer th:replace="/fragments/footer.html :: footer"> </footer>
+	</div>
+</body>
+</html>

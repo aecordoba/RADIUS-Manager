@@ -24,7 +24,10 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 
 /**
@@ -37,6 +40,10 @@ public interface RadiusService {
 	List<RadUserGroup> getRadUserGroupList();
 
 	void deleteClient(Client client);
+
+	Page<RadAcct> getClientAccountingPage(String userName, int pageNumber);
+
+	Page<RadAcct> getClientAccountingPage(String userName, int pageNumber, int pageSize);
 
 	void disconnect(Client client);
 

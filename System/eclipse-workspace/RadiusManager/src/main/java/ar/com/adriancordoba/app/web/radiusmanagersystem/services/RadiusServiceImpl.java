@@ -27,6 +27,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
@@ -59,6 +62,8 @@ public class RadiusServiceImpl implements RadiusService {
 	private String nasPort;
 	@Value("${suspended-users.rate-limit}")
 	private String rateLimit;
+	@Value("${accounting-paging.page-size}")
+	private int pageSize;
 
 	/**
 	 * @param radCheckRepository
@@ -83,8 +88,13 @@ public class RadiusServiceImpl implements RadiusService {
 		this.systemCommandService = systemCommandService;
 	}
 
-	/* (non-Javadoc)
-	 * @see ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#configureClient(ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * configureClient(ar.com.adriancordoba.app.web.radiusmanagersystem.model.
+	 * Client)
 	 */
 	@Override
 	public void configureClient(Client client) {
@@ -94,16 +104,25 @@ public class RadiusServiceImpl implements RadiusService {
 			configureRegularClient(client);
 	}
 
-	/* (non-Javadoc)
-	 * @see ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#getRadUserGroupList()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * getRadUserGroupList()
 	 */
 	@Override
 	public List<RadUserGroup> getRadUserGroupList() {
 		return (List<RadUserGroup>) radUserGroupRepository.findAll();
 	}
 
-	/* (non-Javadoc)
-	 * @see ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#deleteClient(ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * deleteClient(ar.com.adriancordoba.app.web.radiusmanagersystem.model.
+	 * Client)
 	 */
 	@Override
 	public void deleteClient(Client client) {
@@ -111,8 +130,39 @@ public class RadiusServiceImpl implements RadiusService {
 		radReplyRepository.deleteByUserName(client.getName());
 	}
 
-	/* (non-Javadoc)
-	 * @see ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#disconnect(ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * getClientAccountingPage(ar.com.adriancordoba.app.web.radiusmanagersystem.
+	 * model.Client, int)
+	 */
+	@Override
+	public Page<RadAcct> getClientAccountingPage(String userName, int pageNumber) {
+		return getClientAccountingPage(userName, pageNumber, pageSize);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * getClientAccountingPage(ar.com.adriancordoba.app.web.radiusmanagersystem.
+	 * model.Client, int, int)
+	 */
+	@Override
+	public Page<RadAcct> getClientAccountingPage(String userName, int pageNumber, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+		return radAcctRepository.findByUserName(userName, pageable);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * disconnect(ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client)
 	 */
 	@Override
 	public void disconnect(Client client) {
@@ -127,8 +177,13 @@ public class RadiusServiceImpl implements RadiusService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#applyRateLimit(ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * applyRateLimit(ar.com.adriancordoba.app.web.radiusmanagersystem.model.
+	 * Client)
 	 */
 	@Override
 	public void applyRateLimit(Client client) {

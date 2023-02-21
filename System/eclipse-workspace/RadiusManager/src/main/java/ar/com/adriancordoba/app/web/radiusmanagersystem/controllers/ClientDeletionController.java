@@ -22,7 +22,7 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
-import java.util.Optional;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -38,8 +38,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.ClientData;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.services.ClientService;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService;
 
@@ -69,17 +69,21 @@ public class ClientDeletionController {
 		return new Client();
 	}
 
+	@ModelAttribute(name = "radUserGroupList")
+	public List<RadUserGroup> getRadUserGroupList() {
+		return radiusService.getRadUserGroupList();
+	}
+
 	@GetMapping
 	public String clientDeletionForm() {
 		return "private/client-deletion";
 	}
 
 	@PostMapping
-	public String processClientDeletion(@Valid ClientData clientData, Errors errors, Model model) {
-		if (errors.hasErrors())
+	public String processClientDeletion(@Valid Client client, Errors errors, Model model) {
+		if (errors.hasErrors()) {
 			return "private/client-deletion";
-		else {
-			Client client = getClient(clientData);
+		} else {
 			if (client == null) {
 				model.addAttribute("exception", "common.exception.nodata");
 				return "private/client-deletion";
@@ -92,17 +96,5 @@ public class ClientDeletionController {
 			}
 		}
 		return "redirect:/";
-	}
-
-	private Client getClient(ClientData clientData) {
-		Optional<Client> clientOptional = null;
-		Client client = null;
-		if (clientData.getName().isBlank())
-			clientOptional = clientService.getClientByNumber(clientData.getNumber());
-		else
-			clientOptional = clientService.getClientByName(clientData.getName());
-		if (!clientOptional.isEmpty())
-			client = clientOptional.get();
-		return client;
 	}
 }

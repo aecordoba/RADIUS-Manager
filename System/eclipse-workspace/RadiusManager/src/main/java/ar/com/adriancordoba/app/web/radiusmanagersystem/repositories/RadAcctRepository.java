@@ -22,15 +22,19 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
 
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public interface RadAcctRepository extends CrudRepository<RadAcct, Long> {
+public interface RadAcctRepository extends PagingAndSortingRepository<RadAcct, Long> {
 	@Query(value = "SELECT * FROM radacct WHERE username = ?1 AND acctstoptime IS NULL;", nativeQuery = true)
 	Iterable<RadAcct> findActiveRadAcct(String name);
+
+	Page<RadAcct> findByUserName(String userName, Pageable pageable);
 }

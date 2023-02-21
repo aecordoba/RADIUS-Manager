@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="/fragments/head.html :: head(#{clientmodification.title})"></div>
+<div th:replace="/fragments/head.html :: head(#{clientdeletion.title})"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript" src="/scripts/client_search.js"></script>
 </head>
@@ -24,12 +24,21 @@
 							<label for="number" th:text="#{clientdeletion.number}"></label>
 							<input type="text" id="number" name="number" th:field="*{number}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
-
 						</div>
 						<div>
 							<label for="name" th:text="#{clientdeletion.name}"></label>
 							<input type="text" id="name" name="name" th:field="*{name}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+						</div>
+						<div>
+							<input type="text" id="password" name="password" th:field="*{password}" hidden>
+							<select id="radusergroup" name="radUserGroup" th:field="*{radUserGroup}" hidden>
+								<option value="0" th:text="#{common.select}" />
+								<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
+									th:value="${radUserGroup.id}" />
+							</select>
+							<input type="text" id="ipaddress" name="ipAddress" th:field="*{ipAddress}" hidden>
+							<input type="checkbox" id="suspended" name="suspended" th:field="*{suspended}" hidden>
 						</div>
 						<input type="submit" th:value="#{clientdeletion.delete}" class="button toggleable" />
 					</div>

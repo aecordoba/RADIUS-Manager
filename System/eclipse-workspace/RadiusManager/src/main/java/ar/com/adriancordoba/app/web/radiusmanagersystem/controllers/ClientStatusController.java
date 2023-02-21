@@ -98,7 +98,7 @@ public class ClientStatusController {
 						auth.getName());
 			} catch (DataIntegrityViolationException e) {
 				model.addAttribute("exception", "common.exception.dataintegrityviolation");
-				return "private/client-modification";
+				return "private/client-status";
 			}
 		}
 		return "redirect:/";

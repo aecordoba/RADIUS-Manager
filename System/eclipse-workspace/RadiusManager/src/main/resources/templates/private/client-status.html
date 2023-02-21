@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="/fragments/head.html :: head(#{clientmodification.title})"></div>
+<div th:replace="/fragments/head.html :: head(#{clientstatus.title})"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript" src="/scripts/client_search.js"></script>
 <script>
@@ -29,7 +29,6 @@
 							<label for="number" th:text="#{clientstatus.number}"></label>
 							<input type="text" id="number" name="number" th:field="*{number}">
 							<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
-
 						</div>
 						<div>
 							<label for="name" th:text="#{clientstatus.name}"></label>
@@ -43,7 +42,6 @@
 								<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
 									th:value="${radUserGroup.id}" />
 							</select>
-
 							<input type="text" id="ipaddress" name="ipAddress" th:field="*{ipAddress}" hidden>
 						</div>
 						<div>
