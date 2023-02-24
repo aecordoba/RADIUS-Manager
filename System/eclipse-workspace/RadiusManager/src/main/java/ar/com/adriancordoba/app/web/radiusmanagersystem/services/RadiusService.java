@@ -25,6 +25,7 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
@@ -43,7 +44,8 @@ public interface RadiusService {
 
 	Page<RadAcct> getClientAccountingPage(String userName, int pageNumber);
 
-	Page<RadAcct> getClientAccountingPage(String userName, int pageNumber, int pageSize);
+	Page<RadAcct> getClientAccountingPage(String userName, int pageNumber, int pageSize, String sortField,
+			Sort.Direction sortDirection);
 
 	void disconnect(Client client);
 

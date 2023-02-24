@@ -26,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,13 +53,19 @@ public class ClientAccountingController {
 	}
 
 	@GetMapping
-	public String clientStatusForm() {
+	public String clientStatusForm(Model model) {
 		return "private/client-accounting";
 	}
 
-	@GetMapping("/client")
-	public String processClient(@RequestParam String name) {
+	@GetMapping("/list")
+	public String processClient(@RequestParam(value = "name") String name,
+			@RequestParam(value = "order", required = false) Integer order,
+			Model model) {
 		Page<RadAcct> page = radiusService.getClientAccountingPage(name, 0);
-		return "redirect:/";
+		model.addAttribute("accountingList", page.getContent());
+		model.addAttribute("currentPage", 1);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		return "private/client-accounting-list";
 	}
 }

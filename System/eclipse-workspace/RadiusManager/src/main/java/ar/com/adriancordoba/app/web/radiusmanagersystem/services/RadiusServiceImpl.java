@@ -30,6 +30,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
@@ -140,7 +142,7 @@ public class RadiusServiceImpl implements RadiusService {
 	 */
 	@Override
 	public Page<RadAcct> getClientAccountingPage(String userName, int pageNumber) {
-		return getClientAccountingPage(userName, pageNumber, pageSize);
+		return getClientAccountingPage(userName, pageNumber, pageSize, "acctStartTime", Sort.Direction.DESC);
 	}
 
 	/*
@@ -152,8 +154,10 @@ public class RadiusServiceImpl implements RadiusService {
 	 * model.Client, int, int)
 	 */
 	@Override
-	public Page<RadAcct> getClientAccountingPage(String userName, int pageNumber, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+	public Page<RadAcct> getClientAccountingPage(String userName, int pageNumber, int pageSize, String sortField,
+			Sort.Direction sortDirection) {
+		Order order = new Order(sortDirection, sortField);
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(order));
 		return radAcctRepository.findByUserName(userName, pageable);
 	}
 

@@ -13,7 +13,7 @@
 		</header>
 		<main>
 			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
-			<form method="get" id="form" th:action="@{/client-accounting/client}">
+			<form method="get" id="form" th:action="@{/client-accounting/list}">
 				<fieldset>
 					<legend>
 						<b th:text="#{clientaccounting.title}"></b>
