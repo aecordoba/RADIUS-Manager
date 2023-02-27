@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<div th:replace="/fragments/head.html :: head(#{common.header})"></div>
+<div th:replace="/fragments/head.html :: head(#{common.header})"></div>
 </head>
 <body>
 	<div id="container">
@@ -12,7 +12,7 @@
 		<main>
 			<div th:if="${loginError}" class="errorMessage" th:text="#{login.wrong}"></div>
 			<div th:if="${loginLocked}" class="errorMessage" th:text="#{login.locked}"></div>
-			<form method="post" th:action="@{/login}" id="loginForm" class="center">
+			<form method="post" th:action="@{/login}" id="loginForm" class="login">
 				<fieldset>
 					<legend>
 						<b th:text="#{login.title}"></b>
@@ -28,7 +28,7 @@
 						</div>
 					</div>
 					<br>
-					<input type="submit" th:value="#{common.login}" class="button" />
+					<input type="submit" th:value="#{common.login}" />
 				</fieldset>
 			</form>
 		</main>

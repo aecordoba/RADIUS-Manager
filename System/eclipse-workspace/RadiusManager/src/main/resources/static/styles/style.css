@@ -1,5 +1,5 @@
 @charset "UTF-8";
-
+/* General styling layout */
 html {
 	box-sizing: border-box;
 }
@@ -20,48 +20,130 @@ body {
 	gap: 1%;
 }
 
-header, main, aside, footer {
+header, main, .user, nav, footer {
 	padding: 1%;
 }
 
+/* Header styling */
 header {
 	justify-content: center;
 }
 
+header img {
+	width: 10%;
+}
+
 header h1 {
 	display: inline;
+	font-size: 4vw;
 }
 
-nav div,input {
+/* User styling */
+.user div, input {
 	float: right;
 }
 
-input.button {
+/* Nav styling */
+nav {
+	position: sticky;
+	top: 0;
+	font-size: 90%;
+}
+
+a {
+	white-space: nowrap;
+}
+
+a:link {
+	color: blue;
+	text-decoration: none;
+}
+
+a:visited {
+	color: purple;
+	text-decoration: none;
+}
+
+a:active {
+	color: red;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+/* Main styling */
+.errorMessage {
+	color: red
+}
+
+main form {
+	margin: auto;
+	width: 60%;
+	padding: 10% 0;
+}
+
+main form.login {
+	width: 70%;
+}
+
+main input[type=text], input[type=password], select {
+	width: 100%;
+	padding: 1%;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: vertical;
+}
+
+main label {
+	padding: 2%;
+	display: inline-block;
+}
+
+main input[type=submit] {
+	margin: 3%;
 	float: right;
 }
 
+/* Footer styling */
 footer p {
 	font: 1rem 'David Libre', serif;
 	color: black;
 	text-align: center;
 }
 
-.errorMessage {
-	color: red
-}
-
+/* Viewport > 600px */
 @media screen and (min-width: 600px) {
 	.container {
 		grid-template-columns: 20% 75%;
 	}
-	header, nav, footer {
+	header, .user, footer {
 		grid-column: 1/span 2;
+	}
+	header h1 {
+		font-size: 2.8vw;
+	}
+	header img {
+		width: 8%;
+	}
+	a {
+		display: block;
+		font-size: 100%;
 	}
 }
 
+/* Viewport > 992px */
 @media screen and (min-width: 992px) {
 	.container {
 		grid-template-columns: 20% 70%;
 		gap: 2%;
+	}
+	header img {
+		width: 5%;
+	}
+	header h1 {
+		font-size: 2.5vw;
 	}
 }
