@@ -4,14 +4,13 @@
 <div th:replace="/fragments/head.html :: head(#{common.header})"></div>
 </head>
 <body>
-	<div id="container">
+	<div class="container">
 		<header>
 			<img th:src="@{/images/rubik.png}" alt="Rubik" />
 			<h1 th:text="#{home.welcome}"></h1>
 		</header>
-		<main></main>
-		<aside>
-			<div th:inline="text">[[${#httpServletRequest.remoteUser}]]</div>
+		<nav>
+			<div th:inline="text">[[${#httpServletRequest.remoteUser}]]</div><br>
 			<span th:if="${#httpServletRequest.remoteUser}">
 				<form method="POST" th:action="@{/logout}" id="logoutForm">
 					<input type="submit" th:value="#{common.logout}" />
@@ -22,13 +21,16 @@
 					<input type="submit" th:value="#{common.login}" />
 				</form>
 			</span>
-			<br> <a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a><br>
-			<a th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a><br>
-			<a th:href="@{/client-status}" id="clientStatus" th:text="#{home.clientstatus}"></a><br>
-			<a th:href="@{/client-modification}" id="clientModification" th:text="#{home.clientmodification}"></a><br>
+		</nav>
+		<aside>
+			<a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a><br> <a
+				th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a><br>
+			<a th:href="@{/client-status}" id="clientStatus" th:text="#{home.clientstatus}"></a><br> <a
+				th:href="@{/client-modification}" id="clientModification" th:text="#{home.clientmodification}"></a><br>
 			<a th:href="@{/client-deletion}" id="clientDeletion" th:text="#{home.clientdeletion}"></a><br>
 			<a th:href="@{/client-accounting}" id="clientAccounting" th:text="#{home.clientaccounting}"></a>
 		</aside>
+		<main>Main</main>
 		<footer th:replace="/fragments/footer.html :: footer"> </footer>
 	</div>
 </body>

@@ -59,11 +59,11 @@ public class ClientAccountingController {
 
 	@GetMapping("/list")
 	public String processClient(@RequestParam(value = "name") String name,
-			@RequestParam(value = "order", required = false) Integer order,
+			@RequestParam(value = "order", defaultValue = "1") int order,
 			Model model) {
-		Page<RadAcct> page = radiusService.getClientAccountingPage(name, 0);
+		Page<RadAcct> page = radiusService.getClientAccountingPage(name, order - 1);
 		model.addAttribute("accountingList", page.getContent());
-		model.addAttribute("currentPage", 1);
+		model.addAttribute("currentPage", order);
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("totalItems", page.getTotalElements());
 		return "private/client-accounting-list";
