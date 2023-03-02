@@ -22,6 +22,7 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.model;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -241,6 +242,24 @@ public class RadAcct {
 		this.framedInterfaceId = framedInterfaceId;
 		this.delegatedIpv6prefix = delegatedIpv6prefix;
 		this.clazz = clazz;
+	}
+
+	/**
+	 * Gets total input data in MB.
+	 * @return Input data.
+	 */
+	public String getAcctInputMB() {
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		return decimalFormat.format(acctInputOctets / 1048576d);
+	}
+
+	/**
+	 * Gets total output data in MB.
+	 * @return Output data.
+	 */
+	public String getAcctOutputMB() {
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		return decimalFormat.format(acctOutputOctets / 1048576d);
 	}
 
 	/**

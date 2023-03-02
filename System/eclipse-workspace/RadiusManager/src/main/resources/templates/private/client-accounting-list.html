@@ -8,38 +8,58 @@
 		<img th:src="@{/images/rubik.png}" alt="Rubik" />
 		<h1>RADIUS Manager System</h1>
 	</header>
+	<nav>
+		<ul>
+			<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}"></a></li>
+		</ul>
+	</nav>
 	<main>
-		<table>
-			<thead>
-				<tr>
-					<th th:text="#{clientaccountinglist.acctstarttime}" />
-					<th th:text="#{clientaccountinglist.acctstoptime}" />
-					<th th:text="#{clientaccountinglist.acctsessiontime}" />
-					<th th:text="#{clientaccountinglist.acctterminatecause}" />
-					<th th:text="#{clientaccountinglist.acctinputoctets}" />
-					<th th:text="#{clientaccountinglist.acctoutputoctets}" />
-					<th th:text="#{clientaccountinglist.callingstationid}" />
-					<th th:text="#{clientaccountinglist.framedipaddress}" />
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="accounting : ${accountingList}">
-					<td th:text="${accounting.acctStartTime}"></td>
-					<td th:text="${accounting.acctStopTime}"></td>
-					<td th:text="${accounting.acctSessionTime}"></td>
-					<td th:text="${accounting.acctTerminateCause}"></td>
-					<td th:text="${accounting.acctInputOctets}"></td>
-					<td th:text="${accounting.acctOutputOctets}"></td>
-					<td th:text="${accounting.callingStationId}"></td>
-					<td th:text="${accounting.framedIpAddress}"></td>
-				</tr>
-			</tbody>
-		</table>
+	<div th:text="#{clientaccountinglist.clientnumber} + ' ' + ${param.number}"></div>
+	<div th:text="#{clientaccountinglist.clientname} + ' ' + ${param.name}"></div>
+		<div class="xscroll">
+			<table>
+				<thead>
+					<tr>
+						<th th:text="#{clientaccountinglist.acctstarttime}" />
+						<th th:text="#{clientaccountinglist.acctstoptime}" />
+						<th th:text="#{clientaccountinglist.acctsessiontime}" />
+						<th th:text="#{clientaccountinglist.acctterminatecause}" />
+						<th th:text="#{clientaccountinglist.acctinputoctets}" />
+						<th th:text="#{clientaccountinglist.acctoutputoctets}" />
+						<th th:text="#{clientaccountinglist.callingstationid}" />
+						<th th:text="#{clientaccountinglist.framedipaddress}" />
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="accounting : ${accountingList}">
+						<td th:text="${accounting.acctStartTime}"></td>
+						<td th:text="${accounting.acctStopTime}"></td>
+						<td th:text="${accounting.acctSessionTime}"></td>
+						<td th:text="${accounting.acctTerminateCause}"></td>
+						<td th:text="${accounting.acctInputMB}"></td>
+						<td th:text="${accounting.acctOutputMB}"></td>
+						<td th:text="${accounting.callingStationId}"></td>
+						<td th:text="${accounting.framedIpAddress}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div th:text="#{clientaccountinglist.numberofsessions} + ' ' + ${totalItems}"></div>
 		<div th:if="${totalPages > 1}"
 			th:with="queryString='?number=' + ${param.number} + '&name=' + ${param.name}">
-			<div class="row col-sm-10">
-				<div class="col-sm-2">Total Rows: [[${totalItems}]]</div>
-				<div class="col-sm-1">
+			<div class="pagination">
+				<div class="page">
+					<a th:if="${currentPage > 1}"
+						th:href="@{'/client-accounting/list' + ${queryString} + '&order=1'}"
+						th:text="#{clientaccountinglist.first}"></a>
+					<span th:unless="${currentPage > 1}" th:text="#{clientaccountinglist.first}"></span>
+				</div>
+				<div class="page">
+					<a th:if="${currentPage > 1}"
+						th:href="@{'/client-accounting/list' + ${queryString} + '&order=' + ${currentPage - 1}}">&laquo;</a>
+					<span th:unless="${currentPage > 1}">&laquo;</span>
+				</div>
+				<div class="page">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
 						<a th:if="${currentPage != i}"
 							th:href="@{'/client-accounting/list' + ${queryString} + '&order=' + ${i}}">[[${i}]]</a>
@@ -47,23 +67,20 @@
 						&nbsp; &nbsp;
 					</span>
 				</div>
-				<div class="col-sm-1">
+				<div class="page">
 					<a th:if="${currentPage < totalPages}"
-						th:href="@{'/client-accounting/list' + ${queryString} + '&order=' + ${currentPage + 1}}">Next</a>
-					<span th:unless="${currentPage < totalPages}">Next</span>
+						th:href="@{'/client-accounting/list' + ${queryString} + '&order=' + ${currentPage + 1}}">&raquo;</a>
+					<span th:unless="${currentPage < totalPages}">&raquo;</span>
 				</div>
-
-				<div class="col-sm-1">
+				<div class="page">
 					<a th:if="${currentPage < totalPages}"
-						th:href="@{'/client-accounting/list' + ${queryString} + '&order=' + ${totalPages}}">Last</a>
-					<span th:unless="${currentPage < totalPages}">Last</span>
+						th:href="@{'/client-accounting/list' + ${queryString} + '&order=' + ${totalPages}}"
+						th:text="#{clientaccountinglist.last}"></a>
+					<span th:unless="${currentPage < totalPages}" th:text="#{clientaccountinglist.last}"></span>
 				</div>
 			</div>
 		</div>
 	</main>
-	<aside>
-		<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
-	</aside>
 	<footer th:replace="/fragments/footer.html :: footer"> </footer>
 </div>
 </body>

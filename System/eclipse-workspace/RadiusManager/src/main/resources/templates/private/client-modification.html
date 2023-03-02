@@ -11,65 +11,90 @@
 </script>
 </head>
 <body>
-	<div id="container">
+	<div class="container">
 		<header>
 			<img th:src="@{/images/rubik.png}" alt="Rubik" />
 			<h1>RADIUS Manager System</h1>
 		</header>
+		<nav>
+			<ul>
+				<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}"></a></li>
+			</ul>
+		</nav>
 		<main>
-			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
 			<form method="post" id="form" th:action="@{/client-modification}" th:object="${client}">
 				<fieldset>
 					<legend>
 						<b th:text="#{clientmodification.title}"></b>
 					</legend>
-					<div class="grid">
-						<input type="hidden" id="id" th:field="*{id}">
-						<div>
+					<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
+					<input type="hidden" id="id" th:field="*{id}">
+					<div class="row">
+						<div class="column">
 							<label for="number" th:text="#{clientmodification.number}"></label>
+						</div>
+						<div class="column">
 							<input type="text" id="number" name="number" th:field="*{number}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
-
 						</div>
-						<div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="name" th:text="#{clientmodification.name}"></label>
-							<input type="text" id="name" name="name" th:field="*{name}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 						</div>
-						<div>
+						<div class="column">
+							<input type="text" id="name" name="name" th:field="*{name}">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="password" th:text="#{clientmodification.password}"></label>
+						</div>
+						<div class="column">
 							<input type="text" id="password" name="password" th:field="*{password}" class="toggleable">
 							<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 						</div>
-						<div>
-							<label for="radusergroup" th:text="#{clientmodification.radusergroup}"></label> <select
-								id="radusergroup" name="radUserGroup" th:field="*{radUserGroup}" class="toggleable">
+					</div>
+					<div class="row">
+						<div class="column">
+							<label for="radusergroup" th:text="#{clientmodification.radusergroup}"></label>
+						</div>
+						<div class="column">
+							<select id="radusergroup" name="radUserGroup" th:field="*{radUserGroup}" class="toggleable">
 								<option value="0" th:text="#{common.select}" />
 								<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
 									th:value="${radUserGroup.id}" />
 							</select>
-							<span class="errorMessage" th:if="${#fields.hasErrors('radUserGroup')}"
-								th:errors="*{radUserGroup}"></span>
 						</div>
-						<div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('radUserGroup')}"
+							th:errors="*{radUserGroup}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="ipaddress" th:text="#{clientmodification.ipaddress}"></label>
-							<input type="text" id="ipaddress" name="ipAddress" th:field="*{ipAddress}" class="toggleable">
-							<span class="errorMessage" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></span>
 						</div>
-						<div>
+						<div class="column">
+							<input type="text" id="ipaddress" name="ipAddress" th:field="*{ipAddress}" class="toggleable">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="suspended" th:text="#{clientmodification.suspended}"></label>
+						</div>
+						<div class="column">
 							<input type="checkbox" id="suspended" name="suspended" th:field="*{suspended}"
 								class="toggleable">
 						</div>
+					</div>
+					<div class="row">
 						<input type="reset" th:value="#{clientstatus.reset}" onclick="disable()" />
-						<input type="submit" th:value="#{clientmodification.modify}" class="button toggleable" />
+						<input type="submit" th:value="#{clientmodification.modify}" class="toggleable" />
 					</div>
 				</fieldset>
 			</form>
 		</main>
-		<aside>
-			<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
-		</aside>
 		<footer th:replace="/fragments/footer.html :: footer"> </footer>
 	</div>
 </body>

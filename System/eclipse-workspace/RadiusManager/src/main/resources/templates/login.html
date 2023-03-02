@@ -4,31 +4,38 @@
 <div th:replace="/fragments/head.html :: head(#{common.header})"></div>
 </head>
 <body>
-	<div id="container">
+	<div class="container">
 		<header>
 			<img th:src="@{/images/rubik.png}" alt="Rubik" />
 			<h1>RADIUS Manager System</h1>
 		</header>
-		<main>
-			<div th:if="${loginError}" class="errorMessage" th:text="#{login.wrong}"></div>
-			<div th:if="${loginLocked}" class="errorMessage" th:text="#{login.locked}"></div>
-			<form method="post" th:action="@{/login}" id="loginForm" class="login">
+		<main class="login">
+			<form method="post" th:action="@{/login}" id="loginForm">
 				<fieldset>
 					<legend>
 						<b th:text="#{login.title}"></b>
 					</legend>
-					<div class="grid">
-						<div>
+					<div th:if="${loginError}" class="errorMessage" th:text="#{login.wrong}"></div>
+					<div th:if="${loginLocked}" class="errorMessage" th:text="#{login.locked}"></div>
+					<div class="row">
+						<div class="column">
 							<label for="user" th:text="#{login.user}"></label>
+						</div>
+						<div class="column">
 							<input type="text" name="user">
 						</div>
-						<div>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="password" th:text="#{login.password}"></label>
+						</div>
+						<div class="column">
 							<input type="password" name="password">
 						</div>
 					</div>
-					<br>
-					<input type="submit" th:value="#{common.login}" />
+					<div class="row">
+						<input type="submit" th:value="#{common.login}" />
+					</div>
 				</fieldset>
 			</form>
 		</main>

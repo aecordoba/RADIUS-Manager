@@ -24,12 +24,17 @@
 			</span>
 		</div>
 		<nav>
-			<a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a> <a
-				th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a> <a
-				th:href="@{/client-status}" id="clientStatus" th:text="#{home.clientstatus}"></a> <a
-				th:href="@{/client-modification}" id="clientModification" th:text="#{home.clientmodification}"></a>
-			<a th:href="@{/client-deletion}" id="clientDeletion" th:text="#{home.clientdeletion}"></a> <a
-				th:href="@{/client-accounting}" id="clientAccounting" th:text="#{home.clientaccounting}"></a>
+			<ul>
+				<li><a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a></li>
+				<li><a th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a></li>
+				<li><a th:href="@{/client-status}" id="clientStatus" th:text="#{home.clientstatus}"></a></li>
+				<li><a th:href="@{/client-modification}" id="clientModification"
+					th:text="#{home.clientmodification}"></a></li>
+				<li><a th:href="@{/client-deletion}" id="clientDeletion" th:text="#{home.clientdeletion}"></a></li>
+				<li><a th:href="@{/client-accounting}" id="clientAccounting"
+					th:text="#{home.clientaccounting}"></a></li>
+				<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}" class="active"></a></li>
+			</ul>
 		</nav>
 		<main>Main</main>
 		<footer th:replace="/fragments/footer.html :: footer"> </footer>

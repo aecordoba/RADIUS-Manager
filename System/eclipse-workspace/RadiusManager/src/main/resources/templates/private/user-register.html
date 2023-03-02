@@ -1,75 +1,108 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<div th:replace="/fragments/head.html :: head(#{userregister.title})"></div>
+<div th:replace="/fragments/head.html :: head(#{userregister.title})"></div>
 </head>
 <body>
-	<div id="container">
+	<div class="container">
 		<header>
 			<img th:src="@{/images/rubik.png}" alt="Rubik" />
 			<h1>RADIUS Manager System</h1>
 		</header>
+		<nav>
+			<ul>
+				<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}"></a></li>
+			</ul>
+		</nav>
 		<main>
-			<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
 			<form method="post" th:action="@{/user-register}" th:object="${userRegister}">
 				<fieldset>
 					<legend>
 						<b th:text="#{userregister.title}"></b>
 					</legend>
-					<div class="grid">
-						<div>
+					<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
+					<div class="row">
+						<div class="column">
 							<label for="user" th:text="#{userregister.user}"></label>
+						</div>
+						<div class="column">
 							<input type="text" id="user" th:field="*{name}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-
 						</div>
-						<div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="password" th:text="#{userregister.password}"></label>
+						</div>
+						<div class="column">
 							<input type="password" id="password" th:field="*{password}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 						</div>
-						<div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="confirmpassword" th:text="#{userregister.confirmpassword}"></label>
-							<input type="password" id="confirmpassword" th:field="*{confirmPassword}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('confirmPassword')}"
-								th:errors="*{confirmPassword}"></span>
 						</div>
-						<div>
-							<label for="authority" th:text="#{userregister.authority}"></label> <select id="authority"
-								th:field="*{authorities}">
+						<div class="column">
+							<input type="password" id="confirmpassword" th:field="*{confirmPassword}">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('confirmPassword')}"
+							th:errors="*{confirmPassword}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
+							<label for="authority" th:text="#{userregister.authority}"></label>
+						</div>
+						<div class="column">
+							<select id="authority" th:field="*{authorities}">
 								<option value="" th:text="#{common.select}" />
 								<option th:each="authority : ${authorities}" th:text="${authority.name}"
 									th:value="${authority.id}" />
 							</select>
-							<span class="errorMessage" th:if="${#fields.hasErrors('authorities')}"
-								th:errors="*{authorities}"></span>
 						</div>
-						<div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('authorities')}"
+							th:errors="*{authorities}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="enabled" th:text="#{userregister.enabled}"></label>
+						</div>
+						<div class="column">
 							<input type="checkbox" id="enabled" th:field="*{enabled}">
 						</div>
-						<div>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="firstname" th:text="#{userregister.firstname}"></label>
-							<input type="text" id="firstname" th:field="*{firstName}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
 						</div>
-						<div>
+						<div class="column">
+							<input type="text" id="firstname" th:field="*{firstName}">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="middlename" th:text="#{userregister.middlename}"></label>
+						</div>
+						<div class="column">
 							<input type="text" id="middlename" th:field="*{middleName}">
 						</div>
-						<div>
+					</div>
+					<div class="row">
+						<div class="column">
 							<label for="lastname" th:text="#{userregister.lastname}"></label>
-							<input type="text" id="lastname" th:field="*{lastName}">
-							<span class="errorMessage" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
 						</div>
-						<input type="submit" th:value="#{userregister.register}" class="button" />
+						<div class="column">
+							<input type="text" id="lastname" th:field="*{lastName}">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+					</div>
+					<div class="row">
+						<input type="submit" th:value="#{userregister.register}"/>
 					</div>
 				</fieldset>
 			</form>
 		</main>
-		<aside>
-			<a th:href="@{/}" id="home" th:text="#{common.home}"></a>
-		</aside>
 		<footer th:replace="/fragments/footer.html :: footer"> </footer>
 	</div>
 </body>
