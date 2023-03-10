@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="/fragments/head.html :: head(#{bulkstatuschange.title})"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="/scripts/status_change.js"></script>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<img th:src="@{/images/rubik.png}" alt="Rubik" />
+			<h1>RADIUS Manager System</h1>
+		</header>
+		<nav>
+			<ul>
+				<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}"></a></li>
+			</ul>
+		</nav>
+		<main>
+			<div class="bulkstatuschange">
+				<fieldset>
+					<legend>
+						<b th:text="#{bulkstatuschange.title}"></b>
+					</legend>
+					<div class="row">
+						<input type="file" accept="text/plain" id="file" name="file" />
+					</div>
+					<div class="row">
+						<div class="column">
+							<input type="radio" id="suspend" name="suspend" value="true">
+							<label for="suspend" th:text="#{bulkstatuschange.suspend}"></label>
+						</div>
+						<div class="column">
+							<input type="radio" id="activate" name="suspend" value="false" checked="checked">
+							<label for="activate" th:text="#{bulkstatuschange.activate}"></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="column"></div>
+						<div class="column"></div>
+					</div>
+					<div class="row">
+						<button type="button" th:text="#{bulkstatuschange.send}" onclick="process_file()"></button>
+					</div>
+				</fieldset>
+			</div>
+			<br>
+			<table>
+				<thead>
+					<tr>
+						<th th:text="#{bulkstatuschange.number}" />
+						<th th:text="#{bulkstatuschange.result}" />
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</main>
+		<footer th:replace="/fragments/footer.html :: footer"> </footer>
+	</div>
+</body>
+</html>

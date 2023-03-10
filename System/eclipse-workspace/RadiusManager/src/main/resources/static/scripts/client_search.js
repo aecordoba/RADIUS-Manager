@@ -9,7 +9,7 @@
 		if($("#number").val().length > 6){
 			data["number"] = $("#number").val();
 			data["name"] = "";
-			get_client(data);
+			get_client();
 		}else{
 			$(".toggleable").prop("disabled", true);
 		}

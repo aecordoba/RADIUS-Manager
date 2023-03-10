@@ -53,7 +53,8 @@ public class SecurityConfiguration {
 		return http.requiresChannel().anyRequest().requiresSecure().and().authorizeRequests()
 				.antMatchers("/client-search", "/client-accounting", "/client-accounting/list")
 				.hasAnyAuthority("ADMIN", "USER", "OBSERVER")
-				.antMatchers("/client-creation", "/client-status", "/client-modification", "/client-deletion")
+				.antMatchers("/client-creation", "/client-status", "/client-modification", "/client-deletion",
+						"/bulk-status-change", "/status-change")
 				.hasAnyAuthority("ADMIN", "USER")
 				.antMatchers("/user-register").hasAuthority("ADMIN")
 				.antMatchers("/", "/**").permitAll()
