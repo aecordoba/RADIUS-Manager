@@ -22,10 +22,12 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,47 +50,53 @@ public class StatusChangeController {
 
 	private ClientService clientService;
 	private RadiusService radiusService;
+	private MessageSource messageSource;
 
 	/**
 	 * @param clientService
 	 * @param radiusService
 	 */
-	public StatusChangeController(ClientService clientService, RadiusService radiusService) {
+	public StatusChangeController(ClientService clientService, RadiusService radiusService,
+			MessageSource messageSource) {
 		super();
 		this.clientService = clientService;
 		this.radiusService = radiusService;
+		this.messageSource = messageSource;
 	}
 
 	@RequestMapping(value = "/status-change", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Response> changeStatus(@RequestParam("number") String number,
-			@RequestParam("suspend") Boolean suspend) {
+			@RequestParam("suspend") Boolean suspend, Locale locale) {
 		if (number.contains(",")) {
 			String[] components = number.split(",");
 			number = components[0];
 			suspend = Boolean.valueOf(components[1]);
 		}
-
-		String result = changeClientStatus(number, suspend);
+		String result = changeClientStatus(number, suspend, locale);
 		return ResponseEntity.ok(new Response(number, result));
 	}
 
-	private String changeClientStatus(String number, boolean suspend) {
+	private String changeClientStatus(String number, boolean suspend, Locale locale) {
 		String result = "OK";
 		Optional<Client> clientOptional = clientService.getClientByNumber(number);
 		if (clientOptional.isPresent()) {
 			Client client = clientOptional.get();
+			result = messageSource.getMessage("bulkstatuschange.noststuschange", null, locale);
 			if (client.isSuspended() != suspend) {
 				client.setSuspended(suspend);
 				clientService.updateClient(client);
 				radiusService.deleteClient(client);
 				radiusService.configureClient(client);
-				if (client.isSuspended())
+				if (client.isSuspended()) {
 					radiusService.applyRateLimit(client);
-				else
+					result = messageSource.getMessage("bulkstatuschange.suspended", null, locale);
+				} else {
 					radiusService.disconnect(client);
+					result = messageSource.getMessage("bulkstatuschange.enabled", null, locale);
+				}
 			}
 		} else
-			result = "NG";
+			result = messageSource.getMessage("bulkstatuschange.doesntexist", null, locale);
 		return result;
 	}
 

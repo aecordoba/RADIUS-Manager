@@ -36,10 +36,6 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="column"></div>
-						<div class="column"></div>
-					</div>
-					<div class="row">
 						<button type="button" th:text="#{bulkstatuschange.send}" onclick="process_file()"></button>
 					</div>
 				</fieldset>
@@ -54,7 +50,8 @@
 				</thead>
 				<tbody>
 				</tbody>
-			</table>
+			</table> 
+			<span th:text="#{bulkstatuschange.finished}" hidden="true"></span>
 		</main>
 		<footer th:replace="/fragments/footer.html :: footer"> </footer>
 	</div>
