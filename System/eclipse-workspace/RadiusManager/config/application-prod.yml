@@ -1,3 +1,10 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: true
+  resources:
+    static-locations: classpath:/static/
+
 logging:
   level:
     spring: warn

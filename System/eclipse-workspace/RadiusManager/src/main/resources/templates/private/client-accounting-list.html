@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="/fragments/head.html :: head(#{clientaccountinglist.title})"></div>
+<div th:replace="fragments/head.html :: head(#{clientaccountinglist.title})"></div>
 </head>
 <div class="container">
 	<header>
@@ -81,7 +81,7 @@
 			</div>
 		</div>
 	</main>
-	<footer th:replace="/fragments/footer.html :: footer"> </footer>
+	<footer th:replace="fragments/footer.html :: footer"> </footer>
 </div>
 </body>
 </html>

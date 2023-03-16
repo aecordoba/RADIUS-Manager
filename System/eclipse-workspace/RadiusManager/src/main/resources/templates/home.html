@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="/fragments/head.html :: head(#{common.header})"></div>
+<div th:replace="fragments/head.html :: head(#{common.header})"></div>
 </head>
 <body>
 	<div class="container">
@@ -38,8 +38,8 @@
 				<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}" class="active"></a></li>
 			</ul>
 		</nav>
-		<main>Main</main>
-		<footer th:replace="/fragments/footer.html :: footer"> </footer>
+		<main></main>
+		<footer th:replace="fragments/footer.html :: footer"> </footer>
 	</div>
 </body>
 </html>
