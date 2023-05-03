@@ -36,7 +36,6 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.SuspendedUs
  */
 public class SuspendedUsersProfilesService {
 	private SuspendedUsersProfilesRepository suspendedUsersProfilesRepository;
-	private List<SuspendedUsersProfile> suspendedUsersProfilesList;
 
 	/**
 	 * @param suspendedUsersProfilesRepository
@@ -44,21 +43,22 @@ public class SuspendedUsersProfilesService {
 	public SuspendedUsersProfilesService(SuspendedUsersProfilesRepository suspendedUsersProfilesRepository) {
 		super();
 		this.suspendedUsersProfilesRepository = suspendedUsersProfilesRepository;
-		suspendedUsersProfilesList = (List<SuspendedUsersProfile>) suspendedUsersProfilesRepository.findAll();
 	}
 
 	public boolean isSuspendedUsersProfile(RadUserGroup radUserGroup) {
 		boolean result = false;
-		for (SuspendedUsersProfile suspendedUserProfile : suspendedUsersProfilesList) {
-			if (radUserGroup.equals(suspendedUserProfile.getRadUserGroup())) {
-				result = true;
-				break;
-			}
-		}
+		if (radUserGroup.equals(getSuspendedUsersProfile().getRadUserGroup()))
+			result = true;
 		return result;
 	}
 
 	public RadUserGroup getSuspendedRadUserGroup() {
-		return suspendedUsersProfilesList.get(0).getRadUserGroup();
+		return getSuspendedUsersProfile().getRadUserGroup();
+	}
+
+	private SuspendedUsersProfile getSuspendedUsersProfile() {
+		List<SuspendedUsersProfile> suspendedUsersProfilesList = (List<SuspendedUsersProfile>) suspendedUsersProfilesRepository
+				.findAll();
+		return suspendedUsersProfilesList.get(0);
 	}
 }
