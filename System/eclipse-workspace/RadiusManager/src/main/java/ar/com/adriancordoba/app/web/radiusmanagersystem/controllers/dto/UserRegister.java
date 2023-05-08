@@ -35,7 +35,7 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.model.User;
 
 @FieldsMatch(first = "password", second = "confirmPassword", message = "{userregister.errors.password.mismatch}")
 /**
- * @author Adrián E. Córdoba [softwa super(); re.asia@gmail.com]
+ * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class UserRegister {
 	@NotEmpty(message = "{userregister.errors.user.required}")

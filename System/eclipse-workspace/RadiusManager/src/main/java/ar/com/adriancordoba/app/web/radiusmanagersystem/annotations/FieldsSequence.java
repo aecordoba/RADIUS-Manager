@@ -1,5 +1,5 @@
 /*
- * 		FieldsMatch.java
+ * 		FieldsSequence.java
  *   Copyright (C) 2023  Adrián E. Córdoba [software.asia@gmail.com]
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
  */
 
 /**
- * 		FieldMatch.java
- *  Adrián E. Córdoba [software.asia@gmail.com]		Jan 13, 2023
+ * 		FieldsSequence.java
+ *  Adrián E. Córdoba [software.asia@gmail.com]		May 7, 2023
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.annotations;
 
@@ -36,12 +36,12 @@ import javax.validation.Payload;
 @Documented
 @Retention(RUNTIME)
 @Target({ TYPE, ANNOTATION_TYPE })
-@Constraint(validatedBy = FieldsMatchValidator.class)
+@Constraint(validatedBy = FieldsSequenceValidator.class)
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public @interface FieldsMatch {
-	String message() default "Fields mismatch.";
+public @interface FieldsSequence {
+	String message() default "Fields sequence.";
 
 	Class<?>[] groups() default {};
 
@@ -55,6 +55,7 @@ public @interface FieldsMatch {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		FieldsMatch[] value();
+		FieldsSequence[] value();
 	}
+
 }

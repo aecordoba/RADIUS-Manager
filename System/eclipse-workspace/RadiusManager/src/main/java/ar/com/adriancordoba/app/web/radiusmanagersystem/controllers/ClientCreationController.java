@@ -81,7 +81,7 @@ public class ClientCreationController {
 	}
 
 	@PostMapping
-	public String processClientcreation(@Valid Client client, Errors errors, Model model) {
+	public String processClientCreation(@Valid Client client, Errors errors, Model model) {
 		if (errors.hasErrors())
 			return "private/client-creation";
 		else {

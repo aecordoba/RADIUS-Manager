@@ -1,4 +1,9 @@
 spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/RadiusManager"
+    username: "rmapp"
+    password: "rmapp123"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
   thymeleaf:
     prefix: classpath:/templates/
     cache: true
@@ -6,6 +11,7 @@ spring:
     static-locations: classpath:/static/
 
 logging:
+  config: config/log4j2.xml
   level:
     spring: warn
     ar: info
@@ -15,3 +21,10 @@ management:
     health:
       show-details: when-authorized
       roles: ADMIN
+
+nas:
+  port: 3799
+suspended-users:
+  rate-limit: "1024k/1024k"
+accounting-paging:
+  page-size: 10

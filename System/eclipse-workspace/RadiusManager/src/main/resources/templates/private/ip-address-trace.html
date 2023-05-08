@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/head.html :: head(#{ipaddresstrace.title})"></div>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<img th:src="@{/images/rubik.png}" alt="Rubik" />
+			<h1>RADIUS Manager System</h1>
+		</header>
+		<nav>
+			<ul>
+				<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}"></a></li>
+			</ul>
+		</nav>
+		<main>
+			<form method="post" th:action="@{/ip-address-trace}" th:object="${ipAddressTrace}">
+				<fieldset>
+					<legend>
+						<b th:text="#{ipaddresstrace.title}"></b>
+					</legend>
+					<div th:if="${exception}" class="errorMessage" th:text="#{${exception}}"></div>
+					<div class="row">
+						<div class="column">
+							<label for="ipaddress" th:text="#{ipaddresstrace.ipaddress}"></label>
+						</div>
+						<div class="column">
+							<input type="text" id="ipaddress" th:field="*{ipAddress}">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}">Error</span>
+					</div>
+					<div class="row">
+						<div class="column">
+							<label for="from" th:text="#{ipaddresstrace.from}"></label>
+						</div>
+						<div class="column">
+							<input type="datetime-local" id="from">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('from')}" th:errors="*{from}"></span>
+					</div>
+					<div class="row">
+						<div class="column">
+							<label for="to" th:text="#{ipaddresstrace.to}"></label>
+						</div>
+						<div class="column">
+							<input type="datetime-local" id="to">
+						</div>
+						<span class="errorMessage" th:if="${#fields.hasErrors('to')}" th:errors="*{to}"></span>
+					</div>
+
+
+
+
+					<div class="row">
+						<input type="submit" th:value="#{ipaddresstrace.trace}" />
+					</div>
+				</fieldset>
+			</form>
+			<br>
+			<table>
+				<thead>
+					<tr>
+						<th th:text="#{ipaddresstrace.clientnumber}" />
+						<th th:text="#{ipaddresstrace.clientname}" />
+						<th th:text="#{ipaddresstrace.ipaddress}" />
+						<th th:text="#{ipaddresstrace.starttime}" />
+						<th th:text="#{ipaddresstrace.stoptime}" />
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<span th:text="#{bulkstatuschange.finished}" hidden="true"></span>
+		</main>
+		<footer th:replace="fragments/footer.html :: footer"> </footer>
+	</div>
+</body>
+</html>

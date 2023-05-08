@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 public class BulkStatusChangeController {
 	@GetMapping
-	public String clientModificationForm() {
+	public String bulkStatusChange() {
 		return "private/bulk-status-change";
 	}
 }
