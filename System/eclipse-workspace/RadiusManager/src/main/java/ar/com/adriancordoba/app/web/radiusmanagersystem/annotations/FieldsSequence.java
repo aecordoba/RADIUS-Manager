@@ -47,9 +47,13 @@ public @interface FieldsSequence {
 
 	Class<? extends Payload>[] payload() default {};
 
-	String first();
+	String fromDateFieldName();
 
-	String second();
+	String fromTimeFieldName();
+
+	String toDateFieldName();
+
+	String toTimeFieldName();
 
 	@Target({ TYPE, ANNOTATION_TYPE })
 	@Retention(RUNTIME)
@@ -57,5 +61,4 @@ public @interface FieldsSequence {
 	@interface List {
 		FieldsSequence[] value();
 	}
-
 }

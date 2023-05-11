@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: "jdbc:mysql://localhost:3306/RadiusManager"
+    url: "jdbc:mysql://170.231.179.246:3306/RadiusManager"
     username: "rmapp"
     password: "rmapp123"
     driver-class-name: "com.mysql.cj.jdbc.Driver"

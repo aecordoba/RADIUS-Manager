@@ -22,41 +22,75 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.annotations.FieldsSequence;
 
-@FieldsSequence(first = "from", second = "to", message = "{ipaddresstrace.errors.datessequence}")
+@FieldsSequence(fromDateFieldName = "fromDate", fromTimeFieldName = "fromTime", toDateFieldName = "toDate", toTimeFieldName = "toTime", message = "{ipaddresstrace.errors.datessequence}")
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class IPAddressTrace {
-	// @NotEmpty(message = "ipaddresstrace.errors.ipaddressempty")
+	@NotBlank(message = "{ipaddresstrace.errors.ipaddressempty}")
 	@Pattern(regexp = "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message = "{ipaddresstrace.errors.ipaddress}")
 	private String ipAddress;
-	// @NotEmpty(message = "ipaddresstrace.errors.date")
-	private LocalDateTime from;
-	// @NotEmpty(message = "ipaddresstrace.errors.date")
-	private LocalDateTime to;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fromDate;
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime fromTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate toDate;
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime toTime;
 
 	/**
 	 * @param ipAddress
-	 * @param from
-	 * @param to
+	 * @param fromDate
+	 * @param fromTime
+	 * @param toDate
+	 * @param toTime
 	 */
-	public IPAddressTrace(String ipAddress, LocalDateTime from, LocalDateTime to) {
+	public IPAddressTrace(
+			@NotBlank(message = "{ipaddresstrace.errors.ipaddressempty}") @Pattern(regexp = "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message = "{ipaddresstrace.errors.ipaddress}") String ipAddress,
+			LocalDate fromDate, LocalTime fromTime, LocalDate toDate, LocalTime toTime) {
 		super();
 		this.ipAddress = ipAddress;
-		this.from = from;
-		this.to = to;
+		this.fromDate = fromDate;
+		this.fromTime = fromTime;
+		this.toDate = toDate;
+		this.toTime = toTime;
 	}
 
 	/**
 	 * 
 	 */
 	public IPAddressTrace() {
+		super();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Trace to " + getIpAddress() + " from " + getFrom() + " to " + getTo() + ".";
+	}
+
+	public LocalDateTime getFrom() {
+		return LocalDateTime.of(fromDate, fromTime);
+	}
+
+	public LocalDateTime getTo() {
+		return LocalDateTime.of(toDate, toTime);
 	}
 
 	/**
@@ -74,30 +108,58 @@ public class IPAddressTrace {
 	}
 
 	/**
-	 * @return the from
+	 * @return the fromDate
 	 */
-	public LocalDateTime getFrom() {
-		return from;
+	public LocalDate getFromDate() {
+		return fromDate;
 	}
 
 	/**
-	 * @param from the from to set
+	 * @param fromDate the fromDate to set
 	 */
-	public void setFrom(LocalDateTime from) {
-		this.from = from;
+	public void setFromDate(LocalDate fromDate) {
+		this.fromDate = fromDate;
 	}
 
 	/**
-	 * @return the to
+	 * @return the fromTime
 	 */
-	public LocalDateTime getTo() {
-		return to;
+	public LocalTime getFromTime() {
+		return fromTime;
 	}
 
 	/**
-	 * @param to the to to set
+	 * @param fromTime the fromTime to set
 	 */
-	public void setTo(LocalDateTime to) {
-		this.to = to;
+	public void setFromTime(LocalTime fromTime) {
+		this.fromTime = fromTime;
+	}
+
+	/**
+	 * @return the toDate
+	 */
+	public LocalDate getToDate() {
+		return toDate;
+	}
+
+	/**
+	 * @param toDate the toDate to set
+	 */
+	public void setToDate(LocalDate toDate) {
+		this.toDate = toDate;
+	}
+
+	/**
+	 * @return the toTime
+	 */
+	public LocalTime getToTime() {
+		return toTime;
+	}
+
+	/**
+	 * @param toTime the toTime to set
+	 */
+	public void setToTime(LocalTime toTime) {
+		this.toTime = toTime;
 	}
 }

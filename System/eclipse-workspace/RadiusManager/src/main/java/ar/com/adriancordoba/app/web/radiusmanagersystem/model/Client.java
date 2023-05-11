@@ -54,7 +54,7 @@ public class Client {
 	private String name;
 	@NotEmpty(message = "{clientcreation.errors.password.required}")
 	private String password;
-	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "radusergroup")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private RadUserGroup radUserGroup;

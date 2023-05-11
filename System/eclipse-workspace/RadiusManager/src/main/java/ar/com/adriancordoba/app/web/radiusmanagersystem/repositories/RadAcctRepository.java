@@ -22,6 +22,8 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
+import java.time.LocalDateTime;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -35,6 +37,9 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
 public interface RadAcctRepository extends PagingAndSortingRepository<RadAcct, Long> {
 	@Query(value = "SELECT * FROM radacct WHERE username = ?1 AND acctstoptime IS NULL;", nativeQuery = true)
 	Iterable<RadAcct> findActiveRadAcct(String name);
+
+	@Query(value = "SELECT * FROM radacct WHERE framedipaddress = ?1 AND ((acctstoptime >= ?2 AND acctstarttime < ?2) OR (acctstarttime >= ?2 AND acctstarttime <= ?3));", nativeQuery = true)
+	Iterable<RadAcct> findIPAddressInPeriod(String ipAddress, LocalDateTime from, LocalDateTime to);
 
 	Page<RadAcct> findByUserName(String userName, Pageable pageable);
 }

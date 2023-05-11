@@ -22,8 +22,14 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,6 +39,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.IPAddressTrace;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.Trace;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadAcct;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.ClientService;
+import ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService;
 
 @Controller
 @RequestMapping("/ip-address-trace")
@@ -40,6 +51,20 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.controllers.dto.IPAddres
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class IPAddressTraceController {
+	private static final Logger log = LogManager.getLogger(IPAddressTraceController.class);
+
+	private RadiusService radiusService;
+	private ClientService clientService;
+
+	/**
+	 * @param radiusService
+	 */
+	public IPAddressTraceController(RadiusService radiusService, ClientService clientService) {
+		super();
+		this.radiusService = radiusService;
+		this.clientService = clientService;
+	}
+
 	@ModelAttribute(name = "ipAddressTrace")
 	public IPAddressTrace getIPAddressTrace() {
 		return new IPAddressTrace();
@@ -53,11 +78,30 @@ public class IPAddressTraceController {
 	@PostMapping
 	public String processIPAddressTrace(@Valid @ModelAttribute(name = "ipAddressTrace") IPAddressTrace ipAddressTrace,
 			Errors errors, Model model) {
-		System.out.println("from: " + ipAddressTrace.getFrom());
-		System.out.println("to: " + ipAddressTrace.getTo());
-		if (errors.hasErrors())
-			return "private/ip-address-trace";
-		else
-			return "redirect:/";
+		if (!errors.hasErrors()) {
+			model.addAttribute("tracesList", getTracesList(ipAddressTrace));
+			log.info(ipAddressTrace);
+		}
+		return "private/ip-address-trace";
+	}
+
+	private List<Trace> getTracesList(IPAddressTrace ipAddressTrace) {
+		List<Trace> tracesList = new ArrayList<>();
+		List<RadAcct> ipAddressTracesList = radiusService.getIPAddressTraces(ipAddressTrace.getIpAddress(),
+				ipAddressTrace.getFrom(), ipAddressTrace.getTo());
+		for (RadAcct radAcct : ipAddressTracesList) {
+			String userName = radAcct.getUserName();
+			Client client = clientService.getClientByName(userName).orElse(null);
+			String clientNumber = "";
+			if (client != null)
+				clientNumber = client.getNumber();
+			String framedIpAddress = radAcct.getFramedIpAddress();
+			LocalDateTime acctStartTime = radAcct.getAcctStartTime();
+			LocalDateTime acctStopTime = radAcct.getAcctStopTime();
+
+			Trace trace = new Trace(clientNumber, userName, framedIpAddress, acctStartTime, acctStopTime);
+			tracesList.add(trace);
+		}
+		return tracesList;
 	}
 }

@@ -22,6 +22,7 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -46,6 +47,8 @@ public interface RadiusService {
 
 	Page<RadAcct> getClientAccountingPage(String userName, int pageNumber, int pageSize, String sortField,
 			Sort.Direction sortDirection);
+
+	List<RadAcct> getIPAddressTraces(String ipAddress, LocalDateTime from, LocalDateTime to);
 
 	void disconnect(Client client);
 

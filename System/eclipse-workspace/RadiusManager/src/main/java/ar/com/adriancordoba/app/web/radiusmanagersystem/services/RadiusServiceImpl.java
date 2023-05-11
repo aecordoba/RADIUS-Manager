@@ -22,6 +22,7 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -159,6 +160,19 @@ public class RadiusServiceImpl implements RadiusService {
 		Order order = new Order(sortDirection, sortField);
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(order));
 		return radAcctRepository.findByUserName(userName, pageable);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * getIPAddressSesions(java.lang.String, java.time.LocalDateTime,
+	 * java.time.LocalDateTime)
+	 */
+	@Override
+	public List<RadAcct> getIPAddressTraces(String ipAddress, LocalDateTime from, LocalDateTime to) {
+		return (List<RadAcct>) radAcctRepository.findIPAddressInPeriod(ipAddress, from, to);
 	}
 
 	/*

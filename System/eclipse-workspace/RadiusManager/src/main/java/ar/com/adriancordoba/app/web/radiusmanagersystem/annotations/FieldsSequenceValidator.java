@@ -22,38 +22,57 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.annotations;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 /**
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
-public class FieldsSequenceValidator implements ConstraintValidator<FieldsSequence, LocalDateTime> {
-	private LocalDateTime first;
-	private LocalDateTime second;
+public class FieldsSequenceValidator implements ConstraintValidator<FieldsSequence, Object> {
+	private String fromDateFieldName;
+	private String fromTimeFieldName;
+	private String toDateFieldName;
+	private String toTimeFieldName;
 	private String message;
 
 	@Override
 	public void initialize(final FieldsSequence constraintAnnotation) {
-		first = LocalDateTime.parse(constraintAnnotation.first());
-		second = LocalDateTime.parse(constraintAnnotation.second());
+		fromDateFieldName = constraintAnnotation.fromDateFieldName();
+		fromTimeFieldName = constraintAnnotation.fromTimeFieldName();
+		toDateFieldName = constraintAnnotation.toDateFieldName();
+		toTimeFieldName = constraintAnnotation.toTimeFieldName();
 		message = constraintAnnotation.message();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
-	 * javax.validation.ConstraintValidatorContext)
-	 */
 	@Override
-	public boolean isValid(LocalDateTime value, ConstraintValidatorContext context) {
+	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		boolean result = false;
-		if (first.isAfter(second))
-			result = true;
+		try {
+			final LocalDate fromDate = LocalDate.parse(BeanUtils.getProperty(value, fromDateFieldName));
+			final LocalTime fromTime = LocalTime.parse(BeanUtils.getProperty(value, fromTimeFieldName));
+			final LocalDate toDate = LocalDate.parse(BeanUtils.getProperty(value, toDateFieldName));
+			final LocalTime toTime = LocalTime.parse(BeanUtils.getProperty(value, toTimeFieldName));
+
+			final LocalDateTime from = LocalDateTime.of(fromDate, fromTime);
+			final LocalDateTime to = LocalDateTime.of(toDate, toTime);
+
+			if (from.isBefore(to))
+				result = true;
+		} catch (final Exception ignore) {
+			// Ignore.
+		}
+		if (!result) {
+			context.buildConstraintViolationWithTemplate(message)
+					.addPropertyNode(toTimeFieldName)
+					.addConstraintViolation()
+					.disableDefaultConstraintViolation();
+		}
 		return result;
 	}
-
 }

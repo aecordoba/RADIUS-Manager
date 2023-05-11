@@ -32,46 +32,51 @@
 					</div>
 					<div class="row">
 						<div class="column">
-							<label for="from" th:text="#{ipaddresstrace.from}"></label>
+							<label for="fromDate" th:text="#{ipaddresstrace.from}"></label>
 						</div>
 						<div class="column">
-							<input type="datetime-local" id="from">
+							<input type="date" id="fromDate" th:field="*{fromDate}">
+							<input type="time" id="fromTime" th:field="*{fromTime}">
 						</div>
-						<span class="errorMessage" th:if="${#fields.hasErrors('from')}" th:errors="*{from}"></span>
 					</div>
 					<div class="row">
 						<div class="column">
-							<label for="to" th:text="#{ipaddresstrace.to}"></label>
+							<label for="toDate" th:text="#{ipaddresstrace.to}"></label>
 						</div>
 						<div class="column">
-							<input type="datetime-local" id="to">
+							<input type="date" id="toDate" th:field="*{toDate}">
+							<input type="time" id="toTime" th:field="*{toTime}">
 						</div>
-						<span class="errorMessage" th:if="${#fields.hasErrors('to')}" th:errors="*{to}"></span>
+						<span class="errorMessage" th:if="${#fields.hasErrors('toTime')}" th:errors="*{toTime}"></span>
 					</div>
-
-
-
-
 					<div class="row">
 						<input type="submit" th:value="#{ipaddresstrace.trace}" />
 					</div>
 				</fieldset>
 			</form>
 			<br>
-			<table>
-				<thead>
-					<tr>
-						<th th:text="#{ipaddresstrace.clientnumber}" />
-						<th th:text="#{ipaddresstrace.clientname}" />
-						<th th:text="#{ipaddresstrace.ipaddress}" />
-						<th th:text="#{ipaddresstrace.starttime}" />
-						<th th:text="#{ipaddresstrace.stoptime}" />
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-			<span th:text="#{bulkstatuschange.finished}" hidden="true"></span>
+			<div th:if="${tracesList}">
+				<table>
+					<thead>
+						<tr>
+							<th th:text="#{ipaddresstrace.clientnumber}" />
+							<th th:text="#{ipaddresstrace.clientname}" />
+							<th th:text="#{ipaddresstrace.ipaddress}" />
+							<th th:text="#{ipaddresstrace.starttime}" />
+							<th th:text="#{ipaddresstrace.stoptime}" />
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="trace : ${tracesList}">
+							<td th:text="${trace.clientNumber}"></td>
+							<td th:text="${trace.clientName}"></td>
+							<td th:text="${trace.ipAddress}"></td>
+							<td th:text="${trace.startTime}"></td>
+							<td th:text="${trace.stopTime}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</main>
 		<footer th:replace="fragments/footer.html :: footer"> </footer>
 	</div>
