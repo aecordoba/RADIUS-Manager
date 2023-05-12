@@ -38,7 +38,7 @@ public interface RadAcctRepository extends PagingAndSortingRepository<RadAcct, L
 	@Query(value = "SELECT * FROM radacct WHERE username = ?1 AND acctstoptime IS NULL;", nativeQuery = true)
 	Iterable<RadAcct> findActiveRadAcct(String name);
 
-	@Query(value = "SELECT * FROM radacct WHERE framedipaddress = ?1 AND ((acctstoptime >= ?2 AND acctstarttime < ?2) OR (acctstarttime >= ?2 AND acctstarttime <= ?3));", nativeQuery = true)
+	@Query(value = "SELECT * FROM radacct WHERE framedipaddress = ?1 AND (((acctstoptime >= ?2 OR acctstoptime IS NULL) AND acctstarttime < ?2) OR (acctstarttime >= ?2 AND acctstarttime <= ?3));", nativeQuery = true)
 	Iterable<RadAcct> findIPAddressInPeriod(String ipAddress, LocalDateTime from, LocalDateTime to);
 
 	Page<RadAcct> findByUserName(String userName, Pageable pageable);
