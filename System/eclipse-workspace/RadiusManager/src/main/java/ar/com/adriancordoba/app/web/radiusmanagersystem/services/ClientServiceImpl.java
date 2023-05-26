@@ -123,8 +123,8 @@ public class ClientServiceImpl implements ClientService {
 	 * getClientsListPage(int)
 	 */
 	@Override
-	public Page<Client> getClientsListPage(int pageNumber) {
-		return getClientsListPage(pageNumber, pageSize, "number", Sort.Direction.ASC);
+	public Page<Client> getClientsListPage(int pageNumber, String sortField, Direction sortDirection) {
+		return getClientsListPage(pageNumber, pageSize, sortField, sortDirection);
 	}
 
 	/*

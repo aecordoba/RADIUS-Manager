@@ -43,7 +43,7 @@ public interface ClientService {
 
 	Client updateClient(Client client);
 
-	Page<Client> getClientsListPage(int pageNumber);
+	Page<Client> getClientsListPage(int pageNumber, String sortField, Sort.Direction sortDirection);
 
 	Page<Client> getClientsListPage(int pageNumber, int pageSize, String sortField,
 			Sort.Direction sortDirection);

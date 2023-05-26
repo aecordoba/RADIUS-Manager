@@ -57,7 +57,7 @@ public class User implements UserDetails {
 	private Integer id;
 	private String name;
 	private String password;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(name = "Users_Authorities", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "authority"))
 	private Set<Authority> authorities = new HashSet<>();
 	private boolean enabled;

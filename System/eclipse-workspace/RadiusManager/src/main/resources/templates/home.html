@@ -28,14 +28,16 @@
 				<div sec:authorize="hasAuthority('ADMIN')">
 					<li><a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a></li>
 				</div>
-				<li><a th:href="@{/clients-list}" id="clientsList" th:text="#{home.clientsList}"></a></li>
-				<li><a th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a></li>
-				<li><a th:href="@{/client-status}" id="clientStatus" th:text="#{home.clientstatus}"></a></li>
-				<li><a th:href="@{/bulk-status-change}" id="bulkStatusChange"
-					th:text="#{home.bulkstatuschange}"></a></li>
-				<li><a th:href="@{/client-modification}" id="clientModification"
-					th:text="#{home.clientmodification}"></a></li>
-				<li><a th:href="@{/client-deletion}" id="clientDeletion" th:text="#{home.clientdeletion}"></a></li>
+				<div sec:authorize="hasAnyAuthority('ADMIN', 'USER')">
+					<li><a th:href="@{/clients-list}" id="clientsList" th:text="#{home.clientsList}"></a></li>
+					<li><a th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a></li>
+					<li><a th:href="@{/client-status}" id="clientStatus" th:text="#{home.clientstatus}"></a></li>
+					<li><a th:href="@{/bulk-status-change}" id="bulkStatusChange"
+						th:text="#{home.bulkstatuschange}"></a></li>
+					<li><a th:href="@{/client-modification}" id="clientModification"
+						th:text="#{home.clientmodification}"></a></li>
+					<li><a th:href="@{/client-deletion}" id="clientDeletion" th:text="#{home.clientdeletion}"></a></li>
+				</div>
 				<li><a th:href="@{/client-accounting}" id="clientAccounting"
 					th:text="#{home.clientaccounting}"></a></li>
 				<li><a th:href="@{/ip-address-trace}" id="ipAddressTrace" th:text="#{home.ipaddresstrace}"></a></li>

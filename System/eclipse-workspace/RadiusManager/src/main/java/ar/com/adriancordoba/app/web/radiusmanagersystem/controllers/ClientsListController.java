@@ -25,6 +25,7 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.controllers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,10 +55,16 @@ public class ClientsListController {
 
 	@GetMapping
 	public String processClientsList(@RequestParam(value = "order", defaultValue = "1") int order,
-			Model model) {
-		Page<Client> page = clientService.getClientsListPage(order - 1);
+			@RequestParam(value = "sortField", defaultValue = "number") String sortField,
+			@RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection, Model model) {
+		Sort.Direction direction = (sortDirection.equals("ASC")) ? Sort.Direction.ASC : Sort.Direction.DESC;
+		String changeSortDirection = (sortDirection.equals("ASC")) ? "DESC" : "ASC";
+		Page<Client> page = clientService.getClientsListPage(order - 1, sortField, direction);
 		model.addAttribute("clientsList", page.getContent());
 		model.addAttribute("currentPage", order);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDirection", sortDirection);
+		model.addAttribute("changeSortDirection", changeSortDirection);
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("totalItems", page.getTotalElements());
 		return "private/clients-list";

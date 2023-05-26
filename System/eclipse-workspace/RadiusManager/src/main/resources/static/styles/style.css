@@ -154,6 +154,10 @@ th {
 	color: white;
 }
 
+th a {
+	color: lightgrey;
+}
+
 td {
 	background-color: white;
 	text-align: center;
