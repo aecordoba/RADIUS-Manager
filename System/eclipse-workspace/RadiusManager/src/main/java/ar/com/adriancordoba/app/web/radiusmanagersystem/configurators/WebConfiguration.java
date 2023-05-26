@@ -22,6 +22,10 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.configurators;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,8 +35,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public class WebConfiguration implements WebMvcConfigurer {
+	private static final Logger log = LogManager.getLogger(WebConfiguration.class);
+
+	@Autowired
+	private BuildProperties buildProperties;
+
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("home");
+		log.info("RADIUS Manager System v" + buildProperties.getVersion() + " web is configured.");
 	}
 }

@@ -54,7 +54,7 @@ public class SecurityConfiguration {
 				.antMatchers("/client-search", "/client-accounting", "/client-accounting/list", "/ip-address-trace")
 				.hasAnyAuthority("ADMIN", "USER", "OBSERVER")
 				.antMatchers("/client-creation", "/client-status", "/client-modification", "/client-deletion",
-						"/bulk-status-change", "/status-change")
+						"/bulk-status-change", "/status-change", "/clients-list")
 				.hasAnyAuthority("ADMIN", "USER")
 				.antMatchers("/user-register").hasAuthority("ADMIN")
 				.antMatchers("/", "/**").permitAll()

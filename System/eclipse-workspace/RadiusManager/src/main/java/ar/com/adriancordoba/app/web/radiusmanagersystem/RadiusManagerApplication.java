@@ -2,6 +2,8 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class RadiusManagerApplication {
+	private static final Logger log = LogManager.getLogger(RadiusManagerApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(RadiusManagerApplication.class, args);

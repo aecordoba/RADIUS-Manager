@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/head.html :: head(#{clientslist.title})"></div>
+</head>
+<div class="container">
+	<header>
+		<img th:src="@{/images/rubik.png}" alt="Rubik" />
+		<h1>RADIUS Manager System</h1>
+	</header>
+	<nav>
+		<ul>
+			<li class="right"><a th:href="@{/}" id="home" th:text="#{common.home}"></a></li>
+		</ul>
+	</nav>
+	<main>
+		<h1 th:text="#{clientslist.title}"></h1>
+		<div class="xscroll">
+			<table>
+				<thead>
+					<tr>
+						<th th:text="#{clientslist.number}" />
+						<th th:text="#{clientslist.name}" />
+						<th th:text="#{clientslist.password}" />
+						<th th:text="#{clientslist.radusergroup}" />
+						<th th:text="#{clientslist.suspended}" />
+						<th th:text="#{clientslist.ipaddress}" />
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="client : ${clientsList}">
+						<td th:style="${client.suspended} ? 'background-color: lightgrey' : 'background-color: white'"
+							th:text="${client.number}"></td>
+						<td th:style="${client.suspended} ? 'background-color: lightgrey' : 'background-color: white'"
+							th:text="${client.name}"></td>
+						<td th:style="${client.suspended} ? 'background-color: lightgrey' : 'background-color: white'"
+							th:text="${client.password}"></td>
+						<td th:style="${client.suspended} ? 'background-color: lightgrey' : 'background-color: white'"
+							th:text="${client.radUserGroup.userName}"></td>
+						<td th:style="${client.suspended} ? 'background-color: lightgrey' : 'background-color: white'"><span
+								th:if="${client.suspended}" th:text="#{clientslist.yes}"></span></td>
+						<td th:style="${client.suspended} ? 'background-color: lightgrey' : 'background-color: white'"
+							th:text="${client.ipAddress}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div th:text="#{clientslist.clients} + ' ' + ${totalItems}"></div>
+		<div class="pagination">
+			<div class="page">
+				<a th:if="${currentPage > 1}" th:href="@{'/clients-list?order=1'}"
+					th:text="#{clientslist.first}"></a>
+				<span th:unless="${currentPage > 1}" th:text="#{clientslist.first}"></span>
+			</div>
+			<div class="page">
+				<a th:if="${currentPage > 1}" th:href="@{'/clients-list?order=' + ${currentPage - 1}}">&laquo;</a>
+				<span th:unless="${currentPage > 1}">&laquo;</span>
+			</div>
+			<div class="page">
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${currentPage != i}" th:href="@{'/clients-list?order=' + ${i}}">[[${i}]]</a>
+					<span th:unless="${currentPage != i}">[[${i}]]</span>
+					&nbsp; &nbsp;
+				</span>
+			</div>
+			<div class="page">
+				<a th:if="${currentPage < totalPages}" th:href="@{'/clients-list?order=' + ${currentPage + 1}}">&raquo;</a>
+				<span th:unless="${currentPage < totalPages}">&raquo;</span>
+			</div>
+			<div class="page">
+				<a th:if="${currentPage < totalPages}" th:href="@{'/clients-list?order=' + ${totalPages}}"
+					th:text="#{clientslist.last}"></a>
+				<span th:unless="${currentPage < totalPages}" th:text="#{clientslist.last}"></span>
+			</div>
+		</div>
+	</main>
+	<footer th:replace="fragments/footer.html :: footer"> </footer>
+</div>
+</body>
+</html>

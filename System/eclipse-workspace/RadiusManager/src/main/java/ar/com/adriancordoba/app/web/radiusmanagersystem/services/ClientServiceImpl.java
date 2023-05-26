@@ -24,6 +24,13 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
@@ -35,6 +42,8 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.repositories.ClientsRepo
  */
 public class ClientServiceImpl implements ClientService {
 	private ClientsRepository clientsRepository;
+	@Value("${clientslist-paging.page-size}")
+	private int pageSize;
 
 	/**
 	 * @param clientsRepository
@@ -105,4 +114,32 @@ public class ClientServiceImpl implements ClientService {
 	public Client updateClient(Client client) {
 		return clientsRepository.save(client);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.ClientService#
+	 * getClientsListPage(int)
+	 */
+	@Override
+	public Page<Client> getClientsListPage(int pageNumber) {
+		return getClientsListPage(pageNumber, pageSize, "number", Sort.Direction.ASC);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.ClientService#
+	 * getClientsListPage(int, int, java.lang.String,
+	 * org.springframework.data.domain.Sort.Direction)
+	 */
+	@Override
+	public Page<Client> getClientsListPage(int pageNumber, int pageSize, String sortField, Direction sortDirection) {
+		Order order = new Order(sortDirection, sortField);
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(order));
+		return clientsRepository.findAll(pageable);
+	}
+
 }

@@ -24,6 +24,9 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.services;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
 
 /**
@@ -39,4 +42,9 @@ public interface ClientService {
 	Optional<Client> getClientByNumber(String number);
 
 	Client updateClient(Client client);
+
+	Page<Client> getClientsListPage(int pageNumber);
+
+	Page<Client> getClientsListPage(int pageNumber, int pageSize, String sortField,
+			Sort.Direction sortDirection);
 }

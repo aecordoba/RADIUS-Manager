@@ -25,7 +25,10 @@
 		</div>
 		<nav>
 			<ul>
-				<li><a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a></li>
+				<div sec:authorize="hasAuthority('ADMIN')">
+					<li><a th:href="@{/user-register}" id="userRegister" th:text="#{home.userregister}"></a></li>
+				</div>
+				<li><a th:href="@{/clients-list}" id="clientsList" th:text="#{home.clientsList}"></a></li>
 				<li><a th:href="@{/client-creation}" id="clientCreation" th:text="#{home.clientcreation}"></a></li>
 				<li><a th:href="@{/client-status}" id="clientStatus" th:text="#{home.clientstatus}"></a></li>
 				<li><a th:href="@{/bulk-status-change}" id="bulkStatusChange"

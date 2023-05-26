@@ -14,8 +14,9 @@
 		</ul>
 	</nav>
 	<main>
-	<div th:text="#{clientaccountinglist.clientnumber} + ' ' + ${param.number}"></div>
-	<div th:text="#{clientaccountinglist.clientname} + ' ' + ${param.name}"></div>
+		<h1 th:text="#{clientaccountinglist.title}"></h1>
+		<div th:text="#{clientaccountinglist.clientnumber} + ' ' + ${param.number}"></div>
+		<div th:text="#{clientaccountinglist.clientname} + ' ' + ${param.name}"></div>
 		<div class="xscroll">
 			<table>
 				<thead>

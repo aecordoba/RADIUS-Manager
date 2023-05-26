@@ -24,6 +24,8 @@ package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.Client;
@@ -35,4 +37,6 @@ public interface ClientsRepository extends CrudRepository<Client, Integer> {
 	Optional<Client> findByNumber(String number);
 
 	Optional<Client> findByName(String name);
+
+	Page<Client> findAll(Pageable pageable);
 }
