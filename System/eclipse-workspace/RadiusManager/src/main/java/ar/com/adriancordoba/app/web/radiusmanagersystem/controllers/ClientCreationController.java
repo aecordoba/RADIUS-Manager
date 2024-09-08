@@ -70,9 +70,9 @@ public class ClientCreationController {
 		return new Client();
 	}
 
-	@ModelAttribute(name = "radUserGroupList")
-	public List<RadUserGroup> getRadUserGroupList() {
-		return radiusService.getRadUserGroupList();
+	@ModelAttribute(name = "activeRadUserGroupsList")
+	public List<RadUserGroup> getActiveRadUserGroupsList() {
+		return radiusService.getActiveRadUserGroupsList();
 	}
 
 	@GetMapping

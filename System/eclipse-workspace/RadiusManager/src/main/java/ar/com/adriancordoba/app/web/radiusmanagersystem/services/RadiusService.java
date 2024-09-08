@@ -39,7 +39,9 @@ public interface RadiusService {
 
 	void configureClient(Client client);
 
-	List<RadUserGroup> getRadUserGroupList();
+	List<RadUserGroup> getRadUserGroupsList();
+
+	List<RadUserGroup> getActiveRadUserGroupsList();
 
 	void deleteClient(Client client);
 

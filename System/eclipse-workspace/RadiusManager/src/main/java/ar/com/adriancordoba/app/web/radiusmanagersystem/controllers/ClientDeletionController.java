@@ -69,9 +69,9 @@ public class ClientDeletionController {
 		return new Client();
 	}
 
-	@ModelAttribute(name = "radUserGroupList")
-	public List<RadUserGroup> getRadUserGroupList() {
-		return radiusService.getRadUserGroupList();
+	@ModelAttribute(name = "radUserGroupsList")
+	public List<RadUserGroup> getRadUserGroupsList() {
+		return radiusService.getRadUserGroupsList();
 	}
 
 	@GetMapping

@@ -45,7 +45,7 @@
 					<input type="hidden" id="password" name="password" th:field="*{password}">
 					<select id="radusergroup" name="radUserGroup" th:field="*{radUserGroup}" hidden="true">
 						<option value="0" th:text="#{common.select}" />
-						<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
+						<option th:each="radUserGroup : ${radUserGroupsList}" th:text="${radUserGroup.userName}"
 							th:value="${radUserGroup.id}" />
 					</select>
 					<input type="hidden" id="ipaddress" name="ipAddress" th:field="*{ipAddress}">

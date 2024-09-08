@@ -269,7 +269,7 @@ DROP TABLE IF EXISTS `RadiusManager`.`Suspended_Users_Profiles` ;
 
 CREATE TABLE IF NOT EXISTS `RadiusManager`.`Suspended_Users_Profiles` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `radusergroup` INT UNSIGNED NULL,
+  `radusergroup` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT radusergroup_UNIQUE UNIQUE(radusergroup),
   CONSTRAINT `fk_Suspended_Users_Profiles_radusergroup`

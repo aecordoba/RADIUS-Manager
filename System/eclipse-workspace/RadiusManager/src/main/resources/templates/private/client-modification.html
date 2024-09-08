@@ -63,7 +63,7 @@
 						<div class="column">
 							<select id="radusergroup" name="radUserGroup" th:field="*{radUserGroup}" class="toggleable">
 								<option value="0" th:text="#{common.select}" />
-								<option th:each="radUserGroup : ${radUserGroupList}" th:text="${radUserGroup.userName}"
+								<option th:each="radUserGroup : ${activeRadUserGroupsList}" th:text="${radUserGroup.userName}"
 									th:value="${radUserGroup.id}" />
 							</select>
 						</div>

@@ -22,6 +22,7 @@
  */
 package ar.com.adriancordoba.app.web.radiusmanagersystem.repositories;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
@@ -30,5 +31,6 @@ import ar.com.adriancordoba.app.web.radiusmanagersystem.model.RadUserGroup;
  * @author Adrián E. Córdoba [software.asia@gmail.com]
  */
 public interface RadUserGroupRepository extends CrudRepository<RadUserGroup, Integer> {
-
+	@Query(value = "SELECT * FROM radusergroup WHERE id NOT IN (SELECT radusergroup FROM Suspended_Users_Profiles);", nativeQuery = true)
+	Iterable<RadUserGroup> getActiveRadUserGroupsList();
 }

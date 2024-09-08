@@ -115,8 +115,20 @@ public class RadiusServiceImpl implements RadiusService {
 	 * getRadUserGroupList()
 	 */
 	@Override
-	public List<RadUserGroup> getRadUserGroupList() {
+	public List<RadUserGroup> getRadUserGroupsList() {
 		return (List<RadUserGroup>) radUserGroupRepository.findAll();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.adriancordoba.app.web.radiusmanagersystem.services.RadiusService#
+	 * getActiveRadUserGroupsList()
+	 */
+	@Override
+	public List<RadUserGroup> getActiveRadUserGroupsList() {
+		return (List<RadUserGroup>) radUserGroupRepository.getActiveRadUserGroupsList();
 	}
 
 	/*
