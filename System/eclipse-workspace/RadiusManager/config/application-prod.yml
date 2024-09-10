@@ -13,7 +13,7 @@ spring:
 logging:
   config: config/log4j2.xml
   level:
-    spring: warn
+    org: fatal
     ar: info
 
 management:
