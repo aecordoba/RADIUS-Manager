@@ -196,6 +196,7 @@ public class RadiusServiceImpl implements RadiusService {
 	 */
 	@Override
 	public void disconnect(Client client) {
+		log.info("Trying to disconnect client '{}'.", client.getName());
 		for (RadAcct radAcct : getActiveRadAcct(client)) {
 			Nas nas = getNas(radAcct.getNasIpAddress());
 			boolean result = systemCommandService.disconnect(radAcct.getAcctSessionId(), radAcct.getUserName(),
@@ -217,6 +218,7 @@ public class RadiusServiceImpl implements RadiusService {
 	 */
 	@Override
 	public void applyRateLimit(Client client) {
+		log.info("Trying to apply rate limit to client '{}'.", client.getName());
 		for (RadAcct radAcct : getActiveRadAcct(client)) {
 			Nas nas = getNas(radAcct.getNasIpAddress());
 			boolean result = systemCommandService.changeOfAuthorization(client.getName(), "Mikrotik-Rate-Limit",

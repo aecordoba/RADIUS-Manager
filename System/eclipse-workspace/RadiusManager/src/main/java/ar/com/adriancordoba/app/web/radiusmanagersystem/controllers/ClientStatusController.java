@@ -28,6 +28,7 @@ import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,6 +55,8 @@ public class ClientStatusController {
 
 	private ClientService clientService;
 	private RadiusService radiusService;
+	@Value("${suspended-users.apply-rate-limit}")
+	private boolean applyRateLimit;
 
 	/**
 	 * @param clientService
@@ -89,7 +92,7 @@ public class ClientStatusController {
 				clientService.updateClient(client);
 				radiusService.deleteClient(client);
 				radiusService.configureClient(client);
-				if (client.isSuspended())
+				if (applyRateLimit && client.isSuspended())
 					radiusService.applyRateLimit(client);
 				else
 					radiusService.disconnect(client);

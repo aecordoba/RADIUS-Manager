@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ar.com.adriancordoba.app.web.radiusmanagersystem</groupId>
 	<artifactId>RadiusManager</artifactId>
-	<version>1.3.0</version>
+	<version>1.4.0</version>
 	<name>RadiusManager</name>
 	<description>RADIUS Manager System</description>
 	<properties>

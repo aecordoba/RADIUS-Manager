@@ -24,8 +24,11 @@ management:
 
 nas:
   port: 3799
+  
 suspended-users:
+  apply-rate-limit: true
   rate-limit: "1024k/1024k"
+  
 accounting-paging:
   page-size: 10
 clientslist-paging:
